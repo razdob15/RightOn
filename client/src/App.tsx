@@ -1,0 +1,74 @@
+import React, { useState } from 'react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { HousingQuestionnaire } from './components/HousingQuestionnaire';
+import { 
+  AppBar, 
+  Toolbar, 
+  Typography, 
+  Container, 
+  ToggleButtonGroup, 
+  ToggleButton 
+} from '@mui/material';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#dc004e',
+    },
+  },
+});
+
+function App() {
+  const [view, setView] = useState<'form' | 'chat'>('chat');
+
+  const handleViewChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newView: 'form' | 'chat' | null,
+  ) => {
+    if (newView !== null) {
+      setView(newView);
+    }
+  };
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Lone Soldier Rights Portal
+          </Typography>
+          <ToggleButtonGroup
+            color="standard"
+            value={view}
+            exclusive
+            onChange={handleViewChange}
+            aria-label="view mode"
+            sx={{ 
+              bgcolor: 'white',
+              '& .MuiToggleButton-root.Mui-selected': {
+                bgcolor: 'rgba(255, 255, 255, 0.8)',
+              }
+            }}
+          >
+            <ToggleButton value="chat">
+              Chat View
+            </ToggleButton>
+            <ToggleButton value="form">
+              Form View
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Toolbar>
+      </AppBar>
+      <Container>
+        <HousingQuestionnaire />
+      </Container>
+    </ThemeProvider>
+  );
+}
+
+export default App;
