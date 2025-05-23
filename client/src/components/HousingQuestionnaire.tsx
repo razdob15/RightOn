@@ -1,20 +1,12 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   Box,
-  FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
   Typography,
   Paper,
   Card,
   CardContent,
   Container,
-  Stepper,
-  Step,
-  StepLabel,
   Button,
-  TextField,
   Tabs,
   Tab,
 } from '@mui/material';
@@ -22,85 +14,74 @@ import {
   Right,
   rightsData,
 } from '../types/rights';
-import { UserStatus, HousingStatus, SoldierType, ServiceType } from '../types/user-status';
-import { subDays } from 'date-fns';
+import { HousingStatus, SoldierType } from '../types/user-status';
+import { AppTab } from '../enums/app-tab.enum';
+import { DateQuestion } from './questions/DateQuestion';
+import { RadioQuestion } from './questions/RadioQuestion';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import {
+  updateHousingStatus,
+  updateSoldierType,
+  updateEnlistmentDate,
+  updateDutyEndDate,
+} from '../store/slices/userStatusSlice';
+import { QuestionComp } from './questions/QuestionComp';
+import { Question } from '../types/questions';
 
-const dateToValue = (date: Date) => date.toISOString().split('T')[0]
 
 export const HousingQuestionnaire: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const [userStatus, setUserStatus] = useState<UserStatus>({
-    soldierType: SoldierType.LONE_SOLDIER,
-    service: {
-      enlistmentDate: subDays(new Date(), 1),
-      dutyEndDate: new Date(Date.now()),
-      serviceType: ServiceType.MANDATORY
-    },
-    housing: {
-      housingStatus: HousingStatus.NO_HOUSE,
-      idfRentAssistance: false
-    },
-  });
+  const dispatch = useAppDispatch();
+  const userStatus = useAppSelector((state) => state.userStatus);
 
   const tabs = [
-    { label: 'General', value: 0 },
-    { label: 'Housing', value: 1 },
+    { label: AppTab.GENERAL },
+    { label: AppTab.HOUSING },
   ];
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
 
-  const getMatchingRights = (): Right[] => {
+  const getMatchingRights = useCallback((): Right[] => {
     return rightsData.filter(right =>
       right.eligibleSoldierType.includes(userStatus.soldierType) &&
       right.isEligible(userStatus)
     );
-  };
+  }, [userStatus.soldierType]);
 
 
-  const generalQuestionsList = useMemo(() => {
+  const generalQuestionsList: Question[] = useMemo(() => {
     return [
       {
         "question": "When did you enlist to the IDF?",
-        "value": userStatus.service.enlistmentDate,
-        "onChange": (value: string) => setUserStatus(prev => ({
-          ...prev,
-          service: {
-            ...prev.service,
-            enlistmentDate: new Date(value)
-          }
-        })),
+        "value": new Date(userStatus.service.enlistmentDate).toISOString().split('T')[0],
+        "onChange": (value: number) => {
+          dispatch(updateEnlistmentDate(value));
+        },
         "type": "date"
       },
       {
         "question": "Have you been discharged? If yes, when? (Leave empty if still serving)",
-        "value": userStatus.service.dutyEndDate,
-        "onChange": (value: string) => setUserStatus(prev => ({
-          ...prev,
-          service: {
-            ...prev.service,
-            dutyEndDate: value ? new Date(value) : undefined
-          }
-        })),
+        "value": new Date(userStatus.service.enlistmentDate).toISOString().split('T')[0],
+        "onChange": (value: number) => {
+          dispatch(updateDutyEndDate(value))
+        },
         "type": "date"
       }
     ]
-  }, [userStatus.service]);
+  }, [userStatus.service.enlistmentDate, dispatch]);
 
-  const housingQuestionsList = useMemo(() => {
+  const housingQuestionsList: Question[] = useMemo(() => {
     return [
       {
-        "question": "What is your current housing situation?",
-        "value": userStatus.housing.housingStatus,
-        "onChange": (value: string) => setUserStatus(prev => ({
-          ...prev,
-          housing: {
-            ...prev.housing,
-            housingStatus: value as HousingStatus
-          }
-        })),
-        "options": [
+        type: "radio",
+        question: "What is your current housing situation?",
+        value: userStatus.housing.housingStatus,
+        onChange: (value: string) => {
+          dispatch(updateHousingStatus(value as HousingStatus));
+        },
+        options: [
           {
             "value": "RENTS",
             "label": "I rent an apartment"
@@ -116,16 +97,13 @@ export const HousingQuestionnaire: React.FC = () => {
         ]
       },
       {
-        "question": "What type of lone soldier are you?",
-        "value": userStatus.soldierType,
-        "onChange": (value: string) => setUserStatus(prev => ({
-          ...prev,
-          service: {
-            ...prev.service,
-            soldierType: value as SoldierType
-          }
-        })),
-        "options": [
+        type: "radio",
+        question: "What type of lone soldier are you?",
+        value: userStatus.soldierType,
+        onChange: (value: string) => {
+          dispatch(updateSoldierType(value as SoldierType));
+        },
+        options: [
           {
             "value": "DISTINGUISHED_LONE_SOLDIER",
             "label": "Distinguished Lone Soldier (parents reside permanently abroad)"
@@ -137,43 +115,39 @@ export const HousingQuestionnaire: React.FC = () => {
         ]
       },
     ]
-  }, [userStatus.housing.housingStatus]);
+  }, [userStatus.housing.housingStatus, dispatch]);
 
   const renderQuestions = (questions: any[]) => {
     return questions.map((question, index) => (
-      <FormControl component="fieldset" fullWidth key={index}>
-        <Typography variant="h6" gutterBottom>
-          {question.question}
-        </Typography>
-        {question.type ? (
-          <TextField
-            type={question.type}
-            value={question.type === "date" ? (question.value ? dateToValue(question.value) : '') : question.value}
-            onChange={(e) => question.onChange(e.target.value)}
-            fullWidth
-            InputLabelProps={{ shrink: true }}
+      <Box key={index} sx={{ mb: 3 }}>
+        {question.type === "date" ? (
+          <DateQuestion
+            question={question.question}
+            value={question.value}
+            onChange={question.onChange}
           />
         ) : (
-          <RadioGroup
+          <RadioQuestion
+            question={question.question}
             value={question.value || ''}
-            onChange={(e) => question.onChange(e.target.value)}
-          >
-            {question.options.map((option: any, idx: number) => (
-              <FormControlLabel
-                key={idx}
-                value={option.value}
-                control={<Radio />}
-                label={option.label}
-              />
-            ))}
-          </RadioGroup>
+            options={question.options}
+            onChange={question.onChange}
+          />
         )}
-      </FormControl>
+      </Box>
     ));
   };
 
+
+
+  const questionsByTabMapper = useMemo(() => {
+    return {
+      [AppTab.GENERAL]: generalQuestionsList,
+      [AppTab.HOUSING]: housingQuestionsList,
+    }
+  }, [generalQuestionsList, housingQuestionsList])
+
   const matchingRights = getMatchingRights();
-  const showResults = userStatus.service.enlistmentDate;
 
   return (
     <Container maxWidth="md">
@@ -183,17 +157,38 @@ export const HousingQuestionnaire: React.FC = () => {
         </Typography>
 
         <Tabs value={activeTab} onChange={handleTabChange} sx={{ mb: 4 }}>
-          {tabs.map((tab) => (
-            <Tab key={tab.value} label={tab.label} />
+          {tabs.map((tab, index) => (
+            <Tab key={index} label={tab.label} disabled={activeTab < index} />
           ))}
         </Tabs>
 
         <Paper sx={{ p: 3, mb: 3, height: '100%', overflow: 'auto' }}>
-          {activeTab === 0 && renderQuestions(generalQuestionsList)}
-          {activeTab === 1 && renderQuestions(housingQuestionsList)}
+          {questionsByTabMapper[tabs[activeTab].label].map((question: Question, index) => (
+
+            <Box key={index} sx={{ mb: 3 }}>
+              <QuestionComp
+                type={question.type}
+                question={question.question}
+                value={question.value}
+                options={question?.options}
+                onChange={question.onChange}
+              />
+            </Box>
+          ))}
+          {renderQuestions(questionsByTabMapper[tabs[activeTab].label])}
         </Paper>
 
-        {showResults && (
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+          <Button
+            variant="contained"
+            onClick={() => setActiveTab(prev => prev + 1)}
+            disabled={activeTab >= tabs.length}
+          >
+            Next
+          </Button>
+        </Box>
+
+        {activeTab === tabs.length && (
           <Box>
             <Typography variant="h5" gutterBottom>
               {matchingRights.length > 0 ? 'Your Eligible Rights:' : 'No matching rights found'}
