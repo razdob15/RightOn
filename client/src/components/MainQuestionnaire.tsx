@@ -29,9 +29,9 @@ import { QuestionComp } from './questions/QuestionComp';
 import { Question } from '../types/questions';
 
 
-export const HousingQuestionnaire: React.FC = () => {
-  const [activeTab, setActiveTab] = useState(0);
+export const MainQuestionnaire: React.FC = () => {
   const dispatch = useAppDispatch();
+  const [activeTab, setActiveTab] = useState(0);
   const userStatus = useAppSelector((state) => state.userStatus);
 
   const tabs = [
@@ -54,23 +54,24 @@ export const HousingQuestionnaire: React.FC = () => {
   const generalQuestionsList: Question[] = useMemo(() => {
     return [
       {
+        "type": "date",
         "question": "When did you enlist to the IDF?",
-        "value": new Date(userStatus.service.enlistmentDate).toISOString().split('T')[0],
+        "value": new Date(userStatus.service.enlistmentDate).getTime(),
         "onChange": (value: number) => {
+          console.log('value', value);
           dispatch(updateEnlistmentDate(value));
         },
-        "type": "date"
       },
       {
+        "type": "date",
         "question": "Have you been discharged? If yes, when? (Leave empty if still serving)",
-        "value": new Date(userStatus.service.enlistmentDate).toISOString().split('T')[0],
+        "value": userStatus.service?.dutyEndDate ? new Date(userStatus.service?.dutyEndDate).getTime() : new Date().getTime(),
         "onChange": (value: number) => {
           dispatch(updateDutyEndDate(value))
         },
-        "type": "date"
       }
     ]
-  }, [userStatus.service.enlistmentDate, dispatch]);
+  }, [userStatus.service.enlistmentDate, userStatus.service.dutyEndDate, dispatch]);
 
   const housingQuestionsList: Question[] = useMemo(() => {
     return [
@@ -83,15 +84,15 @@ export const HousingQuestionnaire: React.FC = () => {
         },
         options: [
           {
-            "value": "RENTS",
+            "value": HousingStatus.RENTS,
             "label": "I rent an apartment"
           },
           {
-            "value": "OWNS",
+            "value": HousingStatus.OWNS,
             "label": "I own an apartment"
           },
           {
-            "value": "NO_HOUSE",
+            "value": HousingStatus.NO_HOUSE,
             "label": "Neither rent nor own"
           }
         ]
@@ -105,39 +106,17 @@ export const HousingQuestionnaire: React.FC = () => {
         },
         options: [
           {
-            "value": "DISTINGUISHED_LONE_SOLDIER",
+            "value": SoldierType.DISTINGUISHED_LONE_SOLDIER,
             "label": "Distinguished Lone Soldier (parents reside permanently abroad)"
           },
           {
-            "value": "LONE_SOLDIER",
+            "value": SoldierType.LONE_SOLDIER,
             "label": "Lone Soldier (other circumstances)"
           }
         ]
       },
     ]
   }, [userStatus.housing.housingStatus, dispatch]);
-
-  const renderQuestions = (questions: any[]) => {
-    return questions.map((question, index) => (
-      <Box key={index} sx={{ mb: 3 }}>
-        {question.type === "date" ? (
-          <DateQuestion
-            question={question.question}
-            value={question.value}
-            onChange={question.onChange}
-          />
-        ) : (
-          <RadioQuestion
-            question={question.question}
-            value={question.value || ''}
-            options={question.options}
-            onChange={question.onChange}
-          />
-        )}
-      </Box>
-    ));
-  };
-
 
 
   const questionsByTabMapper = useMemo(() => {
@@ -153,7 +132,7 @@ export const HousingQuestionnaire: React.FC = () => {
     <Container maxWidth="md">
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom align="center">
-          Housing Rights Questionnaire
+          Questionnaire
         </Typography>
 
         <Tabs value={activeTab} onChange={handleTabChange} sx={{ mb: 4 }}>
@@ -163,19 +142,13 @@ export const HousingQuestionnaire: React.FC = () => {
         </Tabs>
 
         <Paper sx={{ p: 3, mb: 3, height: '100%', overflow: 'auto' }}>
-          {questionsByTabMapper[tabs[activeTab].label].map((question: Question, index) => (
-
+          {questionsByTabMapper[tabs[activeTab].label].map((question: Question, index: number) => (
             <Box key={index} sx={{ mb: 3 }}>
               <QuestionComp
-                type={question.type}
-                question={question.question}
-                value={question.value}
-                options={question?.options}
-                onChange={question.onChange}
+                question={question}
               />
             </Box>
           ))}
-          {renderQuestions(questionsByTabMapper[tabs[activeTab].label])}
         </Paper>
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>

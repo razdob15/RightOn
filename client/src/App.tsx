@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { HousingQuestionnaire } from './components/HousingQuestionnaire';
-import { 
-  AppBar, 
-  Toolbar, 
-  Typography, 
-  Container, 
-  ToggleButtonGroup, 
-  ToggleButton 
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Container,
+  ToggleButtonGroup,
+  ToggleButton
 } from '@mui/material';
+import { MainQuestionnaire } from './components/MainQuestionnaire';
 
 const theme = createTheme({
   palette: {
@@ -48,7 +48,7 @@ function App() {
             exclusive
             onChange={handleViewChange}
             aria-label="view mode"
-            sx={{ 
+            sx={{
               bgcolor: 'white',
               '& .MuiToggleButton-root.Mui-selected': {
                 bgcolor: 'rgba(255, 255, 255, 0.8)',
@@ -65,7 +65,7 @@ function App() {
         </Toolbar>
       </AppBar>
       <Container>
-        <HousingQuestionnaire />
+        <MainQuestionnaire />
       </Container>
     </ThemeProvider>
   );

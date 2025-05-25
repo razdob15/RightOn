@@ -3,21 +3,30 @@ import { DateQuestion } from './DateQuestion';
 import { RadioQuestion } from './RadioQuestion';
 import { Question } from '../../types/questions';
 
-export const QuestionComp: React.FC<Question> = (props) => {
-  if (props.type === 'date') {
-    return (
-      <DateQuestion
-        question={props.question}
-        value={props.value}
-        onChange={props.onChange}
-      />
-    );
-  }
+type QuestionCompProps = {
+  question: Question;
+}
 
-  return (
-    <RadioQuestion
-      question={props.question}
-      value={props.value}
-      onChange={props.onChange} options={props?.options} />
-  );
-};
+export const QuestionComp: React.FC<QuestionCompProps> = ({ question }: QuestionCompProps) => {
+  switch (question.type) {
+    case 'date':
+      return (
+        <DateQuestion
+          question={question.question}
+          value={new Date(question.value as number)}
+          onChange={question.onChange}
+        />
+      );
+    case 'radio':
+      return (
+        <RadioQuestion
+          question={question.question}
+          value={question.value}
+          onChange={question.onChange}
+          options={question.options}
+        />
+      );
+    default:
+      return null;
+  }
+}

@@ -20,7 +20,7 @@ export const DateQuestion: React.FC<DateQuestionProps> = ({
       </Typography>
       <TextField
         type="date"
-        value={value}
+        value={value ? new Date(value).toISOString().split('T')[0] : ''}
         onChange={(e) => {
           const value = e.target.value;
           const year = Number(value.split('-')[0]);

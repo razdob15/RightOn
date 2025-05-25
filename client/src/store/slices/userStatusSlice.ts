@@ -26,7 +26,6 @@ export const userStatusSlice = createSlice({
       state.soldierType = action.payload;
     },
     updateEnlistmentDate: (state, action: PayloadAction<number>) => {
-      console.log("UPDATING ENLISTMENT DATE", action.payload)
       state.service.enlistmentDate = action.payload;
     },
     updateDutyEndDate: (state, action: PayloadAction<number | undefined>) => {
