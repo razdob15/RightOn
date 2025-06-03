@@ -20,7 +20,7 @@ export type UserStatus = {
   soldierType: SoldierType,
   service: {
     serviceType: ServiceType,
-    enlistmentDate: number,
+    enlistmentDate?: number,
     dutyEndDate?: number,
   },
   housing: {

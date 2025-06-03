@@ -1,4 +1,4 @@
-export enum AppTab {
+export enum TabName {
   "GENERAL" = "General",
   "HOUSING" = "Housing",
 }

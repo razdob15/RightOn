@@ -5,7 +5,7 @@ import { subDays } from 'date-fns';
 const initialState: UserStatus = {
   soldierType: SoldierType.LONE_SOLDIER,
   service: {
-    enlistmentDate: subDays(new Date(), 1).getTime(),
+    enlistmentDate: undefined,
     dutyEndDate: undefined,
     serviceType: ServiceType.MANDATORY
   },

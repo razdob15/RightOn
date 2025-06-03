@@ -14,10 +14,8 @@ import {
   Right,
   rightsData,
 } from '../types/rights';
-import { HousingStatus, SoldierType } from '../types/user-status';
-import { AppTab } from '../enums/app-tab.enum';
-import { DateQuestion } from './questions/DateQuestion';
-import { RadioQuestion } from './questions/RadioQuestion';
+import { HousingStatus, SoldierType, UserStatus } from '../types/user-status';
+import { TabName } from '../enums/app-tab.enum';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
   updateHousingStatus,
@@ -27,51 +25,34 @@ import {
 } from '../store/slices/userStatusSlice';
 import { QuestionComp } from './questions/QuestionComp';
 import { Question } from '../types/questions';
-
+import { AppTab } from '../types/tab.type';
 
 export const MainQuestionnaire: React.FC = () => {
   const dispatch = useAppDispatch();
-  const [activeTab, setActiveTab] = useState(0);
+  const [currentTabId, setCurrentTabId] = useState<number>(0);
   const userStatus = useAppSelector((state) => state.userStatus);
 
-  const tabs = [
-    { label: AppTab.GENERAL },
-    { label: AppTab.HOUSING },
-  ];
 
-  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setActiveTab(newValue);
-  };
-
-  const getMatchingRights = useCallback((): Right[] => {
-    return rightsData.filter(right =>
-      right.eligibleSoldierType.includes(userStatus.soldierType) &&
-      right.isEligible(userStatus)
-    );
-  }, [userStatus.soldierType]);
-
-
-  const generalQuestionsList: Question[] = useMemo(() => {
-    return [
-      {
-        "type": "date",
-        "question": "When did you enlist to the IDF?",
-        "value": new Date(userStatus.service.enlistmentDate).getTime(),
-        "onChange": (value: number) => {
-          console.log('value', value);
-          dispatch(updateEnlistmentDate(value));
-        },
+  const generalQuestionsList: Question[] = useMemo(() => ([
+    {
+      "type": "date",
+      "question": "When did you enlist to the IDF?",
+      "value": userStatus.service.enlistmentDate ? new Date(userStatus.service.enlistmentDate).getTime() : undefined,
+      "onChange": (value: number) => {
+        console.log('value', value);
+        dispatch(updateEnlistmentDate(value));
       },
-      {
-        "type": "date",
-        "question": "Have you been discharged? If yes, when? (Leave empty if still serving)",
-        "value": userStatus.service?.dutyEndDate ? new Date(userStatus.service?.dutyEndDate).getTime() : new Date().getTime(),
-        "onChange": (value: number) => {
-          dispatch(updateDutyEndDate(value))
-        },
-      }
-    ]
-  }, [userStatus.service.enlistmentDate, userStatus.service.dutyEndDate, dispatch]);
+    },
+    {
+      "type": "date",
+      "question": "Have you been discharged? If yes, when? (Leave empty if still serving)",
+      "value": userStatus.service?.dutyEndDate ? new Date(userStatus.service?.dutyEndDate).getTime() : undefined,
+      "onChange": (value: number) => {
+        dispatch(updateDutyEndDate(value))
+      },
+    }
+  ]),
+    [userStatus.service.enlistmentDate, userStatus.service.dutyEndDate, dispatch]);
 
   const housingQuestionsList: Question[] = useMemo(() => {
     return [
@@ -119,14 +100,49 @@ export const MainQuestionnaire: React.FC = () => {
   }, [userStatus.housing.housingStatus, dispatch]);
 
 
-  const questionsByTabMapper = useMemo(() => {
-    return {
-      [AppTab.GENERAL]: generalQuestionsList,
-      [AppTab.HOUSING]: housingQuestionsList,
-    }
-  }, [generalQuestionsList, housingQuestionsList])
+
+  const tabs: AppTab[] = useMemo(() => {
+    return [
+      {
+        label: TabName.GENERAL,
+        validation: (userStatus: UserStatus) => {
+          console.log("DEBUG",
+            userStatus.service.dutyEndDate,
+            userStatus.service.enlistmentDate,
+            userStatus.service.dutyEndDate && userStatus.service.enlistmentDate && userStatus.service.enlistmentDate < userStatus.service.dutyEndDate
+          )
+          return Boolean(userStatus.service.dutyEndDate && userStatus.service.enlistmentDate && userStatus.service.enlistmentDate < userStatus.service.dutyEndDate)
+        },
+        questions: generalQuestionsList
+      },
+
+      {
+        label: TabName.HOUSING,
+        validation: () => true,
+        questions: housingQuestionsList
+      },
+
+    ]
+  }, [generalQuestionsList, housingQuestionsList, userStatus.service.dutyEndDate, userStatus.service.enlistmentDate])
+
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
+    setCurrentTabId(newValue);
+  };
+
+  const getMatchingRights = useCallback((): Right[] => {
+    return rightsData.filter(right =>
+      right.eligibleSoldierType.includes(userStatus.soldierType) &&
+      right.isEligible(userStatus)
+    );
+  }, [userStatus.soldierType]);
+
 
   const matchingRights = getMatchingRights();
+
+  const currentTab = useMemo(
+    () => tabs[currentTabId],
+    [tabs, currentTabId]
+  )
 
   return (
     <Container maxWidth="md">
@@ -135,14 +151,14 @@ export const MainQuestionnaire: React.FC = () => {
           Questionnaire
         </Typography>
 
-        <Tabs value={activeTab} onChange={handleTabChange} sx={{ mb: 4 }}>
+        <Tabs value={currentTabId} onChange={handleTabChange} sx={{ mb: 4 }}>
           {tabs.map((tab, index) => (
-            <Tab key={index} label={tab.label} disabled={activeTab < index} />
+            <Tab key={index} label={tab.label} disabled={currentTabId < index} />
           ))}
         </Tabs>
 
         <Paper sx={{ p: 3, mb: 3, height: '100%', overflow: 'auto' }}>
-          {questionsByTabMapper[tabs[activeTab].label].map((question: Question, index: number) => (
+          {currentTab.questions?.map((question: Question, index: number) => (
             <Box key={index} sx={{ mb: 3 }}>
               <QuestionComp
                 question={question}
@@ -154,14 +170,14 @@ export const MainQuestionnaire: React.FC = () => {
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
           <Button
             variant="contained"
-            onClick={() => setActiveTab(prev => prev + 1)}
-            disabled={activeTab >= tabs.length}
+            onClick={() => setCurrentTabId(prev => prev + 1)}
+            disabled={currentTabId >= tabs.length || !currentTab.validation(userStatus)}
           >
             Next
           </Button>
         </Box>
 
-        {activeTab === tabs.length && (
+        {currentTabId === tabs.length && (
           <Box>
             <Typography variant="h5" gutterBottom>
               {matchingRights.length > 0 ? 'Your Eligible Rights:' : 'No matching rights found'}

@@ -3,7 +3,7 @@ import { FormControl, TextField, Typography } from '@mui/material';
 
 interface DateQuestionProps {
   question: string;
-  value: Date | undefined;
+  value?: Date | undefined;
   onChange: (value: number) => void;
 }
 

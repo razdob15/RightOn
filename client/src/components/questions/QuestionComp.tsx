@@ -13,7 +13,7 @@ export const QuestionComp: React.FC<QuestionCompProps> = ({ question }: Question
       return (
         <DateQuestion
           question={question.question}
-          value={new Date(question.value as number)}
+          value={question.value ? new Date(question.value as number) : undefined}
           onChange={question.onChange}
         />
       );
@@ -21,7 +21,7 @@ export const QuestionComp: React.FC<QuestionCompProps> = ({ question }: Question
       return (
         <RadioQuestion
           question={question.question}
-          value={question.value}
+          value={question.value as string}
           onChange={question.onChange}
           options={question.options}
         />

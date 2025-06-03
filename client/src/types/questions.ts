@@ -11,17 +11,17 @@ export interface BaseQuestion {
 
 export interface DateQuestion extends BaseQuestion {
   type: "date";
-  value: number;
+  value?: number;
   onChange: (value: number) => void;
 }
 
 export interface RadioQuestion extends BaseQuestion {
   type: "radio";
-  value: string;
+  value?: string;
   onChange: (value: string) => void;
   options: Option[];
 }
 
 export type Question = (DateQuestion | RadioQuestion) & {
-  value: unknown;
+  value?: unknown;
 }; 
