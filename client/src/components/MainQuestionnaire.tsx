@@ -33,13 +33,22 @@ export const MainQuestionnaire: React.FC = () => {
   const userStatus = useAppSelector((state) => state.userStatus);
 
 
+  const getMatchingRights = useCallback((): Right[] => {
+    return rightsData.filter(right =>
+      right.eligibleSoldierType.includes(userStatus.soldierType) &&
+      right.isEligible(userStatus)
+    );
+  }, [userStatus.soldierType]);
+  const matchingRights = getMatchingRights();
+
+
+
   const generalQuestionsList: Question[] = useMemo(() => ([
     {
       "type": "date",
       "question": "When did you enlist to the IDF?",
       "value": userStatus.service.enlistmentDate ? new Date(userStatus.service.enlistmentDate).getTime() : undefined,
       "onChange": (value: number) => {
-        console.log('value', value);
         dispatch(updateEnlistmentDate(value));
       },
     },
@@ -52,7 +61,7 @@ export const MainQuestionnaire: React.FC = () => {
       },
     }
   ]),
-    [userStatus.service.enlistmentDate, userStatus.service.dutyEndDate, dispatch]);
+    [userStatus.service?.enlistmentDate, userStatus.service?.dutyEndDate, dispatch]);
 
   const housingQuestionsList: Question[] = useMemo(() => {
     return [
@@ -97,7 +106,7 @@ export const MainQuestionnaire: React.FC = () => {
         ]
       },
     ]
-  }, [userStatus.housing.housingStatus, dispatch]);
+  }, [userStatus.soldierType, userStatus.housing.housingStatus, dispatch]);
 
 
 
@@ -106,11 +115,6 @@ export const MainQuestionnaire: React.FC = () => {
       {
         label: TabName.GENERAL,
         validation: (userStatus: UserStatus) => {
-          console.log("DEBUG",
-            userStatus.service.dutyEndDate,
-            userStatus.service.enlistmentDate,
-            userStatus.service.dutyEndDate && userStatus.service.enlistmentDate && userStatus.service.enlistmentDate < userStatus.service.dutyEndDate
-          )
           return Boolean(userStatus.service.dutyEndDate && userStatus.service.enlistmentDate && userStatus.service.enlistmentDate < userStatus.service.dutyEndDate)
         },
         questions: generalQuestionsList
@@ -121,23 +125,25 @@ export const MainQuestionnaire: React.FC = () => {
         validation: () => true,
         questions: housingQuestionsList
       },
+      {
+        label: TabName.SUMMARY,
+        rights: matchingRights
+      }
 
     ]
-  }, [generalQuestionsList, housingQuestionsList, userStatus.service.dutyEndDate, userStatus.service.enlistmentDate])
+  }, [generalQuestionsList,
+    housingQuestionsList,
+    userStatus.service.dutyEndDate,
+    userStatus.service.enlistmentDate,
+    matchingRights
+  ])
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setCurrentTabId(newValue);
   };
 
-  const getMatchingRights = useCallback((): Right[] => {
-    return rightsData.filter(right =>
-      right.eligibleSoldierType.includes(userStatus.soldierType) &&
-      right.isEligible(userStatus)
-    );
-  }, [userStatus.soldierType]);
 
 
-  const matchingRights = getMatchingRights();
 
   const currentTab = useMemo(
     () => tabs[currentTabId],
@@ -146,9 +152,10 @@ export const MainQuestionnaire: React.FC = () => {
 
   return (
     <Container maxWidth="md">
+
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom align="center">
-          Questionnaire
+          RightsOn
         </Typography>
 
         <Tabs value={currentTabId} onChange={handleTabChange} sx={{ mb: 4 }}>
@@ -157,21 +164,23 @@ export const MainQuestionnaire: React.FC = () => {
           ))}
         </Tabs>
 
-        <Paper sx={{ p: 3, mb: 3, height: '100%', overflow: 'auto' }}>
-          {currentTab.questions?.map((question: Question, index: number) => (
-            <Box key={index} sx={{ mb: 3 }}>
-              <QuestionComp
-                question={question}
-              />
-            </Box>
-          ))}
-        </Paper>
+        {currentTab.questions !== undefined &&
+          <Paper sx={{ p: 3, mb: 3, height: '100%', overflow: 'auto' }}>
+            {currentTab.questions?.map((question: Question, index: number) => (
+              <Box key={index} sx={{ mb: 3 }}>
+                <QuestionComp
+                  question={question}
+                />
+              </Box>
+            ))}
+          </Paper>
+        }
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
           <Button
             variant="contained"
             onClick={() => setCurrentTabId(prev => prev + 1)}
-            disabled={currentTabId >= tabs.length || !currentTab.validation(userStatus)}
+            disabled={currentTabId >= tabs.length || !currentTab.validation?.(userStatus)}
           >
             Next
           </Button>

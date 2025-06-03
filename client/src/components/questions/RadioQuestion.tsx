@@ -25,7 +25,7 @@ export const RadioQuestion: React.FC<RadioQuestionProps> = ({
         {question}
       </Typography>
       <RadioGroup
-        value={value || ''}
+        value={value}
         onChange={(e) => onChange(e.target.value)}
       >
         {options?.map((option, idx) => (
