@@ -1,0 +1,27 @@
+import { Card, CardContent, Typography } from '@mui/material'
+import { Right } from '../../types/rights'
+
+type Props = {
+  right: Right
+}
+
+export const RightCard = ({ right }: Props) => {
+  return (
+    <Card key={right.rightName} sx={{ mb: 2 }}>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          {right.rightName}
+        </Typography>
+        <Typography variant="body1">{right.details}</Typography>
+        <Typography variant="body2" color="text.secondary">
+          Granting Organization: {right.grantingOrganization}
+        </Typography>
+        {right.contactPerson && (
+          <Typography variant="body2" color="text.secondary">
+            Contact: {right.contactPerson}
+          </Typography>
+        )}
+      </CardContent>
+    </Card>
+  )
+}

@@ -1,158 +1,153 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import React, { useCallback, useMemo, useState } from 'react'
 import {
   Box,
   Typography,
   Paper,
-  Card,
-  CardContent,
   Container,
   Button,
   Tabs,
   Tab,
-} from '@mui/material';
-import {
-  Right,
-  rightsData,
-} from '../types/rights';
-import { HousingStatus, SoldierType, UserStatus } from '../types/user-status';
-import { TabName } from '../enums/app-tab.enum';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+  Accordion,
+  AccordionSummary,
+} from '@mui/material'
+import { Right, rightsData } from '../types/rights'
+import { HousingStatus, RightSubject, SoldierType, UserStatus } from '../types/user-status'
+import { TabName } from '../enums/app-tab.enum'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
 import {
   updateHousingStatus,
   updateSoldierType,
   updateEnlistmentDate,
   updateDutyEndDate,
-} from '../store/slices/userStatusSlice';
-import { QuestionComp } from './questions/QuestionComp';
-import { Question } from '../types/questions';
-import { AppTab } from '../types/tab.type';
+} from '../store/slices/userStatusSlice'
+import { QuestionComp } from './questions/QuestionComp'
+import { Question } from '../types/questions'
+import { AppTab } from '../types/tab.type'
+import { RightCard } from './rights/RightCard'
+import { RightsList } from './rights/RightsList'
+import { tab } from '@testing-library/user-event/dist/tab'
 
 export const MainQuestionnaire: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const [currentTabId, setCurrentTabId] = useState<number>(0);
-  const userStatus = useAppSelector((state) => state.userStatus);
-
+  const dispatch = useAppDispatch()
+  const [currentTabId, setCurrentTabId] = useState<number>(0)
+  const userStatus = useAppSelector((state) => state.userStatus)
 
   const getMatchingRights = useCallback((): Right[] => {
-    return rightsData.filter(right =>
-      right.eligibleSoldierType.includes(userStatus.soldierType) &&
-      right.isEligible(userStatus)
-    );
-  }, [userStatus.soldierType]);
-  const matchingRights = getMatchingRights();
+    return rightsData.filter(
+      (right) =>
+        right.eligibleSoldierType.includes(userStatus.soldierType) && right.isEligible(userStatus)
+    )
+  }, [userStatus.soldierType])
+  const matchingRights = getMatchingRights()
 
-
-
-  const generalQuestionsList: Question[] = useMemo(() => ([
-    {
-      "type": "date",
-      "question": "When did you enlist to the IDF?",
-      "value": userStatus.service.enlistmentDate ? new Date(userStatus.service.enlistmentDate).getTime() : undefined,
-      "onChange": (value: number) => {
-        dispatch(updateEnlistmentDate(value));
+  const generalQuestionsList: Question[] = useMemo(
+    () => [
+      {
+        type: 'date',
+        question: 'When did you enlist to the IDF?',
+        value: userStatus.service.enlistmentDate
+          ? new Date(userStatus.service.enlistmentDate).getTime()
+          : undefined,
+        onChange: (value: number) => {
+          dispatch(updateEnlistmentDate(value))
+        },
       },
-    },
-    {
-      "type": "date",
-      "question": "Have you been discharged? If yes, when? (Leave empty if still serving)",
-      "value": userStatus.service?.dutyEndDate ? new Date(userStatus.service?.dutyEndDate).getTime() : undefined,
-      "onChange": (value: number) => {
-        dispatch(updateDutyEndDate(value))
+      {
+        type: 'date',
+        question: 'Have you been discharged? If yes, when? (Leave empty if still serving)',
+        value: userStatus.service?.dutyEndDate
+          ? new Date(userStatus.service?.dutyEndDate).getTime()
+          : undefined,
+        onChange: (value: number) => {
+          dispatch(updateDutyEndDate(value))
+        },
       },
-    }
-  ]),
-    [userStatus.service?.enlistmentDate, userStatus.service?.dutyEndDate, dispatch]);
+    ],
+    [userStatus.service?.enlistmentDate, userStatus.service?.dutyEndDate, dispatch]
+  )
 
   const housingQuestionsList: Question[] = useMemo(() => {
     return [
       {
-        type: "radio",
-        question: "What is your current housing situation?",
+        type: 'radio',
+        question: 'What is your current housing situation?',
         value: userStatus.housing.housingStatus,
         onChange: (value: string) => {
-          dispatch(updateHousingStatus(value as HousingStatus));
+          dispatch(updateHousingStatus(value as HousingStatus))
         },
         options: [
           {
-            "value": HousingStatus.RENTS,
-            "label": "I rent an apartment"
+            value: HousingStatus.RENTS,
+            label: 'I rent an apartment',
           },
           {
-            "value": HousingStatus.OWNS,
-            "label": "I own an apartment"
+            value: HousingStatus.OWNS,
+            label: 'I own an apartment',
           },
           {
-            "value": HousingStatus.NO_HOUSE,
-            "label": "Neither rent nor own"
-          }
-        ]
+            value: HousingStatus.NO_HOUSE,
+            label: 'Neither rent nor own',
+          },
+        ],
       },
       {
-        type: "radio",
-        question: "What type of lone soldier are you?",
+        type: 'radio',
+        question: 'What type of lone soldier are you?',
         value: userStatus.soldierType,
         onChange: (value: string) => {
-          dispatch(updateSoldierType(value as SoldierType));
+          dispatch(updateSoldierType(value as SoldierType))
         },
         options: [
           {
-            "value": SoldierType.DISTINGUISHED_LONE_SOLDIER,
-            "label": "Distinguished Lone Soldier (parents reside permanently abroad)"
+            value: SoldierType.DISTINGUISHED_LONE_SOLDIER,
+            label: 'Distinguished Lone Soldier (parents reside permanently abroad)',
           },
           {
-            "value": SoldierType.LONE_SOLDIER,
-            "label": "Lone Soldier (other circumstances)"
-          }
-        ]
+            value: SoldierType.LONE_SOLDIER,
+            label: 'Lone Soldier (other circumstances)',
+          },
+        ],
       },
     ]
-  }, [userStatus.soldierType, userStatus.housing.housingStatus, dispatch]);
-
-
+  }, [userStatus.soldierType, userStatus.housing.housingStatus, dispatch])
 
   const tabs: AppTab[] = useMemo(() => {
     return [
       {
         label: TabName.GENERAL,
         validation: (userStatus: UserStatus) => {
-          return Boolean(userStatus.service.dutyEndDate && userStatus.service.enlistmentDate && userStatus.service.enlistmentDate < userStatus.service.dutyEndDate)
+          return Boolean(
+            userStatus.service.dutyEndDate &&
+            userStatus.service.enlistmentDate &&
+            userStatus.service.enlistmentDate < userStatus.service.dutyEndDate
+          )
         },
-        questions: generalQuestionsList
+        questions: generalQuestionsList,
       },
 
       {
         label: TabName.HOUSING,
         validation: () => true,
-        questions: housingQuestionsList
+        questions: housingQuestionsList,
       },
-      {
-        label: TabName.SUMMARY,
-        rights: matchingRights
-      }
-
     ]
-  }, [generalQuestionsList,
+  }, [
+    generalQuestionsList,
     housingQuestionsList,
     userStatus.service.dutyEndDate,
     userStatus.service.enlistmentDate,
-    matchingRights
+    matchingRights,
   ])
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setCurrentTabId(newValue);
-  };
+    setCurrentTabId(newValue)
+  }
 
-
-
-
-  const currentTab = useMemo(
-    () => tabs[currentTabId],
-    [tabs, currentTabId]
-  )
+  const currentTab = useMemo(() => tabs[currentTabId], [tabs, currentTabId])
 
   return (
     <Container maxWidth="md">
-
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom align="center">
           RightsOn
@@ -164,57 +159,30 @@ export const MainQuestionnaire: React.FC = () => {
           ))}
         </Tabs>
 
-        {currentTab.questions !== undefined &&
-          <Paper sx={{ p: 3, mb: 3, height: '100%', overflow: 'auto' }}>
-            {currentTab.questions?.map((question: Question, index: number) => (
-              <Box key={index} sx={{ mb: 3 }}>
-                <QuestionComp
-                  question={question}
-                />
-              </Box>
-            ))}
-          </Paper>
-        }
+        {currentTabId < tabs.length
+          ? currentTab.questions !== undefined && (
+            <Paper sx={{ p: 3, mb: 3, height: '100%', overflow: 'auto' }}>
+              {currentTab.questions?.map((question: Question, index: number) => (
+                <Box key={index} sx={{ mb: 3 }}>
+                  <QuestionComp question={question} />
+                </Box>
+              ))}
+            </Paper>
+          )
+          : currentTabId === tabs.length && (
+            <RightsList />
+          )}
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
           <Button
             variant="contained"
-            onClick={() => setCurrentTabId(prev => prev + 1)}
+            onClick={() => setCurrentTabId((prev) => prev + 1)}
             disabled={currentTabId >= tabs.length || !currentTab.validation?.(userStatus)}
           >
             Next
           </Button>
         </Box>
-
-        {currentTabId === tabs.length && (
-          <Box>
-            <Typography variant="h5" gutterBottom>
-              {matchingRights.length > 0 ? 'Your Eligible Rights:' : 'No matching rights found'}
-            </Typography>
-
-            {matchingRights.map((right, index) => (
-              <Card key={index} sx={{ mb: 2 }}>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    {right.rightName}
-                  </Typography>
-                  <Typography variant="body1" paragraph>
-                    {right.details}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Granting Organization: {right.grantingOrganization}
-                  </Typography>
-                  {right.contactPerson && (
-                    <Typography variant="body2" color="text.secondary">
-                      Contact: {right.contactPerson}
-                    </Typography>
-                  )}
-                </CardContent>
-              </Card>
-            ))}
-          </Box>
-        )}
       </Box>
     </Container>
-  );
-}; 
+  )
+}

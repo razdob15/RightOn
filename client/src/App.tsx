@@ -1,38 +1,39 @@
-import React, { useState } from 'react';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+import React, { useState } from 'react'
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
 import {
   AppBar,
   Toolbar,
   Typography,
   Container,
   ToggleButtonGroup,
-  ToggleButton
-} from '@mui/material';
-import { MainQuestionnaire } from './components/MainQuestionnaire';
+  ToggleButton,
+} from '@mui/material'
+import { MainQuestionnaire } from './components/MainQuestionnaire'
 
 const theme = createTheme({
   palette: {
+    mode: 'dark', // Set the theme mode to dark
     primary: {
-      main: '#1976d2',
+      main: '#90caf9', // Lighter blue for dark mode primary
     },
     secondary: {
-      main: '#dc004e',
+      main: '#f48fb1', // Lighter pink for dark mode secondary
     },
   },
-});
+})
 
 function App() {
-  const [view, setView] = useState<'form' | 'chat'>('chat');
+  const [view, setView] = useState<'form' | 'chat'>('chat')
 
   const handleViewChange = (
     event: React.MouseEvent<HTMLElement>,
-    newView: 'form' | 'chat' | null,
+    newView: 'form' | 'chat' | null
   ) => {
     if (newView !== null) {
-      setView(newView);
+      setView(newView)
     }
-  };
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -42,7 +43,7 @@ function App() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Lone Soldier Rights Portal
           </Typography>
-          <ToggleButtonGroup
+          {/* <ToggleButtonGroup
             color="standard"
             value={view}
             exclusive
@@ -61,14 +62,14 @@ function App() {
             <ToggleButton value="form">
               Form View
             </ToggleButton>
-          </ToggleButtonGroup>
+          </ToggleButtonGroup> */}
         </Toolbar>
       </AppBar>
       <Container>
         <MainQuestionnaire />
       </Container>
     </ThemeProvider>
-  );
+  )
 }
 
-export default App;
+export default App
