@@ -24,14 +24,14 @@ export enum RightSubject {
 }
 
 export type UserStatus = {
-  soldierType: SoldierType
+  soldierType: SoldierType;
   service: {
-    serviceType: ServiceType
-    enlistmentDate?: number
-    dutyEndDate?: number
-  }
+    serviceType: ServiceType;
+    enlistmentDate?: number;
+    dutyEndDate?: number;
+  };
   housing: {
-    housingStatus: HousingStatus
-    idfRentAssistance: boolean
-  }
-}
+    housingStatus: HousingStatus;
+    idfRentAssistance: boolean;
+  };
+};

@@ -1,16 +1,16 @@
-import React from 'react'
-import { FormControl, RadioGroup, FormControlLabel, Radio, Typography } from '@mui/material'
+import React from 'react';
+import { FormControl, RadioGroup, FormControlLabel, Radio, Typography } from '@mui/material';
 
 export interface Option {
-  value: string
-  label: string
+  value: string;
+  label: string;
 }
 
 interface RadioQuestionProps {
-  question: string
-  value: string
-  options?: Option[]
-  onChange: (value: string) => void
+  question: string;
+  value: string;
+  options?: Option[];
+  onChange: (value: string) => void;
 }
 
 export const RadioQuestion: React.FC<RadioQuestionProps> = ({
@@ -35,5 +35,5 @@ export const RadioQuestion: React.FC<RadioQuestionProps> = ({
         ))}
       </RadioGroup>
     </FormControl>
-  )
-}
+  );
+};

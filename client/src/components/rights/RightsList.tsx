@@ -1,20 +1,20 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Accordion, AccordionSummary, Box, Typography } from '@mui/material'
-import { Right, rightsData } from '../../types/rights'
-import { RightSubject } from '../../types/user-status'
-import { RightCard } from './RightCard'
-import { useAppSelector } from '../../store/hooks'
-import { useMemo } from 'react'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Accordion, AccordionSummary, Box, Typography } from '@mui/material';
+import { Right, rightsData } from '../../types/rights';
+import { RightSubject } from '../../types/user-status';
+import { RightCard } from './RightCard';
+import { useAppSelector } from '../../store/hooks';
+import { useMemo } from 'react';
 
 export const RightsList = () => {
-  const userStatus = useAppSelector((state) => state.userStatus)
+  const userStatus = useAppSelector((state) => state.userStatus);
 
   const matchingRights = useMemo((): Right[] => {
     return rightsData.filter(
       (right) =>
         right.eligibleSoldierType.includes(userStatus.soldierType) && right.isEligible(userStatus)
-    )
-  }, [rightsData, userStatus])
+    );
+  }, [rightsData, userStatus]);
 
   return (
     <Box>
@@ -25,8 +25,8 @@ export const RightsList = () => {
       {Object.entries(
         matchingRights.reduce(
           (acc, right) => {
-            ; (acc[right.subject] = acc[right.subject] || []).push(right)
-            return acc
+            (acc[right.subject] = acc[right.subject] || []).push(right);
+            return acc;
           },
           {} as Record<RightSubject, Right[]>
         )
@@ -49,5 +49,5 @@ export const RightsList = () => {
         </Accordion>
       ))}
     </Box>
-  )
-}
+  );
+};

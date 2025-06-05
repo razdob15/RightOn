@@ -1,9 +1,9 @@
-import { Card, CardContent, Typography } from '@mui/material'
-import { Right } from '../../types/rights'
+import { Card, CardContent, Typography } from '@mui/material';
+import { Right } from '../../types/rights';
 
 type Props = {
-  right: Right
-}
+  right: Right;
+};
 
 export const RightCard = ({ right }: Props) => {
   return (
@@ -23,5 +23,5 @@ export const RightCard = ({ right }: Props) => {
         )}
       </CardContent>
     </Card>
-  )
-}
+  );
+};

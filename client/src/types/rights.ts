@@ -1,18 +1,18 @@
-import { SoldierType, HousingStatus, UserStatus, ServiceType, RightSubject } from './user-status'
-import { differenceInMonths } from 'date-fns'
+import { SoldierType, HousingStatus, UserStatus, ServiceType, RightSubject } from './user-status';
+import { differenceInMonths } from 'date-fns';
 
 const hasHouse = (userStatus: UserStatus) =>
-  [HousingStatus.OWNS, HousingStatus.RENTS].includes(userStatus.housing.housingStatus)
+  [HousingStatus.OWNS, HousingStatus.RENTS].includes(userStatus.housing.housingStatus);
 
 export interface Right {
-  rightName: string
-  details: string
-  sourceOrganization: string
-  grantingOrganization: string
-  eligibleSoldierType: SoldierType[]
-  subject: RightSubject
-  contactPerson?: string
-  isEligible: (userStatus: UserStatus) => boolean
+  rightName: string;
+  details: string;
+  sourceOrganization: string;
+  grantingOrganization: string;
+  eligibleSoldierType: SoldierType[];
+  subject: RightSubject;
+  contactPerson?: string;
+  isEligible: (userStatus: UserStatus) => boolean;
 }
 
 export const rightsData: Right[] = [
@@ -27,9 +27,9 @@ export const rightsData: Right[] = [
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
     isEligible: (userStatus: UserStatus) => {
       if (userStatus.housing.housingStatus) {
-        return hasHouse(userStatus) && userStatus.service.serviceType === ServiceType.MANDATORY
+        return hasHouse(userStatus) && userStatus.service.serviceType === ServiceType.MANDATORY;
       }
-      return false
+      return false;
     },
   },
   {
@@ -56,14 +56,14 @@ export const rightsData: Right[] = [
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
     isEligible: (userStatus: UserStatus) => {
       if (userStatus.housing.housingStatus === HousingStatus.NO_HOUSE) {
-        if (userStatus.service.serviceType === ServiceType.MANDATORY) return true
+        if (userStatus.service.serviceType === ServiceType.MANDATORY) return true;
         if (
           userStatus.service.dutyEndDate &&
           differenceInMonths(userStatus.service.dutyEndDate, new Date()) <= 3
         )
-          return true
+          return true;
       }
-      return false
+      return false;
     },
   },
   {
@@ -114,9 +114,9 @@ export const rightsData: Right[] = [
           hasHouse(userStatus) &&
           userStatus.service.serviceType === ServiceType.MANDATORY &&
           userStatus.housing.idfRentAssistance
-        )
+        );
       }
-      return false
+      return false;
     },
   },
   {
@@ -134,11 +134,11 @@ export const rightsData: Right[] = [
           (userStatus.service.dutyEndDate &&
             differenceInMonths(userStatus.service.dutyEndDate, new Date()) <= 4)
         )
-          return true
+          return true;
       }
 
-      if (userStatus.housing.idfRentAssistance) return true
-      return false
+      if (userStatus.housing.idfRentAssistance) return true;
+      return false;
     },
   },
-]
+];

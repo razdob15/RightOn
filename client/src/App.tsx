@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { ThemeProvider, createTheme } from '@mui/material/styles'
-import CssBaseline from '@mui/material/CssBaseline'
+import React, { useState } from 'react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import {
   AppBar,
   Toolbar,
@@ -8,8 +8,8 @@ import {
   Container,
   ToggleButtonGroup,
   ToggleButton,
-} from '@mui/material'
-import { MainQuestionnaire } from './components/MainQuestionnaire'
+} from '@mui/material';
+import { MainQuestionnaire } from './components/MainQuestionnaire';
 
 const theme = createTheme({
   palette: {
@@ -21,19 +21,19 @@ const theme = createTheme({
       main: '#f48fb1', // Lighter pink for dark mode secondary
     },
   },
-})
+});
 
 function App() {
-  const [view, setView] = useState<'form' | 'chat'>('chat')
+  const [view, setView] = useState<'form' | 'chat'>('chat');
 
   const handleViewChange = (
     event: React.MouseEvent<HTMLElement>,
     newView: 'form' | 'chat' | null
   ) => {
     if (newView !== null) {
-      setView(newView)
+      setView(newView);
     }
-  }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -69,7 +69,7 @@ function App() {
         <MainQuestionnaire />
       </Container>
     </ThemeProvider>
-  )
+  );
 }
 
-export default App
+export default App;

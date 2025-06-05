@@ -1,5 +1,5 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import React, { useCallback, useMemo, useState } from 'react'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   Box,
   Typography,
@@ -10,36 +10,36 @@ import {
   Tab,
   Accordion,
   AccordionSummary,
-} from '@mui/material'
-import { Right, rightsData } from '../types/rights'
-import { HousingStatus, RightSubject, SoldierType, UserStatus } from '../types/user-status'
-import { TabName } from '../enums/app-tab.enum'
-import { useAppDispatch, useAppSelector } from '../store/hooks'
+} from '@mui/material';
+import { Right, rightsData } from '../types/rights';
+import { HousingStatus, RightSubject, SoldierType, UserStatus } from '../types/user-status';
+import { TabName } from '../enums/app-tab.enum';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
   updateHousingStatus,
   updateSoldierType,
   updateEnlistmentDate,
   updateDutyEndDate,
-} from '../store/slices/userStatusSlice'
-import { QuestionComp } from './questions/QuestionComp'
-import { Question } from '../types/questions'
-import { AppTab } from '../types/tab.type'
-import { RightCard } from './rights/RightCard'
-import { RightsList } from './rights/RightsList'
-import { tab } from '@testing-library/user-event/dist/tab'
+} from '../store/slices/userStatusSlice';
+import { QuestionComp } from './questions/QuestionComp';
+import { Question } from '../types/questions';
+import { AppTab } from '../types/tab.type';
+import { RightCard } from './rights/RightCard';
+import { RightsList } from './rights/RightsList';
+import { tab } from '@testing-library/user-event/dist/tab';
 
 export const MainQuestionnaire: React.FC = () => {
-  const dispatch = useAppDispatch()
-  const [currentTabId, setCurrentTabId] = useState<number>(0)
-  const userStatus = useAppSelector((state) => state.userStatus)
+  const dispatch = useAppDispatch();
+  const [currentTabId, setCurrentTabId] = useState<number>(0);
+  const userStatus = useAppSelector((state) => state.userStatus);
 
   const getMatchingRights = useCallback((): Right[] => {
     return rightsData.filter(
       (right) =>
         right.eligibleSoldierType.includes(userStatus.soldierType) && right.isEligible(userStatus)
-    )
-  }, [userStatus.soldierType])
-  const matchingRights = getMatchingRights()
+    );
+  }, [userStatus.soldierType]);
+  const matchingRights = getMatchingRights();
 
   const generalQuestionsList: Question[] = useMemo(
     () => [
@@ -50,7 +50,7 @@ export const MainQuestionnaire: React.FC = () => {
           ? new Date(userStatus.service.enlistmentDate).getTime()
           : undefined,
         onChange: (value: number) => {
-          dispatch(updateEnlistmentDate(value))
+          dispatch(updateEnlistmentDate(value));
         },
       },
       {
@@ -60,12 +60,30 @@ export const MainQuestionnaire: React.FC = () => {
           ? new Date(userStatus.service?.dutyEndDate).getTime()
           : undefined,
         onChange: (value: number) => {
-          dispatch(updateDutyEndDate(value))
+          dispatch(updateDutyEndDate(value));
         },
+      },
+      {
+        type: 'radio',
+        question: 'What type of lone soldier are you?',
+        value: userStatus.soldierType,
+        onChange: (value: string) => {
+          dispatch(updateSoldierType(value as SoldierType));
+        },
+        options: [
+          {
+            value: SoldierType.DISTINGUISHED_LONE_SOLDIER,
+            label: 'Distinguished Lone Soldier (parents reside permanently abroad)',
+          },
+          {
+            value: SoldierType.LONE_SOLDIER,
+            label: 'Lone Soldier (other circumstances)',
+          },
+        ],
       },
     ],
     [userStatus.service?.enlistmentDate, userStatus.service?.dutyEndDate, dispatch]
-  )
+  );
 
   const housingQuestionsList: Question[] = useMemo(() => {
     return [
@@ -74,7 +92,7 @@ export const MainQuestionnaire: React.FC = () => {
         question: 'What is your current housing situation?',
         value: userStatus.housing.housingStatus,
         onChange: (value: string) => {
-          dispatch(updateHousingStatus(value as HousingStatus))
+          dispatch(updateHousingStatus(value as HousingStatus));
         },
         options: [
           {
@@ -91,26 +109,8 @@ export const MainQuestionnaire: React.FC = () => {
           },
         ],
       },
-      {
-        type: 'radio',
-        question: 'What type of lone soldier are you?',
-        value: userStatus.soldierType,
-        onChange: (value: string) => {
-          dispatch(updateSoldierType(value as SoldierType))
-        },
-        options: [
-          {
-            value: SoldierType.DISTINGUISHED_LONE_SOLDIER,
-            label: 'Distinguished Lone Soldier (parents reside permanently abroad)',
-          },
-          {
-            value: SoldierType.LONE_SOLDIER,
-            label: 'Lone Soldier (other circumstances)',
-          },
-        ],
-      },
-    ]
-  }, [userStatus.soldierType, userStatus.housing.housingStatus, dispatch])
+    ];
+  }, [userStatus.soldierType, userStatus.housing.housingStatus, dispatch]);
 
   const tabs: AppTab[] = useMemo(() => {
     return [
@@ -119,9 +119,9 @@ export const MainQuestionnaire: React.FC = () => {
         validation: (userStatus: UserStatus) => {
           return Boolean(
             userStatus.service.dutyEndDate &&
-            userStatus.service.enlistmentDate &&
-            userStatus.service.enlistmentDate < userStatus.service.dutyEndDate
-          )
+              userStatus.service.enlistmentDate &&
+              userStatus.service.enlistmentDate < userStatus.service.dutyEndDate
+          );
         },
         questions: generalQuestionsList,
       },
@@ -131,20 +131,20 @@ export const MainQuestionnaire: React.FC = () => {
         validation: () => true,
         questions: housingQuestionsList,
       },
-    ]
+    ];
   }, [
     generalQuestionsList,
     housingQuestionsList,
     userStatus.service.dutyEndDate,
     userStatus.service.enlistmentDate,
     matchingRights,
-  ])
+  ]);
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setCurrentTabId(newValue)
-  }
+    setCurrentTabId(newValue);
+  };
 
-  const currentTab = useMemo(() => tabs[currentTabId], [tabs, currentTabId])
+  const currentTab = useMemo(() => tabs[currentTabId], [tabs, currentTabId]);
 
   return (
     <Container maxWidth="md">
@@ -161,17 +161,15 @@ export const MainQuestionnaire: React.FC = () => {
 
         {currentTabId < tabs.length
           ? currentTab.questions !== undefined && (
-            <Paper sx={{ p: 3, mb: 3, height: '100%', overflow: 'auto' }}>
-              {currentTab.questions?.map((question: Question, index: number) => (
-                <Box key={index} sx={{ mb: 3 }}>
-                  <QuestionComp question={question} />
-                </Box>
-              ))}
-            </Paper>
-          )
-          : currentTabId === tabs.length && (
-            <RightsList />
-          )}
+              <Paper sx={{ p: 3, mb: 3, height: '100%', overflow: 'auto' }}>
+                {currentTab.questions?.map((question: Question, index: number) => (
+                  <Box key={index} sx={{ mb: 3 }}>
+                    <QuestionComp question={question} />
+                  </Box>
+                ))}
+              </Paper>
+            )
+          : currentTabId === tabs.length && <RightsList />}
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
           <Button
@@ -184,5 +182,5 @@ export const MainQuestionnaire: React.FC = () => {
         </Box>
       </Box>
     </Container>
-  )
-}
+  );
+};
