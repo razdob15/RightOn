@@ -1,74 +1,51 @@
-import React, { useState } from 'react';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import {
   AppBar,
   Toolbar,
-  Typography,
   Container,
-  ToggleButtonGroup,
-  ToggleButton,
 } from '@mui/material';
-import { MainQuestionnaire } from './components/MainQuestionnaire';
+import { HebrewMain } from './components/HebrewMain';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import rtlPlugin from '@mui/stylis-plugin-rtl';
+import { prefixer } from 'stylis';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 
-const theme = createTheme({
-  palette: {
-    mode: 'dark', // Set the theme mode to dark
-    primary: {
-      main: '#90caf9', // Lighter blue for dark mode primary
-    },
-    secondary: {
-      main: '#f48fb1', // Lighter pink for dark mode secondary
-    },
-  },
+const cacheRtl = createCache({
+  key: 'muirtl',
+  stylisPlugins: [prefixer, rtlPlugin],
 });
+const theme = (
+  () =>
+    createTheme({
+      direction: 'rtl',
+      palette: {
+        mode: 'light', // Set the theme mode to dark
+        primary: {
+          main: '#90caf9', // Lighter blue for dark mode primary
+        },
+        secondary: {
+          main: '#f48fb1', // Lighter pink for dark mode secondary
+        },
+      },
+    })
+);
 
-function App() {
-  const [view, setView] = useState<'form' | 'chat'>('chat');
-
-  const handleViewChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newView: 'form' | 'chat' | null
-  ) => {
-    if (newView !== null) {
-      setView(newView);
-    }
-  };
-
+export const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Lone Soldier Rights Portal
-          </Typography>
-          {/* <ToggleButtonGroup
-            color="standard"
-            value={view}
-            exclusive
-            onChange={handleViewChange}
-            aria-label="view mode"
-            sx={{
-              bgcolor: 'white',
-              '& .MuiToggleButton-root.Mui-selected': {
-                bgcolor: 'rgba(255, 255, 255, 0.8)',
-              }
-            }}
-          >
-            <ToggleButton value="chat">
-              Chat View
-            </ToggleButton>
-            <ToggleButton value="form">
-              Form View
-            </ToggleButton>
-          </ToggleButtonGroup> */}
-        </Toolbar>
-      </AppBar>
-      <Container>
-        <MainQuestionnaire />
-      </Container>
-    </ThemeProvider>
+    <CacheProvider value={cacheRtl}>
+      <ThemeProvider theme={theme}>
+        <AppBar position="static">
+          <Toolbar sx={{ height: "60px" }}>
+            <img src="/logo.png" width={"40px"} style={{ marginInlineStart: "10px" }} />
+          </Toolbar>
+        </AppBar>
+        <Container>
+          {/* <MainQuestionnaire /> */}
+          <HebrewMain />
+        </Container>
+      </ThemeProvider>
+    </CacheProvider>
+
   );
 }
 

@@ -2,6 +2,7 @@ export type Option = {
   value: string;
   label: string;
 };
+
 export type QuestionType = 'radio' | 'date';
 
 export interface BaseQuestion {

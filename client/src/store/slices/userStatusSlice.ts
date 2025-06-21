@@ -25,6 +25,9 @@ export const userStatusSlice = createSlice({
     updateSoldierType: (state, action: PayloadAction<SoldierType>) => {
       state.soldierType = action.payload;
     },
+    updateServiceType: (state, action: PayloadAction<ServiceType>) => {
+      state.service.serviceType = action.payload;
+    },
     updateEnlistmentDate: (state, action: PayloadAction<number>) => {
       state.service.enlistmentDate = action.payload;
     },
@@ -41,6 +44,7 @@ export const userStatusSlice = createSlice({
 export const {
   updateHousingStatus,
   updateSoldierType,
+  updateServiceType,
   updateEnlistmentDate,
   updateDutyEndDate,
   updateIdfRentAssistance,

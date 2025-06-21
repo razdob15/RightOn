@@ -7,6 +7,7 @@ export enum ServiceType {
   MANDATORY = 'MANDATORY',
   PERMANENT = 'PERMANENT',
   VOLUNTEER = 'VOLUNTEER',
+  DISCHARGED = 'DISCHARGED'
 }
 
 export enum HousingStatus {
@@ -17,7 +18,7 @@ export enum HousingStatus {
 
 export enum RightSubject {
   HOUSING = 'HOUSING',
-  FINANCE = 'FINANCE',
+  ECONOMICS = 'ECONOMICS',
   HOLIDAYS = 'HOLIDAYS',
   OTHER = 'OTHER',
   AFTER_DUTY = 'AFTER_DUTY',

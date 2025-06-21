@@ -1,4 +1,3 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import React, { useCallback, useMemo, useState } from 'react';
 import {
   Box,
@@ -8,25 +7,22 @@ import {
   Button,
   Tabs,
   Tab,
-  Accordion,
-  AccordionSummary,
 } from '@mui/material';
 import { Right, rightsData } from '../types/rights';
-import { HousingStatus, RightSubject, SoldierType, UserStatus } from '../types/user-status';
+import { HousingStatus, ServiceType, SoldierType, UserStatus } from '../types/user-status';
 import { TabName } from '../enums/app-tab.enum';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
   updateHousingStatus,
   updateSoldierType,
-  updateEnlistmentDate,
+  updateEnlistmentDate, updateServiceType,
   updateDutyEndDate,
 } from '../store/slices/userStatusSlice';
 import { QuestionComp } from './questions/QuestionComp';
 import { Question } from '../types/questions';
 import { AppTab } from '../types/tab.type';
-import { RightCard } from './rights/RightCard';
 import { RightsList } from './rights/RightsList';
-import { tab } from '@testing-library/user-event/dist/tab';
+import { differenceInMonths } from 'date-fns';
 
 export const MainQuestionnaire: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -42,46 +38,75 @@ export const MainQuestionnaire: React.FC = () => {
   const matchingRights = getMatchingRights();
 
   const generalQuestionsList: Question[] = useMemo(
-    () => [
-      {
-        type: 'date',
-        question: 'When did you enlist to the IDF?',
-        value: userStatus.service.enlistmentDate
-          ? new Date(userStatus.service.enlistmentDate).getTime()
-          : undefined,
-        onChange: (value: number) => {
-          dispatch(updateEnlistmentDate(value));
-        },
-      },
-      {
-        type: 'date',
-        question: 'Have you been discharged? If yes, when? (Leave empty if still serving)',
-        value: userStatus.service?.dutyEndDate
-          ? new Date(userStatus.service?.dutyEndDate).getTime()
-          : undefined,
-        onChange: (value: number) => {
-          dispatch(updateDutyEndDate(value));
-        },
-      },
-      {
-        type: 'radio',
-        question: 'What type of lone soldier are you?',
-        value: userStatus.soldierType,
-        onChange: (value: string) => {
-          dispatch(updateSoldierType(value as SoldierType));
-        },
-        options: [
-          {
-            value: SoldierType.DISTINGUISHED_LONE_SOLDIER,
-            label: 'Distinguished Lone Soldier (parents reside permanently abroad)',
+    () => {
+
+      return [
+        {
+          type: 'date',
+          question: 'When did you enlist to the IDF?',
+          value: userStatus.service.enlistmentDate
+            ? new Date(userStatus.service.enlistmentDate).getTime()
+            : undefined,
+          onChange: (value: number) => {
+            dispatch(updateEnlistmentDate(value));
           },
-          {
-            value: SoldierType.LONE_SOLDIER,
-            label: 'Lone Soldier (other circumstances)',
+        },
+        {
+          type: 'date',
+          question: 'Have you been discharged? If yes, when? (Leave empty if still serving)',
+          value: userStatus.service?.dutyEndDate
+            ? new Date(userStatus.service?.dutyEndDate).getTime()
+            : undefined,
+          onChange: (value: number) => {
+            dispatch(updateDutyEndDate(value));
           },
-        ],
-      },
-    ],
+        },
+        {
+          type: 'radio',
+          question: 'What type of lone soldier are you?',
+          value: userStatus.soldierType,
+          onChange: (value: string) => {
+            dispatch(updateSoldierType(value as SoldierType));
+          },
+          options: [
+            {
+              value: SoldierType.DISTINGUISHED_LONE_SOLDIER,
+              label: 'Distinguished Lone Soldier (parents reside permanently abroad)',
+            },
+            {
+              value: SoldierType.LONE_SOLDIER,
+              label: 'Lone Soldier (other circumstances)',
+            },
+          ],
+        },
+        {
+          type: 'radio',
+          question: 'What kind is your current sevice?',
+          value: userStatus.service.serviceType ?? differenceInMonths(new Date(), userStatus.service.enlistmentDate ?? 0) <= 32 ? ServiceType.MANDATORY : ServiceType.PERMANENT,
+          onChange: (value: string) => {
+            dispatch(updateServiceType(value as ServiceType));
+          },
+          options: [
+            {
+              value: ServiceType.MANDATORY,
+              label: 'Mandatory',
+            },
+            {
+              value: ServiceType.PERMANENT,
+              label: 'Permanent',
+            },
+            {
+              value: ServiceType.VOLUNTEER,
+              label: 'Volunteer',
+            },
+            {
+              value: ServiceType.DISCHARGED,
+              label: 'Discharged',
+            },
+          ],
+        },
+      ]
+    },
     [userStatus.service?.enlistmentDate, userStatus.service?.dutyEndDate, dispatch]
   );
 
@@ -119,8 +144,8 @@ export const MainQuestionnaire: React.FC = () => {
         validation: (userStatus: UserStatus) => {
           return Boolean(
             userStatus.service.dutyEndDate &&
-              userStatus.service.enlistmentDate &&
-              userStatus.service.enlistmentDate < userStatus.service.dutyEndDate
+            userStatus.service.enlistmentDate &&
+            userStatus.service.enlistmentDate < userStatus.service.dutyEndDate
           );
         },
         questions: generalQuestionsList,
@@ -149,9 +174,6 @@ export const MainQuestionnaire: React.FC = () => {
   return (
     <Container maxWidth="md">
       <Box sx={{ my: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom align="center">
-          RightsOn
-        </Typography>
 
         <Tabs value={currentTabId} onChange={handleTabChange} sx={{ mb: 4 }}>
           {tabs.map((tab, index) => (
@@ -161,14 +183,14 @@ export const MainQuestionnaire: React.FC = () => {
 
         {currentTabId < tabs.length
           ? currentTab.questions !== undefined && (
-              <Paper sx={{ p: 3, mb: 3, height: '100%', overflow: 'auto' }}>
-                {currentTab.questions?.map((question: Question, index: number) => (
-                  <Box key={index} sx={{ mb: 3 }}>
-                    <QuestionComp question={question} />
-                  </Box>
-                ))}
-              </Paper>
-            )
+            <Paper sx={{ p: 3, mb: 3, height: '100%', overflow: 'auto' }}>
+              {currentTab.questions?.map((question: Question, index: number) => (
+                <Box key={index} sx={{ mb: 3 }}>
+                  <QuestionComp question={question} />
+                </Box>
+              ))}
+            </Paper>
+          )
           : currentTabId === tabs.length && <RightsList />}
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>

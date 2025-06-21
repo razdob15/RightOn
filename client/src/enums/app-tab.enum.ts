@@ -1,5 +1,5 @@
 export enum TabName {
-  'GENERAL' = 'General',
-  'HOUSING' = 'Housing',
-  'SUMMARY' = 'Summary',
+  'GENERAL' = 'כללי',
+  'HOUSING' = 'דיור',
+  'SUMMARY' = 'סיכום',
 }
