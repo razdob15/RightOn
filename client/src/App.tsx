@@ -39,7 +39,7 @@ export const App = () => {
             <img src="/logo.png" width={"40px"} style={{ marginInlineStart: "10px" }} />
           </Toolbar>
         </AppBar>
-        <Container>
+        <Container sx={{ paddingTop: 2, paddingBottom: 2, alignContent: "center", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
           {/* <MainQuestionnaire /> */}
           <HebrewMain />
         </Container>
