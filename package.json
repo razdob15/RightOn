@@ -7,6 +7,9 @@
     "prettier": "^3.5.3"
   },
   "dependencies": {
-    "fs": "^0.0.1-security"
+    "@eslint/json": "^0.12.0",
+    "eslint-plugin-react": "^7.37.5",
+    "fs": "^0.0.1-security",
+    "typescript-eslint": "^8.34.1"
   }
 }
