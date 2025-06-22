@@ -1,32 +1,41 @@
-import React, { useEffect, useState } from "react";
-import { Stack, Typography, TextField, FormControl, FormLabel, Autocomplete, Switch, RadioGroup, FormControlLabel, Radio } from "@mui/material";
-import { FormQuestionsProps } from "../types/formQuestionsProps.type";
-import dayjs, { Dayjs } from "dayjs";
-import { MyDatePicker } from "./dates/MyDatePicker";
-import { useCountries } from "../hools/use-countries";
-
-
-
-
+import React, { useEffect, useState } from 'react';
+import {
+  Stack,
+  Typography,
+  TextField,
+  FormControl,
+  FormLabel,
+  Autocomplete,
+  Switch,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+} from '@mui/material';
+import { FormQuestionsProps } from '../types/formQuestionsProps.type';
+import dayjs, { Dayjs } from 'dayjs';
+import { MyDatePicker } from './dates/MyDatePicker';
+import { useCountries } from '../hools/use-countries';
 
 export const AliyahQuestions: React.FC<FormQuestionsProps> = ({ onSubmit, onValidityChange }) => {
-  const { hebrewCountries: allCountries } = useCountries()
+  const { hebrewCountries: allCountries } = useCountries();
   const [aliyahYear, setAliyahYear] = useState<Dayjs | null>(null);
-  const [aliyahCountry, setAliyahCountry] = useState("");
+  const [aliyahCountry, setAliyahCountry] = useState('');
   const [isOleh, setIsOleh] = useState(true);
-  const [parentsAbroad, setParentsAbroad] = useState("none");
-
+  const [parentsAbroad, setParentsAbroad] = useState('none');
 
   // Validate required fields
   useEffect(() => {
-    const valid = !isOleh || !!aliyahYear && !!aliyahCountry;
+    const valid = !isOleh || (!!aliyahYear && !!aliyahCountry);
     onValidityChange(valid);
   }, [aliyahYear, aliyahCountry, isOleh, onValidityChange]);
 
   return (
     <Stack
       component="form"
-      onSubmit={e => { e.preventDefault(); onSubmit(); }}
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit();
+      }}
       alignContent={'start'}
       alignItems={'start'}
       sx={{
@@ -35,34 +44,30 @@ export const AliyahQuestions: React.FC<FormQuestionsProps> = ({ onSubmit, onVali
       }}
     >
       <Typography variant="body1" gutterBottom>
-        בחלק זה תתבקש למלא פרטים אודות העלייה שלך לישראל.
-        המידע ישמש להתאמת השירות לצרכיך.
-        אנא מלא את כל השדות הנדרשים בצורה מדויקת.
+        בחלק זה תתבקש למלא פרטים אודות העלייה שלך לישראל. המידע ישמש להתאמת השירות לצרכיך. אנא מלא
+        את כל השדות הנדרשים בצורה מדויקת.
       </Typography>
 
       <FormControl component="fieldset" required>
-        <FormLabel component="legend">
-          האם עלית לישראל  ב-10 השנים האחרונות?
-        </FormLabel>
+        <FormLabel component="legend">האם עלית לישראל ב-10 השנים האחרונות?</FormLabel>
 
         <Stack direction="row" spacing={2} alignItems="center">
           <Typography>לא</Typography>
           <Switch checked={isOleh} onChange={(_, checked) => setIsOleh(checked)} />
           <Typography>כן</Typography>
         </Stack>
-
-
       </FormControl>
-
 
       {isOleh && (
         <>
           <Autocomplete
             fullWidth
             options={allCountries}
-            value={allCountries.find(opt => opt.value === aliyahCountry) || null}
-            onChange={(_, val) => setAliyahCountry(val ? val.value : "")}
-            renderInput={(params) => <TextField {...params} required label="מאיזו מדינה עלית?" variant="outlined" />}
+            value={allCountries.find((opt) => opt.value === aliyahCountry) || null}
+            onChange={(_, val) => setAliyahCountry(val ? val.value : '')}
+            renderInput={(params) => (
+              <TextField {...params} required label="מאיזו מדינה עלית?" variant="outlined" />
+            )}
             noOptionsText="לא נמצאו מדינות"
           />
 
@@ -71,17 +76,14 @@ export const AliyahQuestions: React.FC<FormQuestionsProps> = ({ onSubmit, onVali
             onChange={setAliyahYear}
             label="באיזו שנה עלית לישראל?"
             required
-            minDate={dayjs("2010")}
-            views={['year']} />
-
+            minDate={dayjs('2010')}
+            views={['year']}
+          />
         </>
-
       )}
 
       <FormControl component="fieldset" required>
-        <FormLabel component="legend">
-          האם הוריך גרים בחו"ל?
-        </FormLabel>
+        <FormLabel component="legend">האם הוריך גרים בחו"ל?</FormLabel>
         <Stack direction="row" spacing={2}>
           <RadioGroup
             row
@@ -95,7 +97,6 @@ export const AliyahQuestions: React.FC<FormQuestionsProps> = ({ onSubmit, onVali
           </RadioGroup>
         </Stack>
       </FormControl>
-
     </Stack>
   );
 };
