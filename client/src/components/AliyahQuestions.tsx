@@ -11,23 +11,43 @@ import {
   FormControlLabel,
   Radio,
 } from '@mui/material';
-import { FormQuestionsProps } from '../types/formQuestionsProps.type';
+import { FormQuestionLabels, FormQuestionsProps } from '../types/formQuestionsProps.type';
 import dayjs, { Dayjs } from 'dayjs';
 import { MyDatePicker } from './dates/MyDatePicker';
 import { useCountries } from '../hools/use-countries';
 
-export const AliyahQuestions: React.FC<FormQuestionsProps> = ({ onSubmit, onValidityChange }) => {
-  const { hebrewCountries: allCountries } = useCountries();
-  const [aliyahYear, setAliyahYear] = useState<Dayjs | null>(null);
-  const [aliyahCountry, setAliyahCountry] = useState('');
-  const [isOleh, setIsOleh] = useState(true);
-  const [parentsAbroad, setParentsAbroad] = useState('none');
+const LABEL_KEY = FormQuestionLabels.ALIYAH;
 
-  // Validate required fields
+export const AliyahQuestions: React.FC<FormQuestionsProps> = ({
+  onSubmit,
+  onValidityChange,
+  answers,
+  setAnswers,
+}) => {
+  const { hebrewCountries: allCountries } = useCountries();
+
+  // Initialize state from answers
+  const [aliyahYear, setAliyahYear] = useState<Dayjs | null>(
+    answers?.aliyahYear ? dayjs(answers.aliyahYear) : null
+  );
+  const [aliyahCountry, setAliyahCountry] = useState(answers?.aliyahCountry || '');
+  const [isOleh, setIsOleh] = useState(
+    typeof answers?.isOleh === 'boolean' ? answers.isOleh : true
+  );
+  const [parentsAbroad, setParentsAbroad] = useState(answers?.parentsAbroad || 'none');
+
+  // Update parent state when local state changes
   useEffect(() => {
+    setAnswers(LABEL_KEY, {
+      aliyahYear: aliyahYear ? aliyahYear.toISOString() : null,
+      aliyahCountry,
+      isOleh,
+      parentsAbroad,
+    });
+    // Validate required fields
     const valid = !isOleh || (!!aliyahYear && !!aliyahCountry);
     onValidityChange(valid);
-  }, [aliyahYear, aliyahCountry, isOleh, onValidityChange]);
+  }, [aliyahYear, aliyahCountry, isOleh, parentsAbroad]); //, setAnswers, onValidityChange]);
 
   return (
     <Stack
@@ -50,7 +70,6 @@ export const AliyahQuestions: React.FC<FormQuestionsProps> = ({ onSubmit, onVali
 
       <FormControl component="fieldset" required>
         <FormLabel component="legend">האם עלית לישראל ב-10 השנים האחרונות?</FormLabel>
-
         <Stack direction="row" spacing={2} alignItems="center">
           <Typography>לא</Typography>
           <Switch checked={isOleh} onChange={(_, checked) => setIsOleh(checked)} />

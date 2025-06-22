@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from 'react';
+import 'dayjs/locale/he'; // <-- Add this line
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import dayjs, { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from 'dayjs';
 
 export const MyDatePicker: React.FC<{
   value: Dayjs | null;
@@ -23,30 +24,39 @@ export const MyDatePicker: React.FC<{
   maxDate = dayjs(),
   openTo = 'year',
 }) => {
-    return (
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
-          openTo={openTo}
-          views={views}
-          label={label}
-          value={value}
-          onChange={onChange}
-          slotProps={{
-            textField: {
-              fullWidth: true,
-              required: required,
-              inputProps: { style: { textAlign: "right" } },
-              sx: {
-                '& .MuiPickersSectionList-root': {
-                  direction: 'rtl',
-                  justifyContent: 'flex-end',
-                },
-              }
+  // Internal handler to ensure only valid dates are passed up
+  const handleChange = (newValue: Dayjs | null) => {
+    if (newValue && newValue.isValid()) {
+      onChange(newValue);
+    } else {
+      onChange(null);
+    }
+  };
+
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="he">
+      <DatePicker
+        openTo={openTo}
+        views={views}
+        label={label}
+        value={value && value.isValid() ? value : null}
+        onChange={handleChange}
+        slotProps={{
+          textField: {
+            fullWidth: true,
+            required: required,
+            inputProps: { style: { textAlign: 'right' } },
+            sx: {
+              '& .MuiPickersSectionList-root': {
+                direction: 'rtl',
+                justifyContent: 'flex-end',
+              },
             },
-          }}
-          minDate={minDate}
-          maxDate={maxDate}
-        />
-      </LocalizationProvider>
-    );
-  }
+          },
+        }}
+        minDate={minDate}
+        maxDate={maxDate}
+      />
+    </LocalizationProvider>
+  );
+};

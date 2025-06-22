@@ -11,20 +11,42 @@ import {
   MenuItem,
   Checkbox,
 } from '@mui/material';
+import { FormQuestionLabels, FormQuestionsProps } from '../types/formQuestionsProps.type';
 
-export const HousingQuestions: React.FC<{
-  onSubmit: () => void;
-  onValidityChange: (valid: boolean) => void;
-}> = ({ onSubmit, onValidityChange }) => {
-  const [housingStatus, setHousingStatus] = useState('');
-  const [receivesArmyAssistance, setReceivesArmyAssistance] = useState(false);
-  const [distanceToBase, setDistanceToBase] = useState<number | ''>('');
-  const [currentHousing, setCurrentHousing] = useState('');
+const LABEL_KEY = FormQuestionLabels.HOUSING;
+
+export const HousingQuestions: React.FC<FormQuestionsProps> = ({
+  onSubmit,
+  onValidityChange,
+  answers,
+  setAnswers,
+}) => {
+  const [housingStatus, setHousingStatus] = useState(answers?.housingStatus || '');
+  const [receivesArmyAssistance, setReceivesArmyAssistance] = useState(
+    typeof answers?.receivesArmyAssistance === 'boolean' ? answers.receivesArmyAssistance : false
+  );
+  const [distanceToBase, setDistanceToBase] = useState(
+    typeof answers?.distanceToBase === 'number' ? answers.distanceToBase : 0
+  );
+  const [currentHousing, setCurrentHousing] = useState(answers?.currentHousing || '');
 
   useEffect(() => {
-    const valid = !!housingStatus && distanceToBase !== '' && !!currentHousing;
+    setAnswers(LABEL_KEY, {
+      housingStatus,
+      receivesArmyAssistance,
+      distanceToBase,
+      currentHousing,
+    });
+    const valid = housingStatus !== 'none' || (!!housingStatus && !!currentHousing);
     onValidityChange(valid);
-  }, [housingStatus, receivesArmyAssistance, distanceToBase, currentHousing, onValidityChange]);
+  }, [
+    housingStatus,
+    receivesArmyAssistance,
+    distanceToBase,
+    currentHousing,
+    setAnswers,
+    onValidityChange,
+  ]);
 
   return (
     <Stack
@@ -86,7 +108,7 @@ export const HousingQuestions: React.FC<{
         label='מרחק ממקום המגורים לבסיס (בק"מ)'
         type="number"
         value={distanceToBase}
-        onChange={(e) => setDistanceToBase(e.target.value === '' ? '' : Number(e.target.value))}
+        onChange={(e) => setDistanceToBase(e.target.value === '' ? 0 : parseInt(e.target.value))}
         variant="outlined"
         fullWidth
         inputProps={{ min: 0 }}

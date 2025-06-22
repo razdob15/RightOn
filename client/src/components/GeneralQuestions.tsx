@@ -14,23 +14,33 @@ import { MyDatePicker } from './dates/MyDatePicker';
 import dayjs, { Dayjs } from 'dayjs';
 import { useCountries } from '../hools/use-countries';
 import { useCities } from '../hools/use-cities';
+import { FormQuestionLabels, FormQuestionsProps } from '../types/formQuestionsProps.type';
 
-export const GeneralQuestions: React.FC<{
-  onSubmit: () => void;
-  onValidityChange: (valid: boolean) => void;
-}> = ({ onSubmit, onValidityChange }) => {
+const LABEL_KEY = FormQuestionLabels.GENERAL;
+
+export const GeneralQuestions: React.FC<FormQuestionsProps> = ({
+  onSubmit,
+  onValidityChange,
+  answers,
+  setAnswers,
+}) => {
   const { hebrewCountries: allCountries } = useCountries();
   const { israelHebrewCities: allCities } = useCities();
-  const [birthDate, setBirthDate] = useState<Dayjs | null>(null);
-  const [country, setCountry] = useState('');
-  const [city, setCity] = useState('');
-  const [soldierType, setSoldierType] = useState('');
+  const [birthDate, setBirthDate] = useState(answers?.birthDate ? dayjs(answers.birthDate) : null);
+  const [country, setCountry] = useState(answers?.country || '');
+  const [city, setCity] = useState(answers?.city || '');
+  const [soldierType, setSoldierType] = useState(answers?.soldierType || '');
 
-  // Validate required fields
   useEffect(() => {
+    setAnswers(LABEL_KEY, {
+      birthDate: birthDate ? birthDate.toISOString() : null,
+      country,
+      city,
+      soldierType,
+    });
     const valid = !!birthDate && !!country && !!city && !!soldierType;
     onValidityChange(valid);
-  }, [birthDate, country, city, soldierType, onValidityChange]);
+  }, [birthDate, country, city, soldierType, setAnswers, onValidityChange]);
 
   return (
     <Stack

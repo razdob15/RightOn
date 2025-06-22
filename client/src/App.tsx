@@ -1,8 +1,4 @@
-import {
-  AppBar,
-  Toolbar,
-  Container,
-} from '@mui/material';
+import { AppBar, Toolbar, Container } from '@mui/material';
 import { HebrewMain } from './components/HebrewMain';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import rtlPlugin from '@mui/stylis-plugin-rtl';
@@ -14,8 +10,9 @@ const cacheRtl = createCache({
   key: 'muirtl',
   stylisPlugins: [prefixer, rtlPlugin],
 });
-const theme = (
-  () =>
+
+export const App = () => {
+  const theme = () =>
     createTheme({
       direction: 'rtl',
       palette: {
@@ -27,26 +24,33 @@ const theme = (
           main: '#f48fb1', // Lighter pink for dark mode secondary
         },
       },
-    })
-);
+    });
 
-export const App = () => {
   return (
     <CacheProvider value={cacheRtl}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme()}>
         <AppBar position="static">
-          <Toolbar sx={{ height: "60px" }}>
-            <img src="/logo.png" width={"40px"} style={{ marginInlineStart: "10px" }} />
+          <Toolbar sx={{ height: '60px' }}>
+            <img src="/logo.png" width={'40px'} style={{ marginInlineStart: '10px' }} />
           </Toolbar>
         </AppBar>
-        <Container sx={{ paddingTop: 2, paddingBottom: 2, alignContent: "center", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+        <Container
+          sx={{
+            paddingTop: 2,
+            paddingBottom: 2,
+            alignContent: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
           {/* <MainQuestionnaire /> */}
           <HebrewMain />
         </Container>
       </ThemeProvider>
     </CacheProvider>
-
   );
-}
+};
 
 export default App;

@@ -12,21 +12,42 @@ import {
 } from '@mui/material';
 import { MyDatePicker } from './dates/MyDatePicker';
 import dayjs, { Dayjs } from 'dayjs';
+import { FormQuestionLabels, FormQuestionsProps } from '../types/formQuestionsProps.type';
 
-export const ArmyQuestions: React.FC<{
-  onSubmit: () => void;
-  onValidityChange: (valid: boolean) => void;
-}> = ({ onSubmit, onValidityChange }) => {
-  const [enlistDate, setEnlistDate] = useState<Dayjs | null>(null);
-  const [releaseDate, setReleaseDate] = useState<Dayjs | null>(null);
-  const [serviceType, setServiceType] = useState('');
-  const [monthsServed, setMonthsServed] = useState(0);
-  const [activityLevel, setActivityLevel] = useState('');
-  const [isCombat, setIsCombat] = useState(false);
+const LABEL_KEY = FormQuestionLabels.ARMY;
+
+export const ArmyQuestions: React.FC<FormQuestionsProps> = ({
+  onSubmit,
+  onValidityChange,
+  answers,
+  setAnswers,
+}) => {
+  const [enlistDate, setEnlistDate] = useState<Dayjs | null>(
+    answers?.enlistDate ? dayjs(answers.enlistDate) : null
+  );
+  const [releaseDate, setReleaseDate] = useState<Dayjs | null>(
+    answers?.releaseDate ? dayjs(answers.releaseDate) : null
+  );
+  const [serviceType, setServiceType] = useState(answers?.serviceType || '');
+  const [monthsServed, setMonthsServed] = useState(answers?.monthsServed || 0);
+  const [activityLevel, setActivityLevel] = useState(answers?.activityLevel || '');
+  const [isCombat, setIsCombat] = useState(
+    typeof answers?.isCombat === 'boolean' ? answers.isCombat : false
+  );
 
   useEffect(() => {
     const valid =
       !!enlistDate && !!releaseDate && !!serviceType && !!monthsServed && !!activityLevel;
+    if (valid) {
+      setAnswers(LABEL_KEY, {
+        enlistDate: enlistDate.toISOString(),
+        releaseDate: releaseDate.toISOString(),
+        serviceType,
+        monthsServed,
+        activityLevel,
+        isCombat,
+      });
+    }
     onValidityChange(valid);
   }, [enlistDate, releaseDate, serviceType, monthsServed, activityLevel, onValidityChange]);
 
@@ -70,7 +91,8 @@ export const ArmyQuestions: React.FC<{
         label="תאריך גיוס"
         value={enlistDate}
         onChange={setEnlistDate}
-        views={['year', 'month', 'day']}
+        views={['month', 'year']}
+        openTo="month"
       />
 
       <MyDatePicker
@@ -80,7 +102,8 @@ export const ArmyQuestions: React.FC<{
         label="תאריך שחרור"
         value={releaseDate}
         onChange={setReleaseDate}
-        views={['year', 'month', 'day']}
+        views={['month', 'year']}
+        openTo="month"
       />
 
       <TextField
@@ -102,13 +125,13 @@ export const ArmyQuestions: React.FC<{
           <FormControlLabel
             value="reserve"
             control={<Radio />}
-            label="מילואים"
+            label="שירות מילואים פעיל"
             disabled={!releaseDate || releaseDate.isAfter(dayjs())}
           />
           <FormControlLabel
             value="released"
             control={<Radio />}
-            label="משוחרר ללא מילואים פעיל"
+            label="משוחרר ללא מילואים"
             disabled={!releaseDate || releaseDate.isAfter(dayjs())}
           />
         </RadioGroup>
