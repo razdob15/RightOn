@@ -11,14 +11,14 @@ import {
   FormControlLabel,
   Radio,
 } from '@mui/material';
-import { FormQuestionLabels, FormQuestionsProps } from '../types/formQuestionsProps.type';
+import { FormQuestionLabels, type FormQuestionsProps as FormQuestionsProperties } from '../types/formQuestionsProps.type';
 import dayjs, { Dayjs } from 'dayjs';
 import { MyDatePicker } from './dates/MyDatePicker';
 import { useCountries } from '../hools/use-countries';
 
 const LABEL_KEY = FormQuestionLabels.ALIYAH;
 
-export const AliyahQuestions: React.FC<FormQuestionsProps> = ({
+export const AliyahQuestions: React.FC<FormQuestionsProperties> = ({
   onSubmit,
   onValidityChange,
   answers,
@@ -56,8 +56,8 @@ export const AliyahQuestions: React.FC<FormQuestionsProps> = ({
         e.preventDefault();
         onSubmit();
       }}
-      alignContent={'start'}
-      alignItems={'start'}
+      alignContent="start"
+      alignItems="start"
       sx={{
         gap: 3,
         maxWidth: '70%',
@@ -83,9 +83,9 @@ export const AliyahQuestions: React.FC<FormQuestionsProps> = ({
             fullWidth
             options={allCountries}
             value={allCountries.find((opt) => opt.value === aliyahCountry) || null}
-            onChange={(_, val) => setAliyahCountry(val ? val.value : '')}
-            renderInput={(params) => (
-              <TextField {...params} required label="מאיזו מדינה עלית?" variant="outlined" />
+            onChange={(_, value) => setAliyahCountry(value ? value.value : '')}
+            renderInput={(parameters) => (
+              <TextField {...parameters} required label="מאיזו מדינה עלית?" variant="outlined" />
             )}
             noOptionsText="לא נמצאו מדינות"
           />

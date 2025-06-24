@@ -1,10 +1,15 @@
 {
   "devDependencies": {
-    "@types/node": "^24.0.1",
+    "@types/node": "^24.0.0",
     "@typescript-eslint/eslint-plugin": "^8.33.1",
     "@typescript-eslint/parser": "^8.33.1",
+    "@vitejs/plugin-react": "^4.6.0",
     "eslint": "^9.28.0",
-    "prettier": "^3.5.3"
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "eslint-plugin-unicorn": "^59.0.1",
+    "prettier": "^3.5.3",
+    "vite": "^7.0.0"
   },
   "dependencies": {
     "@eslint/json": "^0.12.0",

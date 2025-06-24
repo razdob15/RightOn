@@ -1,13 +1,13 @@
 import React from 'react';
 import { FormControl, TextField, Typography } from '@mui/material';
 
-interface DateQuestionProps {
+interface DateQuestionProperties {
   question: string;
   value?: Date | undefined;
   onChange: (value: number) => void;
 }
 
-export const DateQuestion: React.FC<DateQuestionProps> = ({ question, value, onChange }) => {
+export const DateQuestion: React.FC<DateQuestionProperties> = ({ question, value, onChange }) => {
   return (
     <FormControl component="fieldset" fullWidth>
       <Typography variant="h6" gutterBottom>

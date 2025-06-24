@@ -1,0 +1,16 @@
+{
+  "autorun": true,
+  "autokill": true,
+  "terminals": [
+    {
+      "name": "client",
+      "icon": "code",
+      "commands": ["cd client", "npm run dev"]
+    },
+    {
+      "name": "backend",
+      "icon": "run",
+      "commands": ["cd backend", "npm run start"]
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { Box, Typography, Paper, Container, Button, Tabs, Tab } from '@mui/material';
-import { Right, rightsData } from '../types/rights';
-import { HousingStatus, ServiceType, SoldierType, UserStatus } from '../types/user-status';
+import { Box, Paper, Container, Button, Tabs, Tab } from '@mui/material';
+import { rightsData, type Right } from '../types/rights';
+import { HousingStatus, ServiceType, SoldierType, type UserStatus } from '../types/user-status';
 import { TabName } from '../enums/app-tab.enum';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
@@ -12,8 +12,8 @@ import {
   updateDutyEndDate,
 } from '../store/slices/userStatusSlice';
 import { QuestionComp } from './questions/QuestionComp';
-import { Question } from '../types/questions';
-import { AppTab } from '../types/tab.type';
+import type { Question } from '../types/questions';
+import type { AppTab } from '../types/tab.type';
 import { RightsList } from './rights/RightsList';
 import { differenceInMonths } from 'date-fns';
 
@@ -188,7 +188,7 @@ export const MainQuestionnaire: React.FC = () => {
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
           <Button
             variant="contained"
-            onClick={() => setCurrentTabId((prev) => prev + 1)}
+            onClick={() => setCurrentTabId((previous) => previous + 1)}
             disabled={currentTabId >= tabs.length || !currentTab.validation?.(userStatus)}
           >
             Next

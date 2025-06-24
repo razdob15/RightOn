@@ -6,14 +6,14 @@ export interface Option {
   label: string;
 }
 
-interface RadioQuestionProps {
+interface RadioQuestionProperties {
   question: string;
   value: string;
   options?: Option[];
   onChange: (value: string) => void;
 }
 
-export const RadioQuestion: React.FC<RadioQuestionProps> = ({
+export const RadioQuestion: React.FC<RadioQuestionProperties> = ({
   question,
   value,
   options,
@@ -25,9 +25,9 @@ export const RadioQuestion: React.FC<RadioQuestionProps> = ({
         {question}
       </Typography>
       <RadioGroup value={value} onChange={(e) => onChange(e.target.value)}>
-        {options?.map((option, idx) => (
+        {options?.map((option, index) => (
           <FormControlLabel
-            key={idx}
+            key={index}
             value={option.value}
             control={<Radio />}
             label={option.label}

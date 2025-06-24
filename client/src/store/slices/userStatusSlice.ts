@@ -1,6 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { UserStatus, HousingStatus, SoldierType, ServiceType } from '../../types/user-status';
-import { subDays } from 'date-fns';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { type UserStatus, HousingStatus, SoldierType, ServiceType } from '../../types/user-status';
 
 const initialState: UserStatus = {
   soldierType: SoldierType.LONE_SOLDIER,

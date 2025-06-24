@@ -129,14 +129,11 @@ export const rightsData: Right[] = [
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
     subject: RightSubject.HOUSING,
     isEligible: (userStatus: UserStatus) => {
-      if (hasHouse(userStatus)) {
-        if (
+      if (hasHouse(userStatus) && (
           userStatus.service.serviceType === ServiceType.MANDATORY ||
           (userStatus.service.dutyEndDate &&
             differenceInMonths(userStatus.service.dutyEndDate, new Date()) <= 4)
-        )
-          return true;
-      }
+        )) return true;
 
       if (userStatus.housing.idfRentAssistance) return true;
       return false;
@@ -258,14 +255,11 @@ export const rightsDataEnglish: Right[] = [
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
     subject: RightSubject.HOUSING,
     isEligible: (userStatus: UserStatus) => {
-      if (hasHouse(userStatus)) {
-        if (
+      if (hasHouse(userStatus) && (
           userStatus.service.serviceType === ServiceType.MANDATORY ||
           (userStatus.service.dutyEndDate &&
             differenceInMonths(userStatus.service.dutyEndDate, new Date()) <= 4)
-        )
-          return true;
-      }
+        )) return true;
 
       if (userStatus.housing.idfRentAssistance) return true;
       return false;

@@ -1,6 +1,6 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionSummary, Box, Typography } from '@mui/material';
-import { Right, rightsData } from '../../types/rights';
+import { type Right, rightsData } from '../../types/rights';
 import { RightSubject } from '../../types/user-status';
 import { RightCard } from './RightCard';
 import { useAppSelector } from '../../store/hooks';
@@ -24,9 +24,9 @@ export const RightsList = () => {
 
       {Object.entries(
         matchingRights.reduce(
-          (acc, right) => {
-            (acc[right.subject] = acc[right.subject] || []).push(right);
-            return acc;
+          (accumulator, right) => {
+            (accumulator[right.subject] = accumulator[right.subject] || []).push(right);
+            return accumulator;
           },
           {} as Record<RightSubject, Right[]>
         )
@@ -42,8 +42,8 @@ export const RightsList = () => {
             </Typography>
           </AccordionSummary>
           <Box key={subject} sx={{ mb: 4 }}>
-            {rightsInSubject.map((right) => (
-              <RightCard right={right} />
+            {rightsInSubject.map((right, index) => (
+              <RightCard key={index} right={right} />
             ))}
           </Box>
         </Accordion>

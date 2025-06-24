@@ -12,11 +12,11 @@ import {
 } from '@mui/material';
 import { MyDatePicker } from './dates/MyDatePicker';
 import dayjs, { Dayjs } from 'dayjs';
-import { FormQuestionLabels, FormQuestionsProps } from '../types/formQuestionsProps.type';
+import { FormQuestionLabels, type FormQuestionsProps as FormQuestionsProperties } from '../types/formQuestionsProps.type';
 
 const LABEL_KEY = FormQuestionLabels.ARMY;
 
-export const ArmyQuestions: React.FC<FormQuestionsProps> = ({
+export const ArmyQuestions: React.FC<FormQuestionsProperties> = ({
   onSubmit,
   onValidityChange,
   answers,
@@ -74,8 +74,8 @@ export const ArmyQuestions: React.FC<FormQuestionsProps> = ({
         e.preventDefault();
         onSubmit();
       }}
-      alignContent={'start'}
-      alignItems={'start'}
+      alignContent="start"
+      alignItems="start"
       sx={{
         gap: 3,
         maxWidth: '70%',
@@ -111,7 +111,7 @@ export const ArmyQuestions: React.FC<FormQuestionsProps> = ({
         label="מספר חודשי שירות בפועל"
         type="number"
         value={monthsServed}
-        onChange={(e) => setMonthsServed(parseInt(e.target.value))}
+        onChange={(e) => setMonthsServed(Number.parseInt(e.target.value))}
         variant="outlined"
         fullWidth
       />
@@ -141,7 +141,7 @@ export const ArmyQuestions: React.FC<FormQuestionsProps> = ({
         <FormLabel component="legend">אופי השירות הסדיר</FormLabel>
         <RadioGroup
           row
-          value={isCombat === null ? '' : isCombat ? 'combat' : 'noncombat'}
+          value={isCombat === null ? '' : (isCombat ? 'combat' : 'noncombat')}
           onChange={(e) => setIsCombat(e.target.value === 'combat')}
         >
           <FormControlLabel value="combat" control={<Radio />} label="לוחמה" />

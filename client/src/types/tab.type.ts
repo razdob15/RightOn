@@ -1,7 +1,6 @@
 import { TabName } from '../enums/app-tab.enum';
-import { Question } from './questions';
-import { Right } from './rights';
-import { UserStatus } from './user-status';
+import type { Question } from './questions';
+import type { UserStatus } from './user-status';
 
 export type AppTab = {
   label: TabName;

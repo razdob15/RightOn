@@ -11,11 +11,11 @@ import {
   MenuItem,
   Checkbox,
 } from '@mui/material';
-import { FormQuestionLabels, FormQuestionsProps } from '../types/formQuestionsProps.type';
+import { FormQuestionLabels, type FormQuestionsProps as FormQuestionsProperties } from '../types/formQuestionsProps.type';
 
 const LABEL_KEY = FormQuestionLabels.HOUSING;
 
-export const HousingQuestions: React.FC<FormQuestionsProps> = ({
+export const HousingQuestions: React.FC<FormQuestionsProperties> = ({
   onSubmit,
   onValidityChange,
   answers,
@@ -55,8 +55,8 @@ export const HousingQuestions: React.FC<FormQuestionsProps> = ({
         e.preventDefault();
         onSubmit();
       }}
-      alignContent={'start'}
-      alignItems={'start'}
+      alignContent="start"
+      alignItems="start"
       sx={{
         gap: 3,
         maxWidth: '70%',
@@ -108,7 +108,7 @@ export const HousingQuestions: React.FC<FormQuestionsProps> = ({
         label='מרחק ממקום המגורים לבסיס (בק"מ)'
         type="number"
         value={distanceToBase}
-        onChange={(e) => setDistanceToBase(e.target.value === '' ? 0 : parseInt(e.target.value))}
+        onChange={(e) => setDistanceToBase(e.target.value === '' ? 0 : Number.parseInt(e.target.value))}
         variant="outlined"
         fullWidth
         inputProps={{ min: 0 }}

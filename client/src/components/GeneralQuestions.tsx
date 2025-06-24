@@ -11,14 +11,14 @@ import {
   Typography,
 } from '@mui/material';
 import { MyDatePicker } from './dates/MyDatePicker';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import { useCountries } from '../hools/use-countries';
 import { useCities } from '../hools/use-cities';
-import { FormQuestionLabels, FormQuestionsProps } from '../types/formQuestionsProps.type';
+import { FormQuestionLabels, type FormQuestionsProps as FormQuestionsProperties } from '../types/formQuestionsProps.type';
 
 const LABEL_KEY = FormQuestionLabels.GENERAL;
 
-export const GeneralQuestions: React.FC<FormQuestionsProps> = ({
+export const GeneralQuestions: React.FC<FormQuestionsProperties> = ({
   onSubmit,
   onValidityChange,
   answers,
@@ -49,8 +49,8 @@ export const GeneralQuestions: React.FC<FormQuestionsProps> = ({
         e.preventDefault();
         onSubmit();
       }}
-      alignContent={'start'}
-      alignItems={'start'}
+      alignContent="start"
+      alignItems="start"
       sx={{
         gap: 3,
         maxWidth: '70%',
@@ -64,19 +64,19 @@ export const GeneralQuestions: React.FC<FormQuestionsProps> = ({
       <MyDatePicker
         minDate={dayjs('1980')}
         required
-        label="מהו תאריך הלידה שלך?"
+        label="מתי נולדת?"
         value={birthDate}
         onChange={setBirthDate}
-        views={['year', 'month', 'day']}
+        views={['year', 'month']}
       />
 
       <Autocomplete
         fullWidth
         options={allCountries}
         value={allCountries.find((opt) => opt.value === country) || null}
-        onChange={(_, val) => setCountry(val ? val.value : '')}
-        renderInput={(params) => (
-          <TextField {...params} required label="באיזו מדינה נולדת?" variant="outlined" />
+        onChange={(_, value) => setCountry(value ? value.value : '')}
+        renderInput={(parameters) => (
+          <TextField {...parameters} required label="באיזו מדינה נולדת?" variant="outlined" />
         )}
         noOptionsText="לא נמצאו מדינות"
       />
@@ -85,9 +85,9 @@ export const GeneralQuestions: React.FC<FormQuestionsProps> = ({
         fullWidth
         options={allCities}
         value={city}
-        onChange={(_, val) => setCity(val || '')}
-        renderInput={(params) => (
-          <TextField {...params} required label="מהי  עיר מגורך? (בישראל)" variant="outlined" />
+        onChange={(_, value) => setCity(value || '')}
+        renderInput={(parameters) => (
+          <TextField {...parameters} required label="מהי  עיר מגורך? (בישראל)" variant="outlined" />
         )}
         noOptionsText="לא נמצאו ערים"
       />

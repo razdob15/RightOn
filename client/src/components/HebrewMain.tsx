@@ -5,10 +5,12 @@ import { GeneralQuestions } from './GeneralQuestions';
 import { AliyahQuestions } from './AliyahQuestions';
 import { ArmyQuestions } from './ArmyQuestions';
 import { HousingQuestions } from './HousingQuestions';
+// import { printHelloCommon } from '@common/functions/demo';
 
 export const HebrewMain: React.FC = () => {
+  // printHelloCommon();
   const updateAnswers = useCallback((label: string, data: any) => {
-    setAnswers((prev: any) => ({ ...prev, [label]: data }));
+    setAnswers((previous: any) => ({ ...previous, [label]: data }));
   }, []);
 
   // TODO: Change the order of the tabs to be more logical
@@ -121,7 +123,7 @@ export const HebrewMain: React.FC = () => {
   return (
     <Card sx={{ minHeight: '700px', width: '80%' }} elevation={5}>
       <Box sx={{ textAlign: 'rtl', p: 3 }}>
-        <Typography variant="h4" textAlign={'center'} gutterBottom>
+        <Typography variant="h4" textAlign="center" gutterBottom>
           RightOn
         </Typography>
         <Typography variant="body1" gutterBottom>
@@ -131,8 +133,8 @@ export const HebrewMain: React.FC = () => {
           אנא מלאו את השאלון כדי שנוכל להתאים את הזכויות הרלוונטיות עבורכם.
         </Typography>
         <Tabs value={tabIndex} onChange={handleTabChange} variant="fullWidth" sx={{ mb: 2 }}>
-          {tabs.map(({ label }, idx) => (
-            <Tab key={label} label={label} disabled={idx > tabMaxVisitedIndex} />
+          {tabs.map(({ label }, index) => (
+            <Tab key={label} label={label} disabled={index > tabMaxVisitedIndex} />
           ))}
         </Tabs>
         <Box sx={{ minHeight: 100, mb: 2 }}>

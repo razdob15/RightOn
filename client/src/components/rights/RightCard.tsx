@@ -1,11 +1,11 @@
 import { Card, CardContent, Typography } from '@mui/material';
 import { Right } from '../../types/rights';
 
-type Props = {
+type Properties = {
   right: Right;
 };
 
-export const RightCard = ({ right }: Props) => {
+export const RightCard = ({ right }: Properties) => {
   return (
     <Card key={right.rightName} sx={{ mb: 2 }}>
       <CardContent>

@@ -12,26 +12,25 @@ const cacheRtl = createCache({
 });
 
 export const App = () => {
-  const theme = () =>
-    createTheme({
-      direction: 'rtl',
-      palette: {
-        mode: 'light', // Set the theme mode to dark
-        primary: {
-          main: '#90caf9', // Lighter blue for dark mode primary
-        },
-        secondary: {
-          main: '#f48fb1', // Lighter pink for dark mode secondary
-        },
+  const theme = createTheme({
+    direction: 'rtl',
+    palette: {
+      mode: 'light',
+      primary: {
+        main: '#90caf9',
       },
-    });
+      secondary: {
+        main: '#f48fb1',
+      },
+    },
+  });
 
   return (
     <CacheProvider value={cacheRtl}>
-      <ThemeProvider theme={theme()}>
+      <ThemeProvider theme={theme}>
         <AppBar position="static">
           <Toolbar sx={{ height: '60px' }}>
-            <img src="/logo.png" width={'40px'} style={{ marginInlineStart: '10px' }} />
+            <img src="/logo.png" width="40px" style={{ marginInlineStart: '10px' }} />
           </Toolbar>
         </AppBar>
         <Container
@@ -45,7 +44,6 @@ export const App = () => {
             justifyContent: 'center',
           }}
         >
-          {/* <MainQuestionnaire /> */}
           <HebrewMain />
         </Container>
       </ThemeProvider>

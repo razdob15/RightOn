@@ -3,13 +3,13 @@ import { DateQuestion } from './DateQuestion';
 import { RadioQuestion } from './RadioQuestion';
 import { Question } from '../../types/questions';
 
-type QuestionCompProps = {
+type QuestionCompProperties = {
   question: Question;
 };
 
-export const QuestionComp: React.FC<QuestionCompProps> = ({ question }: QuestionCompProps) => {
+export const QuestionComp: React.FC<QuestionCompProperties> = ({ question }: QuestionCompProperties) => {
   switch (question.type) {
-    case 'date':
+    case 'date': {
       return (
         <DateQuestion
           question={question.question}
@@ -17,7 +17,8 @@ export const QuestionComp: React.FC<QuestionCompProps> = ({ question }: Question
           onChange={question.onChange}
         />
       );
-    case 'radio':
+    }
+    case 'radio': {
       return (
         <RadioQuestion
           question={question.question}
@@ -26,7 +27,9 @@ export const QuestionComp: React.FC<QuestionCompProps> = ({ question }: Question
           options={question.options}
         />
       );
-    default:
+    }
+    default: {
       return null;
+    }
   }
 };
