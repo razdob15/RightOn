@@ -14,7 +14,10 @@ import { MyDatePicker } from './dates/MyDatePicker';
 import dayjs from 'dayjs';
 import { useCountries } from '../hools/use-countries';
 import { useCities } from '../hools/use-cities';
-import { FormQuestionLabels, type FormQuestionsProps as FormQuestionsProperties } from '../types/formQuestionsProps.type';
+import {
+  FormQuestionLabels,
+  type FormQuestionsProps as FormQuestionsProperties,
+} from '../types/formQuestionsProps.type';
 
 const LABEL_KEY = FormQuestionLabels.GENERAL;
 
@@ -63,6 +66,7 @@ export const GeneralQuestions: React.FC<FormQuestionsProperties> = ({
 
       <MyDatePicker
         minDate={dayjs('1980')}
+        maxDate={dayjs().subtract(18, 'year')}
         required
         label="מתי נולדת?"
         value={birthDate}
