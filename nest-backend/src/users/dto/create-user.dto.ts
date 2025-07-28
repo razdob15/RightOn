@@ -50,7 +50,7 @@ export class CreateUserDto {
 
   @IsDateString()
   @IsOptional()
-  dateOfBirth?: Date;
+  birthDate?: Date;
 
   @IsString()
   @IsOptional()
