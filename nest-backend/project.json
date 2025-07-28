@@ -4,12 +4,15 @@
   "sourceRoot": "nest-backend/src",
   "targets": {
     "build": {
-      "executor": "@nx/node:webpack",
+      "executor": "@nx/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/nest-backend",
         "main": "nest-backend/src/main.ts",
-        "tsConfig": "nest-backend/tsconfig.app.json"
+        "tsConfig": "nest-backend/tsconfig.app.json",
+        "webpackConfig": "nest-backend/webpack.config.js",
+        "target": "node",
+        "compiler": "tsc"
       }
     },
     "serve": {
