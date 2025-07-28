@@ -1,0 +1,754 @@
+[
+  {
+    "category": "דיור",
+    "name": "סיוע בהוצאות דיור לחיילים בודדים",
+    "description": "סיוע בשכר דירה ובהוצאות אחזקת דירה",
+    "source": "כל זכות",
+    "provider": "צה\"ל",
+    "contact": "משקית ת\"ש",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY"
+        },
+        "housing": {
+          "housingStatus": "OWNER",
+          "idfRentAssistance": true
+        }
+      },
+      {
+        "service": {
+          "serviceType": "MANDATORY"
+        },
+        "housing": {
+          "housingStatus": "RENTER",
+          "idfRentAssistance": true
+        }
+      }
+    ],
+    "implementationProcess": "1. הגשת בקשה באמצעות סגל הת\"ש###2. צרוף חוזה שכירות###3. קבלת תשלום מראש עד 3 חודשים במקרה הצורך",
+    "additionalInfo": ""
+  },
+  {
+    "category": "לעולה חדש",
+    "name": "סיוע אוטומטי בסך 402 ש\"ח לעולה חדש",
+    "description": "סיוע אוטומטי בסך 402 ש\"ח לעולה חדש",
+    "source": "כל זכות",
+    "provider": "משרד הבינוי והשיכון",
+    "contact": "shaulg@moia.gov.il",
+    "eligibility": "חייל בודד מובהק",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "DISTINGUISHED_LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "ההטבה מתקבלת אוטומטית",
+    "additionalInfo": ""
+  },
+  {
+    "category": "דיור",
+    "name": "לינה קבועה בבית החייל לחיילים בודדים",
+    "description": "לינה קבועה במתקני האגודה למען החייל",
+    "source": "כל זכות",
+    "provider": "צה\"ל והאגודה למען החייל",
+    "contact": "משקית ת\"ש",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY"
+        },
+        "discharge": {
+          "monthsSinceDischarge": {
+            "lte": 3
+          }
+        },
+        "housing": {
+          "housingStatus": "NONE"
+        }
+      }
+    ],
+    "implementationProcess": "1. עדכון טלפון ומייל באזור האישי###2. בחירה בהטבה באתר",
+    "additionalInfo": "בבית החייל יינתנו שירותי כביסה ומזון"
+  },
+  {
+    "category": "דיור",
+    "name": "לינה בחופשות בבית החייל לחיילים בודדים",
+    "description": "לינה חינם בבתי החייל בזמן חופשות",
+    "source": "כל זכות",
+    "provider": "צה\"ל והאגודה למען החייל",
+    "contact": "",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY"
+        }
+      }
+    ],
+    "implementationProcess": "1. הצגת תעודת חייל בודד, תעודת חוגר ואישור חופשה.",
+    "additionalInfo": "בכפוף לזמינות מקום. ארוחות מסופקות או דמי כלכלה."
+  },
+  {
+    "category": "דיור",
+    "name": "לינה בקיבוצים לחיילים בודדים",
+    "description": "מגורים בקיבוץ עם סיוע מגורים ושירותי ליווי",
+    "source": "כל זכות",
+    "provider": "צה\"ל",
+    "contact": "",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY"
+        },
+        "housing": {
+          "housingStatus": "NONE"
+        }
+      }
+    ],
+    "implementationProcess": "פנייה לרכזת תנאי השירות (משקית ת\"ש)",
+    "additionalInfo": "עדיפות ליחידות סגורות, מענק בסך 150 ש\"ח, ייתכן זכאות גם לחיילים שאינם בודדים"
+  },
+  {
+    "category": "דיור",
+    "name": "דירות אל״ח לחיילים בודדים",
+    "description": "מגורים בדירות מרוהטות ומאובזרות במהלך השירות.",
+    "source": "כל זכות",
+    "provider": "צה״ל והאגודה למען החייל",
+    "contact": "",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "פנייה לרכזת תנאי שירות ביחידה (משקית ת״ש)",
+    "additionalInfo": "החיילים אינם משלמים שכר דירה או מסים. ניתנים שירותי כביסה ומזון."
+  },
+  {
+    "category": "דיור",
+    "name": "הנחה בחשבון החשמל",
+    "description": "50% הנחה עד 400 קוט״ש עבור מגורים לחייל בודד.",
+    "source": "כל זכות",
+    "provider": "חברת חשמל",
+    "contact": "",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY"
+        },
+        "housing": {
+          "housingStatus": "OWNER",
+          "idfRentAssistance": true
+        }
+      },
+      {
+        "service": {
+          "serviceType": "MANDATORY"
+        },
+        "housing": {
+          "housingStatus": "RENTER",
+          "idfRentAssistance": true
+        }
+      }
+    ],
+    "implementationProcess": "הנתונים מועברים מצה״ל לחברת החשמל. במידת הצורך יש לעדכן את החשבון.",
+    "additionalInfo": "מופיע בחשבון החשמל כסעיף נפרד. ההנחה ניתנת אוטומטית במידה וקיימת התאמה."
+  },
+  {
+    "category": "דיור",
+    "name": "הנחה בארנונה",
+    "description": "פטור מארנונה עד 70 מ״ר במהלך השירות ועד 4 חודשים לאחר השחרור.",
+    "source": "כל זכות",
+    "provider": "הרשות המקומית",
+    "contact": "",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "discharge": {
+          "monthsSinceDischarge": {
+            "lte": 4
+          }
+        },
+        "housing": {
+          "housingStatus": "OWNER",
+          "idfRentAssistance": true
+        }
+      },
+      {
+        "discharge": {
+          "monthsSinceDischarge": {
+            "lte": 4
+          }
+        },
+        "housing": {
+          "housingStatus": "RENTER",
+          "idfRentAssistance": true
+        }
+      },
+      {
+        "service": {
+          "isActive": true
+        },
+        "housing": {
+          "housingStatus": "OWNER",
+          "idfRentAssistance": true
+        }
+      },
+      {
+        "service": {
+          "isActive": true
+        },
+        "housing": {
+          "housingStatus": "RENTER",
+          "idfRentAssistance": true
+        }
+      }
+    ],
+    "implementationProcess": "פנייה לרשות המקומית",
+    "additionalInfo": "במקרים מסוימים תיתכן הנחה רטרואקטיבית עד 90 מ״ר בדירות עם 5 נפשות ומעלה."
+  },
+  {
+    "category": "דיור",
+    "name": "הבית של בנג׳י",
+    "description": "הוסטל עם מגורים וליווי אישי לחיילים בודדים משוחררים.",
+    "source": "כל זכות",
+    "provider": "הבית של בנג׳י",
+    "contact": "",
+    "eligibility": "מי שהוכר כחייל בודד",
+    "conditions": [
+      {
+        "discharge": {
+          "monthsSinceDischarge": {
+            "gte": 0
+          }
+        },
+        "service": {
+          "soldierType": "LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "פנייה ישירה לגוף עצמו לצורך קבלת סיוע",
+    "additionalInfo": "כולל ליווי אישי, תעסוקתי וחברתי."
+  },
+  {
+    "category": "הטבות כלכליות",
+    "name": "מענק חודשי לחיילים בודדים",
+    "description": "מענק קבוע בגובה 100% משכר יסוד של טוראי בנוסף לשכר החובה.",
+    "source": "כל זכות",
+    "provider": "צה\"ל",
+    "contact": "",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "הזכאות ניתנת אוטומטית למי שמוכר כחייל בודד.",
+    "additionalInfo": ""
+  },
+  {
+    "category": "הטבות כלכליות",
+    "name": "מענק מטעם משרד העלייה והקליטה לחייל בודד או מתנדב בודד בשירות לאומי-אזרחי",
+    "description": "מענק ייחודי לעולים חדשים, כולל יוצאי אתיופיה או מתנדבי שירות לאומי.",
+    "source": "",
+    "provider": "משרד העלייה והקליטה",
+    "contact": "",
+    "eligibility": "חייל בודד מובהק",
+    "conditions": [
+      {
+        "aliyah": {
+          "monthsSinceAliyah": {
+            "lte": 60
+          }
+        },
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "DISTINGUISHED_LONE_SOLDIER"
+        }
+      },
+      {
+        "aliyah": {
+          "originCountry": "Ethiopia",
+          "monthsSinceAliyah": {
+            "lte": 120
+          }
+        },
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "DISTINGUISHED_LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "יש להגיש מסמכים לאחת מלשכות השירות או להגיש בקשה חריגה.",
+    "additionalInfo": ""
+  },
+  {
+    "category": "הטבות כלכליות",
+    "name": "מענק כספי חד פעמי לעולים ותושבים חוזרים (נזקקים)",
+    "description": "הזכות מוקפאת כרגע בשל חוסר תקציב.",
+    "source": "",
+    "provider": "משרד העלייה והקליטה",
+    "contact": "",
+    "eligibility": "עולה נזקק",
+    "conditions": [],
+    "implementationProcess": "",
+    "additionalInfo": ""
+  },
+  {
+    "category": "הטבות כלכליות",
+    "name": "מענקי מזון לחיילים בודדים",
+    "description": "150 ₪ לרכישת מזון לחיילים בודדים ברמ\"פ א׳ ומעלה. חל איסור לרכוש טבק ואלכוהול.",
+    "source": "",
+    "provider": "צה\"ל",
+    "contact": "",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "LONE_SOLDIER",
+          "activityLevel": "ALEF"
+        }
+      },
+      {
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "LONE_SOLDIER",
+          "activityLevel": "BET"
+        }
+      }
+    ],
+    "implementationProcess": "מוגדר לפי רמת הפעילות ביחידה – אוטומטי או לפי אישור חריג.",
+    "additionalInfo": "ההטבה נצברת עד חודשיים בלבד."
+  },
+  {
+    "category": "הטבות כלכליות",
+    "name": "דמי כלכלה לחיילים בודדים",
+    "description": "חייל בודד זכאי לדמי כלכלה במהלך חופשת מחלה או חופשה מטעמים כלכליים.",
+    "source": "",
+    "provider": "צה\"ל",
+    "contact": "",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "פנייה לרכזת תנאי השירות ביחידה.",
+    "additionalInfo": "ניתן דמי כלכלה מוגדלים או מלאים לפי צורך. מותאם גם למי שאין מטבח בבסיס."
+  },
+  {
+    "category": "הטבות כלכליות",
+    "name": "תווי חג לחיילים בודדים",
+    "description": "תווי קנייה בסך כ־250 ₪ לחג (ראש השנה ופסח), ניתנים פעם בחצי שנה.",
+    "source": "",
+    "provider": "צה\"ל",
+    "contact": "",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "service": {
+          "soldierType": "LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "נמסרים ע\"י סגלי הת\"ש ביחידה בסמוך לחג.",
+    "additionalInfo": "ניתנים למימוש בכ־50 רשתות שיווק."
+  },
+  {
+    "category": "הטבות כלכליות",
+    "name": "מימון שיחות טלפון לחו\"ל",
+    "description": "60 דקות חיוג בינלאומי לחיילים שעלו לארץ והוריהם מתגוררים בחו\"ל.",
+    "source": "",
+    "provider": "צה\"ל והאגודה למען החייל",
+    "contact": "",
+    "eligibility": "חייל בודד מובהק",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "DISTINGUISHED_LONE_SOLDIER"
+        },
+        "aliyah": {
+          "monthsSinceAliyah": {
+            "gte": 0
+          }
+        },
+        "general": {
+          "age": {
+            "gte": 16
+          }
+        }
+      }
+    ],
+    "implementationProcess": "פנייה לרכזת תנאי השירות לקבלת כרטיס חיוג.",
+    "additionalInfo": "ההטבה ניתנת אחת לחודש – לא ניתן לצבור דקות."
+  },
+  {
+    "category": "הטבות כלכליות",
+    "name": "מימון טיסה לחו\"ל לביקור הורים",
+    "description": "מימון מלא לטיסה אחת להורים בחו\"ל במהלך השירות.",
+    "source": "",
+    "provider": "FIDF + האגודה למען החייל",
+    "contact": "",
+    "eligibility": "חייל בודד מובהק",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "DISTINGUISHED_LONE_SOLDIER",
+          "isCombat": true,
+          "monthsInService": {
+            "gte": 8
+          }
+        }
+      },
+      {
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "DISTINGUISHED_LONE_SOLDIER",
+          "monthsInService": {
+            "gte": 6
+          }
+        }
+      }
+    ],
+    "implementationProcess": "פנייה לרכזת ת\"ש. נדרש אישור חופשה ואישור יציאה מהיחידה.",
+    "additionalInfo": "המימון כולל כרטיס, מסי נמל וביטוח. החייל מממן דרכון."
+  },
+  {
+    "category": "הטבות כלכליות",
+    "name": "קבלת אישור עבודה פרטית",
+    "description": "חיילים בודדים יכולים לקבל היתר לעבודה פרטית עקב מצוקה כלכלית.",
+    "source": "",
+    "provider": "צה\"ל",
+    "contact": "",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "LONE_SOLDIER"
+        },
+        "financialStatus": "LOW"
+      }
+    ],
+    "implementationProcess": "פנייה לסגל ת\"ש ומילוי טופס מעסיק ואישורים כלכליים.",
+    "additionalInfo": "העבודה מותרת רק באישור כתוב, מחוץ לבסיס וללא מדים."
+  },
+  {
+    "category": "חופשות",
+    "name": "חופשה מיוחדת לחיילים בודדים",
+    "description": "חופשה לטיפול בבעיה אישית חריגה, כמו קושי כלכלי.",
+    "source": "רגיל",
+    "provider": "צה\"ל",
+    "contact": "",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "פנייה לרכזת תנאי שירות ביחידה (משקית ת\"ש)",
+    "additionalInfo": "תיתכן זכאות לדמי כלכלה. עד 60 ימי חופשה בשנה."
+  },
+  {
+    "category": "חופשות",
+    "name": "יום חופשה לסידורים אישיים",
+    "description": "יום חופשה פעם בחודשיים עבור סידורים אישיים.",
+    "source": "",
+    "provider": "צה\"ל",
+    "contact": "",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "פנייה לרכזת תנאי שירות או מפקד ישיר.",
+    "additionalInfo": "ניתן לבקש יום נוסף במקרה מוצדק."
+  },
+  {
+    "category": "חופשות",
+    "name": "חופשה לרגל ביקור הורים בארץ",
+    "description": "חופשה מיוחדת כאשר לפחות אחד מההורים מגיע לביקור.",
+    "source": "",
+    "provider": "צה\"ל",
+    "contact": "",
+    "eligibility": "חייל בודד מובהק",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "DISTINGUISHED_LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "פנייה לרכזת תנאי שירות ביחידה.",
+    "additionalInfo": "4 ימי חופשה לכל חצי שנה (8 בשנה קלנדרית)."
+  },
+  {
+    "category": "חופשות",
+    "name": "חופשה בחו\"ל לרגל ביקור הורים",
+    "description": "30 ימי חופשה חד פעמיים לביקור אצל הורים בחו\"ל.",
+    "source": "",
+    "provider": "צה\"ל",
+    "contact": "",
+    "eligibility": "חייל בודד מובהק",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "DISTINGUISHED_LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "פנייה לרכזת תנאי השירות ואישור מיחידה.",
+    "additionalInfo": "ניתן לשלב עם חופשת רגילה. מימון טיסה אפשרי."
+  },
+  {
+    "category": "חופשות",
+    "name": "הנחה בדרכון ובאגרות",
+    "description": "50% הנחה בהוצאת דרכונים ותעודות למסמכים רשמיים.",
+    "source": "",
+    "provider": "רשות האוכלוסין וההגירה",
+    "contact": "",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "מימוש אוטומטי מול משרד הפנים – אין צורך בתעודת חוגר.",
+    "additionalInfo": "אין הנחה על מסמכים אבודים או שהושחתו."
+  },
+  {
+    "category": "חופשות",
+    "name": "יציאה מוקדמת לחיילים בודדים",
+    "description": "אפשרות לצאת מוקדם מהיחידה בערב שבת או חג כדי להספיק להגיע הביתה.",
+    "source": "",
+    "provider": "צה\"ל",
+    "contact": "",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "פנייה לרכזת תנאי השירות.",
+    "additionalInfo": "מותאם למי שגר מעל 50 ק\"מ מהבסיס."
+  },
+  {
+    "category": "חופשות",
+    "name": "לינה בבית החייל בחופשה",
+    "description": "חיילים בודדים זכאים ללינה בבית החייל גם במהלך חופשות.",
+    "source": "",
+    "provider": "האגודה למען החייל",
+    "contact": "",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "הגשת בקשה דרך האזור האישי באתר, פנייה למחוז, קבלת אישור. עד 3 חודשים לאחר השחרור.",
+    "additionalInfo": "תיתכן בקשה לחודש נוסף (שני/שלישי)."
+  },
+  {
+    "category": "הטבות נוספות",
+    "name": "סיוע מטעם עמותת למרחב",
+    "description": "ליווי אישי לצעירים חסרי עורף משפחתי בגיל 17–25, לפני, במהלך ואחרי השירות.",
+    "source": "",
+    "provider": "עמותת למרחב ומכון תמיר",
+    "contact": "",
+    "eligibility": "חייל בודד חסר עורף משפחתי",
+    "conditions": [
+      {
+        "general": {
+          "age": {
+            "gte": 17,
+            "lte": 25
+          }
+        },
+        "service": {
+          "soldierType": "DISTINGUISHED_LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "פנייה ישירה לעמותת למרחב – טלפונית או במייל.",
+    "additionalInfo": "הסיוע ניתן ב־3 מוקדים בארץ – הוד השרון, באר שבע, עפולה."
+  },
+  {
+    "category": "הטבות נוספות",
+    "name": "קבוצת תמיכה לצעירים חרדים",
+    "description": "מפגשי תמיכה רגשתית בגישת CBT לצעירים חרדים בנתק משפחתי.",
+    "source": "",
+    "provider": "מכון טמיר",
+    "contact": "",
+    "eligibility": "חייל בודד חסר עורף משפחתי",
+    "conditions": [
+      {
+        "service": {
+          "soldierType": "DISTINGUISHED_LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "השתתפות מותנית בהמלצה מקצועית ומילוי קריטריונים.",
+    "additionalInfo": "12 מפגשים דו-שבועיים. נפתחות קבוצות לפי ביקוש."
+  },
+  {
+    "category": "הטבות נוספות",
+    "name": "סבסוד מכשירי שמיעה",
+    "description": "עד 1,500 ₪ השתתפות עצמית להתאמת מכשיר שמיעה בירושלים.",
+    "source": "",
+    "provider": "עמותת משכן הראייה אופטיקל סנטר",
+    "contact": "",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "service": {
+          "soldierType": "LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "תיאום תור + הצגת אישורים רפואיים וביטחוניים.",
+    "additionalInfo": "מותנה בהצגת הפנייה ובדיקת שמיעה."
+  },
+  {
+    "category": "הטבות נוספות",
+    "name": "משקפי ראייה בתשלום סמלי",
+    "description": "משקפיים בתשלום מסובסד בירושלים והסביבה.",
+    "source": "",
+    "provider": "עמותת משכן הראייה אופטיקל סנטר",
+    "contact": "",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "service": {
+          "serviceType": "MANDATORY",
+          "soldierType": "LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "פנייה דרך אתר או טלפון. הגעה עם מרשם.",
+    "additionalInfo": "השתתפות מותנית בזמינות ובתיאום מראש."
+  },
+  {
+    "category": "הטבות נוספות",
+    "name": "משקפיים מוזלים של רי-ספקס",
+    "description": "מסגרות משומשות או עודפים במחיר סמלי, כולל מותגים.",
+    "source": "",
+    "provider": "עמותת רי-ספקס",
+    "contact": "",
+    "eligibility": "כל מי שהוגדר חייל בודד",
+    "conditions": [
+      {
+        "service": {
+          "soldierType": "LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "הגעה עם אישור חייל בודד לסניפים ברחבי הארץ.",
+    "additionalInfo": "מגוון מסגרות ובדיקת עיניים מוזלת."
+  },
+  {
+    "category": "סיוע לאחר השחרור",
+    "name": "מרכז הכוונה מהבית של בנג’י",
+    "description": "מרכז ליווי וסיוע לחיילים בודדים משוחררים ביציאה לחיים האזרחיים.",
+    "source": "",
+    "provider": "הבית של בנג’י",
+    "contact": "",
+    "eligibility": "חיילים בודדים לקראת שחרור",
+    "conditions": [
+      {
+        "discharge": {
+          "monthsSinceDischarge": {
+            "gte": 0
+          }
+        },
+        "service": {
+          "soldierType": "LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "פנייה ישירה לבית של בנג’י לקבלת שירות.",
+    "additionalInfo": "כולל סיוע במגורים, תעסוקה, ליווי כלכלי."
+  },
+  {
+    "category": "סיוע לאחר השחרור",
+    "name": "לינה בבית החייל לאחר שחרור",
+    "description": "אפשרות למגורים בבית החייל עד 3 חודשים מהשחרור.",
+    "source": "כל זכות",
+    "provider": "האגודה למען החייל",
+    "contact": "",
+    "eligibility": "מי שהוכר כחייל בודד",
+    "conditions": [
+      {
+        "discharge": {
+          "monthsSinceDischarge": {
+            "lte": 3
+          }
+        },
+        "service": {
+          "soldierType": "LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "פנייה דרך אתר האזור האישי ומילוי טופס למחוז הרלוונטי.",
+    "additionalInfo": "הלינה מתקזזת מתקופת סיוע בשכר דירה."
+  },
+  {
+    "category": "סיוע לאחר השחרור",
+    "name": "זכויות כלליות לאחר השחרור",
+    "description": "הכוונה תעסוקתית, אקדמאית, מענקים, ייעוץ פיננסי.",
+    "source": "",
+    "provider": "האגף והקרן לחיילים משוחררים",
+    "contact": "",
+    "eligibility": "חיילים בודדים לאחר שחרור",
+    "conditions": [
+      {
+        "discharge": {
+          "monthsSinceDischarge": {
+            "gte": 0
+          }
+        },
+        "service": {
+          "soldierType": "LONE_SOLDIER"
+        }
+      }
+    ],
+    "implementationProcess": "פנייה דרך אתר הקרן או ישירות לגוף.",
+    "additionalInfo": "לא תקף לבני שליחים."
+  }
+]

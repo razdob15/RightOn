@@ -1,5 +1,5 @@
 {
-  "autorun": true,
+  "autorun": false,
   "autokill": true,
   "terminals": [
     {
@@ -10,7 +10,7 @@
     {
       "name": "backend",
       "icon": "run",
-      "commands": ["cd backend", "npm run start"]
+      "commands": ["cd backend", "npm run dev"]
     }
   ]
 }
