@@ -10,7 +10,7 @@
     {
       "name": "backend",
       "icon": "run",
-      "commands": ["npx nx serve backend"]
+      "commands": ["npx nx serve nest-backend"]
     }
   ]
 }
