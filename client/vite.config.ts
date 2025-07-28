@@ -4,17 +4,24 @@ import { resolve } from 'path';
 
 // https://vite.dev/config/
 export default defineConfig({
+  root: __dirname,
+  base: '/',
   plugins: [react()],
   define: {
     global: 'globalThis',
   },
   resolve: {
     alias: {
-      crypto: 'crypto-browserify',
       '@righton/shared': resolve(__dirname, '../libs/shared/src/index.ts'),
     },
   },
-  optimizeDeps: {
-    include: ['crypto-browserify'],
+  build: {
+    outDir: '../dist/client',
+    emptyOutDir: true,
+  },
+  server: {
+    fs: {
+      allow: ['..'],
+    },
   },
 });

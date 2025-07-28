@@ -16,6 +16,7 @@
   "dependencies": {
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.1",
     "@mui/stylis-plugin-rtl": "^7.1.0",
@@ -37,11 +38,10 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-redux": "^9.2.0",
-    "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "stylis": "^4.3.6",
     "typeorm": "^0.3.17",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",

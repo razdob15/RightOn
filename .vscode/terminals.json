@@ -5,12 +5,12 @@
     {
       "name": "client",
       "icon": "code",
-      "commands": ["cd client", "npm run dev"]
+      "commands": ["npx nx serve client"]
     },
     {
       "name": "backend",
       "icon": "run",
-      "commands": ["cd backend", "npm run dev"]
+      "commands": ["npx nx serve backend"]
     }
   ]
 }

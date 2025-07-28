@@ -1,13 +1,15 @@
 import React from 'react';
 import { DateQuestion } from './DateQuestion';
 import { RadioQuestion } from './RadioQuestion';
-import { Question } from '../../types/questions';
+import type { Question } from '../../types/questions';
 
 type QuestionCompProperties = {
   question: Question;
 };
 
-export const QuestionComp: React.FC<QuestionCompProperties> = ({ question }: QuestionCompProperties) => {
+export const QuestionComp: React.FC<QuestionCompProperties> = ({
+  question,
+}: QuestionCompProperties) => {
   switch (question.type) {
     case 'date': {
       return (

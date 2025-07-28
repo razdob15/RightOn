@@ -1,4 +1,5 @@
-import { SoldierType, HousingStatus, UserStatus, ServiceType, RightSubject } from './user-status';
+import { SoldierType, HousingStatus, ServiceType, RightSubject } from './user-status';
+import type { UserStatus } from './user-status';
 import { differenceInMonths } from 'date-fns';
 
 const hasHouse = (userStatus: UserStatus) =>
@@ -14,7 +15,6 @@ export interface Right {
   contactPerson?: string;
   isEligible: (userStatus: UserStatus) => boolean;
 }
-
 
 export const rightsData: Right[] = [
   {
@@ -129,18 +129,19 @@ export const rightsData: Right[] = [
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
     subject: RightSubject.HOUSING,
     isEligible: (userStatus: UserStatus) => {
-      if (hasHouse(userStatus) && (
-          userStatus.service.serviceType === ServiceType.MANDATORY ||
+      if (
+        hasHouse(userStatus) &&
+        (userStatus.service.serviceType === ServiceType.MANDATORY ||
           (userStatus.service.dutyEndDate &&
-            differenceInMonths(userStatus.service.dutyEndDate, new Date()) <= 4)
-        )) return true;
+            differenceInMonths(userStatus.service.dutyEndDate, new Date()) <= 4))
+      )
+        return true;
 
       if (userStatus.housing.idfRentAssistance) return true;
       return false;
     },
   },
 ];
-
 
 export const rightsDataEnglish: Right[] = [
   {
@@ -255,11 +256,13 @@ export const rightsDataEnglish: Right[] = [
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
     subject: RightSubject.HOUSING,
     isEligible: (userStatus: UserStatus) => {
-      if (hasHouse(userStatus) && (
-          userStatus.service.serviceType === ServiceType.MANDATORY ||
+      if (
+        hasHouse(userStatus) &&
+        (userStatus.service.serviceType === ServiceType.MANDATORY ||
           (userStatus.service.dutyEndDate &&
-            differenceInMonths(userStatus.service.dutyEndDate, new Date()) <= 4)
-        )) return true;
+            differenceInMonths(userStatus.service.dutyEndDate, new Date()) <= 4))
+      )
+        return true;
 
       if (userStatus.housing.idfRentAssistance) return true;
       return false;

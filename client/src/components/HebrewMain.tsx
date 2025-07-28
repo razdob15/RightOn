@@ -21,7 +21,7 @@ export const HebrewMain: React.FC = () => {
         onSubmit: () => void,
         onValidityChange: (valid: boolean) => void,
         answers: any,
-        setAnswers: React.Dispatch<React.SetStateAction<any>>
+        _setAnswers: React.Dispatch<React.SetStateAction<any>>
       ) => (
         <GeneralQuestions
           onSubmit={onSubmit}
@@ -37,7 +37,7 @@ export const HebrewMain: React.FC = () => {
         onSubmit: () => void,
         onValidityChange: (valid: boolean) => void,
         answers: any,
-        setAnswers: React.Dispatch<React.SetStateAction<any>>
+        _setAnswers: React.Dispatch<React.SetStateAction<any>>
       ) => (
         <AliyahQuestions
           onSubmit={onSubmit}
@@ -53,7 +53,7 @@ export const HebrewMain: React.FC = () => {
         onSubmit: () => void,
         onValidityChange: (valid: boolean) => void,
         answers: any,
-        setAnswers: React.Dispatch<React.SetStateAction<any>>
+        _setAnswers: React.Dispatch<React.SetStateAction<any>>
       ) => (
         <ArmyQuestions
           onSubmit={onSubmit}

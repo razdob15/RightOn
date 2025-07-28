@@ -1,5 +1,5 @@
 import { Card, CardContent, Typography } from '@mui/material';
-import { Right } from '../../types/rights';
+import type { Right } from '../../types/rights';
 
 type Properties = {
   right: Right;
