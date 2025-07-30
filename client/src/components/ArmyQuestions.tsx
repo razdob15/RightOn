@@ -189,7 +189,7 @@ export const ArmyQuestions: React.FC<FormQuestionsProperties> = ({
 
       <FormControl component="fieldset" required>
         <FormLabel component="legend">האם אתה חייל בודד או חייל בודד מובהק?</FormLabel>
-        <RadioGroup row onChange={(e) => setSoldierType(e.target.value)}>
+        <RadioGroup row onChange={(e) => setSoldierType(e.target.value)} value={soldierType}>
           <FormControlLabel
             value={SoldierType.DISTINGUISHED_LONE_SOLDIER}
             control={<Radio />}
