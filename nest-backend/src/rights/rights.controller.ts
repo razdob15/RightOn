@@ -14,6 +14,7 @@ import {
 import { CreateRightDto } from './dto/create-right.dto';
 import { UpdateRightDto } from './dto/update-right.dto';
 import { RightsService } from './rights.service';
+import { User } from '@righton/shared';
 
 @Controller('rights')
 export class RightsController {
@@ -72,5 +73,10 @@ export class RightsController {
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.rightsService.remove(id);
+  }
+
+  @Post('customized')
+  getMatchedRights(@Body() user: User) {
+    return this.rightsService.getMatchedRights(user);
   }
 }

@@ -11,7 +11,6 @@ export type User = {
     birthDate?: Date;
     country?: string;
     city?: string;
-    soldierType?: SoldierType;
   };
   aliyah: {
     aliyahYear?: number;
@@ -26,6 +25,7 @@ export type User = {
     monthsServed?: number;
     activityLevel?: ActivityLevel;
     isCombat?: boolean;
+    soldierType?: SoldierType;
   };
   housing: {
     housingStatus?: HousingStatus;

@@ -1,15 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Stack,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  TextField,
-  Autocomplete,
-  Typography,
-} from '@mui/material';
+import { Stack, TextField, Autocomplete, Typography } from '@mui/material';
 import { MyDatePicker } from './dates/MyDatePicker';
 import dayjs from 'dayjs';
 import { useCountries } from '../hools/use-countries';
@@ -32,18 +22,16 @@ export const GeneralQuestions: React.FC<FormQuestionsProperties> = ({
   const [birthDate, setBirthDate] = useState(answers?.birthDate ? dayjs(answers.birthDate) : null);
   const [country, setCountry] = useState(answers?.country || '');
   const [city, setCity] = useState(answers?.city || '');
-  const [soldierType, setSoldierType] = useState(answers?.soldierType || '');
 
   useEffect(() => {
     setAnswers(LABEL_KEY, {
       birthDate: birthDate ? birthDate.toISOString() : null,
       country,
       city,
-      soldierType,
     });
-    const valid = !!birthDate && !!country && !!city && !!soldierType;
+    const valid = !!birthDate && !!country && !!city;
     onValidityChange(valid);
-  }, [birthDate, country, city, soldierType, setAnswers, onValidityChange]);
+  }, [birthDate, country, city, setAnswers, onValidityChange]);
 
   return (
     <Stack
@@ -95,15 +83,6 @@ export const GeneralQuestions: React.FC<FormQuestionsProperties> = ({
         )}
         noOptionsText="לא נמצאו ערים"
       />
-
-      <FormControl component="fieldset" required>
-        <FormLabel component="legend">האם אתה חייל בודד או חייל בודד מובהק?</FormLabel>
-        <RadioGroup row value={soldierType} onChange={(e) => setSoldierType(e.target.value)}>
-          <FormControlLabel value="recognized" control={<Radio />} label="חייל בודד מובהק" />
-          <FormControlLabel value="lone" control={<Radio />} label="חייל בודד" />
-          <FormControlLabel value="none" control={<Radio />} label="איני חייל בודד" />
-        </RadioGroup>
-      </FormControl>
     </Stack>
   );
 };

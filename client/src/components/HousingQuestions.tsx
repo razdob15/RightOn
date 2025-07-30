@@ -11,7 +11,11 @@ import {
   MenuItem,
   Checkbox,
 } from '@mui/material';
-import { FormQuestionLabels, type FormQuestionsProps as FormQuestionsProperties } from '../types/formQuestionsProps.type';
+import {
+  FormQuestionLabels,
+  type FormQuestionsProps as FormQuestionsProperties,
+} from '../types/formQuestionsProps.type';
+import { HousingStatus } from '@righton/shared';
 
 const LABEL_KEY = FormQuestionLabels.HOUSING;
 
@@ -37,7 +41,7 @@ export const HousingQuestions: React.FC<FormQuestionsProperties> = ({
       distanceToBase,
       currentHousing,
     });
-    const valid = housingStatus !== 'none' || (!!housingStatus && !!currentHousing);
+    const valid = housingStatus !== HousingStatus.NONE || (!!housingStatus && !!currentHousing);
     onValidityChange(valid);
   }, [
     housingStatus,
@@ -69,9 +73,9 @@ export const HousingQuestions: React.FC<FormQuestionsProperties> = ({
       <FormControl component="fieldset" required>
         <FormLabel component="legend">סטטוס מגורים</FormLabel>
         <RadioGroup row value={housingStatus} onChange={(e) => setHousingStatus(e.target.value)}>
-          <FormControlLabel value="owner" control={<Radio />} label="בעל דירה" />
-          <FormControlLabel value="renter" control={<Radio />} label="שוכר דירה" />
-          <FormControlLabel value="none" control={<Radio />} label="ללא דירה" />
+          <FormControlLabel value={HousingStatus.OWNS} control={<Radio />} label="בעל דירה" />
+          <FormControlLabel value={HousingStatus.RENTS} control={<Radio />} label="שוכר דירה" />
+          <FormControlLabel value={HousingStatus.NONE} control={<Radio />} label="ללא דירה" />
         </RadioGroup>
       </FormControl>
 
@@ -85,7 +89,7 @@ export const HousingQuestions: React.FC<FormQuestionsProperties> = ({
         label='האם אתה מקבל סיוע בדיור מצה"ל?'
       />
 
-      {housingStatus === 'none' && (
+      {housingStatus === HousingStatus.NONE && (
         <TextField
           required
           select
@@ -108,7 +112,9 @@ export const HousingQuestions: React.FC<FormQuestionsProperties> = ({
         label='מרחק ממקום המגורים לבסיס (בק"מ)'
         type="number"
         value={distanceToBase}
-        onChange={(e) => setDistanceToBase(e.target.value === '' ? 0 : Number.parseInt(e.target.value))}
+        onChange={(e) =>
+          setDistanceToBase(e.target.value === '' ? 0 : Number.parseInt(e.target.value))
+        }
         variant="outlined"
         fullWidth
         inputProps={{ min: 0 }}

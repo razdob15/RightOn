@@ -1,17 +1,14 @@
-/*import { UserStatus } from '@righton/shared';
+import { SoldierType, type User } from '@righton/shared';
 import { UserEntity } from '../users/entities/user.entity';
+import { differenceInMonths } from 'date-fns';
 export type {
   SoldierType,
   ServiceType,
   HousingStatus,
   RightSubject,
-  UserStatus,
 } from '@righton/shared';
 
-export const isUserMatchingCondition = (
-  user: UserEntity,
-  condition: UserStatus,
-) => {
+export const isUserMatchingCondition = (user: UserEntity, condition: User) => {
   if (!user || !condition) {
     return false;
   }
@@ -21,28 +18,50 @@ export const isUserMatchingCondition = (
   }
 };
 
-const isConditionMatch = (user: object, condition: object): boolean => {
+const customTransformers = {
+  monthsSinceDischarge: (army: User['army']) => {
+    if (!army?.releaseDate) return -1;
+    const releaseDate = new Date(army.releaseDate);
+    const currentDate = new Date();
+    const monthsDifference = differenceInMonths(currentDate, releaseDate);
+    return monthsDifference;
+  },
+};
+
+export const isConditionMatch = (user: object, condition: object): boolean => {
   return Object.keys(condition).every((key) => {
-    if (condition[key] === undefined || condition[key] === null) {
-      return true; // If the condition value is undefined or null, we consider it a match
+    const userValue = user[key] ?? customTransformers[key]?.(user);
+    if (userValue === undefined) {
+      console.log('UNKNOWN KEY', key);
+      return condition[key] === undefined;
     }
 
-    if (key === 'soldierType') {
-      // Currently all the users are lone soldiers
-      return true;
+    const customConditionByKey: Record<string, boolean | undefined> = {
+      monthsSinceDischarge: userValue === -1 ? false : undefined,
+      soldierType:
+        condition['soldierType'] === SoldierType.LONE_SOLDIER
+          ? [
+              SoldierType.LONE_SOLDIER,
+              SoldierType.DISTINGUISHED_LONE_SOLDIER,
+            ].includes(userValue)
+          : undefined,
+    };
+
+    if (customConditionByKey[key] !== undefined) {
+      return customConditionByKey[key];
     }
 
     if (typeof condition[key] === 'object') {
       if ('lte' in condition[key]) {
-        return user[key] !== undefined && user[key] <= condition[key]['lte'];
+        return userValue <= condition[key]['lte'];
       }
       if ('gte' in condition[key]) {
-        return user[key] !== undefined && user[key] >= condition[key]['gte'];
+        return userValue >= condition[key]['gte'];
       }
-      return isConditionMatch(user[key], condition[key]); // Recursively check nested objects
+
+      return isConditionMatch(userValue, condition[key]); // Recursively check nested objects
     } else {
-      return user[key] === condition[key]; // Direct comparison for primitive values
+      return userValue === condition[key]; // Direct comparison for primitive values
     }
   });
 };
-*/

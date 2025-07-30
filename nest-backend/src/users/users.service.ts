@@ -22,7 +22,7 @@ export class UsersService {
       lastName: user.personal.lastName,
       phone: user.personal.phone,
       birthDate: user.general.birthDate,
-      soldierType: user.general.soldierType,
+      soldierType: user.army.soldierType,
       aliyahCountry: user.aliyah.aliyahCountry,
       livingCity: user.general.city,
       aliyahYear: user.aliyah.aliyahYear,

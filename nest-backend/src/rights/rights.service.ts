@@ -8,6 +8,8 @@ import * as fs from 'fs';
 import { Right } from './entities/right.entity';
 import { CreateRightDto } from './dto/create-right.dto';
 import { UpdateRightDto } from './dto/update-right.dto';
+import { User } from '@righton/shared';
+import { isConditionMatch } from '../functions/conditions-validations';
 
 @Injectable()
 export class RightsService {
@@ -41,6 +43,7 @@ export class RightsService {
                 `Differences for right '${right.name}':`,
                 differences,
               );
+              this.rightsRepository.update(existingRight.id, right);
             } else {
               console.log(`No differences for right '${right.name}'.`);
             }
@@ -153,5 +156,22 @@ export class RightsService {
       return await this.findAll();
     }
     return await this.rightsRepository.searchByText(searchTerm.trim());
+  }
+
+  async getMatchedRights(user: User): Promise<Right[]> {
+    const rights = await this.findAll();
+    const matchedRights = rights.filter((right) => {
+      return (
+        !right.conditions ||
+        right.conditions.length === 0 ||
+        right.conditions.some((condition: object) =>
+          isConditionMatch(user, condition),
+        )
+      );
+    });
+
+    // This method should implement the logic to match rights based on user status
+    // For now, it returns all rights as a placeholder
+    return matchedRights;
   }
 }

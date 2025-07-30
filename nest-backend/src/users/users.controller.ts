@@ -22,6 +22,7 @@ export class UsersController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
+    console.log('Creating user:', createUserDto);
     return await this.usersService.create(createUserDto);
   }
 

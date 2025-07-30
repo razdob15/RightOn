@@ -12,7 +12,6 @@ const initialUserState: User = {
     birthDate: undefined,
     country: '',
     city: '',
-    soldierType: undefined,
   },
   aliyah: {
     aliyahYear: undefined,
@@ -21,6 +20,7 @@ const initialUserState: User = {
     parentsAbroad: '',
   },
   army: {
+    soldierType: undefined,
     enlistDate: undefined,
     releaseDate: undefined,
     serviceType: undefined,
@@ -44,7 +44,7 @@ export const userStatusSlice = createSlice({
       state.housing.housingStatus = action.payload;
     },
     setSoldierType: (state, action: PayloadAction<SoldierType>) => {
-      state.general.soldierType = action.payload;
+      state.army.soldierType = action.payload;
     },
     setServiceType: (state, action: PayloadAction<ServiceType>) => {
       state.army.serviceType = action.payload;

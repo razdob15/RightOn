@@ -1,10 +1,11 @@
-import { Card, Typography } from '@mui/material';
+import { Card, Stack, Typography } from '@mui/material';
 import React, { useState, useEffect, useCallback } from 'react';
 import { Tabs, Tab, Button, Box } from '@mui/material';
 import { GeneralQuestions } from './GeneralQuestions';
 import { AliyahQuestions } from './AliyahQuestions';
 import { ArmyQuestions } from './ArmyQuestions';
 import { HousingQuestions } from './HousingQuestions';
+import type { User } from '@righton/shared';
 // import { printHelloCommon } from '@common/functions/demo';
 
 export const HebrewMain: React.FC = () => {
@@ -98,6 +99,48 @@ export const HebrewMain: React.FC = () => {
     }
   };
 
+  const handlePageSkip = () => {
+    if (tabIndex < tabs.length - 1) {
+      // Skip to the next tab
+      setTabIndex(tabIndex + 1);
+      setTabMaxVisitedIndex(Math.max(tabMaxVisitedIndex, tabIndex + 1));
+    } else {
+      // Final submit logic here
+      console.log('שאלון הושלם!');
+    }
+  };
+
+  // Send answers to backend on finish
+  const sendAnswersToBackend = async () => {
+    const user: User = answers;
+    try {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL;
+      if (!backendUrl) {
+        console.error('VITE_BACKEND_URL is not defined');
+        return;
+      }
+      const response = await fetch(`${backendUrl}/rights/customized`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to submit user data');
+      }
+      const data = await response.json();
+      console.log('User data submitted:', data);
+    } catch (error) {
+      console.error('Error submitting user data:', error);
+    }
+  };
+
+  const handleFinish = () => {
+    console.log('שאלון הושלם!');
+    sendAnswersToBackend();
+  };
+
   const [isLocalStorageLoaded, setIsLocalStorageLoaded] = useState(false);
   // Load from localStorage on mount
   useEffect(() => {
@@ -146,9 +189,22 @@ export const HebrewMain: React.FC = () => {
               setAnswers
             )}
         </Box>
-        <Button variant="contained" onClick={handlePageSubmit} disabled={!isCurrentPageValid}>
-          {tabIndex === tabs.length - 1 ? 'סיום' : 'הבא'}
-        </Button>
+        <Stack direction="row" spacing={2} justifyContent="center">
+          {tabIndex === tabs.length - 1 ? (
+            <Button variant="contained" onClick={handleFinish} disabled={!isCurrentPageValid}>
+              סיום
+            </Button>
+          ) : (
+            <>
+              <Button variant="contained" onClick={handlePageSubmit} disabled={!isCurrentPageValid}>
+                הבא
+              </Button>
+              <Button variant="outlined" onClick={handlePageSkip}>
+                דלג
+              </Button>
+            </>
+          )}
+        </Stack>
       </Box>
     </Card>
   );
