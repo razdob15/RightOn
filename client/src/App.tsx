@@ -31,8 +31,16 @@ export const App = () => {
     <CacheProvider value={cacheRtl}>
       <ThemeProvider theme={theme}>
         <AppBar position="static">
-          <Toolbar sx={{ height: '60px' }}>
-            <img src="/logo.png" width="40px" style={{ marginInlineStart: '10px' }} />
+          <Toolbar
+            sx={{ height: '60px', cursor: 'pointer' }}
+            onClick={() => (window.location.pathname = '/')}
+          >
+            <img
+              src="/logo.png"
+              width="40px"
+              style={{ marginInlineStart: '10px' }}
+              alt="RightOn Logo"
+            />
           </Toolbar>
         </AppBar>
         <Container
