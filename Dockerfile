@@ -3,22 +3,27 @@ FROM node:22-slim
 
 WORKDIR /usr/src/app
 
-# Copy package files
+# Copy package files first for better caching
 COPY package*.json ./
+COPY nx.json ./
+COPY tsconfig.base.json ./
 
 # Install all dependencies (including dev dependencies needed for Nx)
 RUN npm ci
 
-# Copy source code
-COPY . ./
+# Copy shared library files
+COPY libs/shared ./libs/shared
+
+# Copy client files
+COPY client ./client
 
 # Build the shared library first
-RUN npx nx build shared
+RUN NX_DAEMON=false npx nx build shared
 
 # Build the client
-RUN npx nx build client
+RUN NX_DAEMON=false npx nx build client --verbose
 
 EXPOSE 3000
 
-# Serve the built client (you might want to use a web server like nginx for production)
+# Serve the built client
 CMD [ "npx", "serve", "-s", "dist/client", "-l", "3000" ]
