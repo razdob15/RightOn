@@ -27,5 +27,8 @@ RUN npm ci --only=production
 # Copy local code to the container image.
 COPY . ./
 
+# Expose port 3000
+EXPOSE 3000
+
 # Run the web service on container startup.
 ENTRYPOINT [ "npm", "run", "dev:client" ]

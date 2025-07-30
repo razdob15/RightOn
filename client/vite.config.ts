@@ -20,6 +20,7 @@ export default defineConfig({
     emptyOutDir: true,
   },
   server: {
+    port: parseInt(process.env.VITE_PORT || '3000'),
     fs: {
       allow: ['..'],
     },
