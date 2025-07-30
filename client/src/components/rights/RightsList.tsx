@@ -1,4 +1,4 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+/*import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionSummary, Box, Typography } from '@mui/material';
 import { type Right, rightsData } from '../../types/rights';
 import { RightSubject } from '../../types/user-status';
@@ -51,3 +51,4 @@ export const RightsList = () => {
     </Box>
   );
 };
+*/

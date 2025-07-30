@@ -1,22 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { Box, Paper, Container, Button, Tabs, Tab } from '@mui/material';
-import { rightsData, type Right } from '../types/rights';
-import { HousingStatus, ServiceType, SoldierType, type UserStatus } from '../types/user-status';
-import { TabName } from '../enums/app-tab.enum';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import {
-  updateHousingStatus,
-  updateSoldierType,
-  updateEnlistmentDate,
-  updateServiceType,
-  updateDutyEndDate,
-} from '../store/slices/userStatusSlice';
-import { QuestionComp } from './questions/QuestionComp';
-import type { Question } from '../types/questions';
-import type { AppTab } from '../types/tab.type';
-import { RightsList } from './rights/RightsList';
-import { differenceInMonths } from 'date-fns';
-
+/*
 export const MainQuestionnaire: React.FC = () => {
   const dispatch = useAppDispatch();
   const [currentTabId, setCurrentTabId] = useState<number>(0);
@@ -134,7 +116,7 @@ export const MainQuestionnaire: React.FC = () => {
     return [
       {
         label: TabName.GENERAL,
-        validation: (userStatus: UserStatus) => {
+        validation: (userStatus: User) => {
           return Boolean(
             userStatus.service.dutyEndDate &&
               userStatus.service.enlistmentDate &&
@@ -198,3 +180,4 @@ export const MainQuestionnaire: React.FC = () => {
     </Container>
   );
 };
+*/

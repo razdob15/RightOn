@@ -7,31 +7,19 @@ import {
   IsBoolean,
   IsEnum,
   ValidateNested,
-  IsObject,
+  IsNumber,
 } from 'class-validator';
-import { Type } from 'class-transformer';
-import { SoldierType, ServiceType, HousingStatus } from '@righton/shared';
+import { Type, Transform } from 'class-transformer';
+import {
+  SoldierType,
+  ServiceType,
+  HousingStatus,
+  ActivityLevel,
+  User,
+} from '@righton/shared';
 
-class ServiceDto {
-  @IsEnum(ServiceType)
-  serviceType: ServiceType;
-
-  @IsOptional()
-  enlistmentDate?: number;
-
-  @IsOptional()
-  dutyEndDate?: number;
-}
-
-class HousingDto {
-  @IsEnum(HousingStatus)
-  housingStatus: HousingStatus;
-
-  @IsBoolean()
-  idfRentAssistance: boolean;
-}
-
-export class CreateUserDto {
+// DTOs matching SharedUser structure
+class PersonalDto {
   @IsEmail()
   @IsNotEmpty()
   email: string;
@@ -47,30 +35,111 @@ export class CreateUserDto {
   @IsString()
   @IsOptional()
   phone?: string;
+}
 
+class GeneralDto {
   @IsDateString()
   @IsOptional()
   birthDate?: Date;
 
   @IsString()
   @IsOptional()
-  nationality?: string;
+  country?: string;
 
-  @IsBoolean()
+  @IsString()
   @IsOptional()
-  isActive?: boolean;
+  city?: string;
 
   @IsEnum(SoldierType)
   @IsOptional()
   soldierType?: SoldierType;
+}
+
+class AliyahDto {
+  @IsNumber()
+  @IsOptional()
+  aliyahYear?: number;
+
+  @IsString()
+  @IsOptional()
+  aliyahCountry?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  isOleh?: boolean;
+
+  @IsString()
+  @IsOptional()
+  parentsAbroad?: string;
+}
+
+class ArmyDto {
+  @IsDateString()
+  @IsOptional()
+  enlistDate?: Date;
+
+  @IsDateString()
+  @IsOptional()
+  releaseDate?: Date;
+
+  @IsEnum(ServiceType)
+  @IsOptional()
+  serviceType?: ServiceType;
+
+  @IsNumber()
+  @IsOptional()
+  monthsServed?: number;
+
+  @IsEnum(ActivityLevel)
+  @IsOptional()
+  activityLevel?: ActivityLevel;
+
+  @IsBoolean()
+  @IsOptional()
+  isCombat?: boolean;
+}
+
+class HousingDto {
+  @IsEnum(HousingStatus)
+  @IsOptional()
+  housingStatus?: HousingStatus;
+
+  @IsBoolean()
+  @IsOptional()
+  receivesArmyAssistance?: boolean;
+
+  @IsNumber()
+  @IsOptional()
+  distanceToBase?: number;
+
+  @IsString()
+  @IsOptional()
+  currentHousing?: string;
+}
+
+export class CreateUserDto implements User {
+  @ValidateNested()
+  @Type(() => PersonalDto)
+  @IsNotEmpty()
+  personal: PersonalDto;
 
   @ValidateNested()
-  @Type(() => ServiceDto)
+  @Type(() => GeneralDto)
   @IsOptional()
-  service?: ServiceDto;
+  general: GeneralDto;
+
+  @ValidateNested()
+  @Type(() => AliyahDto)
+  @IsOptional()
+  aliyah: AliyahDto;
+
+  @ValidateNested()
+  @Type(() => ArmyDto)
+  @IsOptional()
+  army: ArmyDto;
 
   @ValidateNested()
   @Type(() => HousingDto)
   @IsOptional()
-  housing?: HousingDto;
+  housing: HousingDto;
 }

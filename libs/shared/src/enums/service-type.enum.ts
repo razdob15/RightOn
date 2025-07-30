@@ -1,0 +1,6 @@
+export enum ServiceType {
+  MANDATORY = 'MANDATORY',
+  PERMANENT = 'PERMANENT',
+  VOLUNTEER = 'VOLUNTEER',
+  DISCHARGED = 'DISCHARGED',
+}

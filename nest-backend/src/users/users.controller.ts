@@ -11,9 +11,9 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
+import { UserEntity } from './entities/user.entity';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -21,12 +21,12 @@ export class UsersController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
+  async create(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
     return await this.usersService.create(createUserDto);
   }
 
   @Get()
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<UserEntity[]> {
     return await this.usersService.findAll();
   }
 
@@ -37,12 +37,12 @@ export class UsersController {
   }
 
   @Get(':id')
-  async findById(@Param('id', ParseIntPipe) id: number): Promise<User> {
+  async findById(@Param('id', ParseIntPipe) id: number): Promise<UserEntity> {
     return await this.usersService.findById(id);
   }
 
   @Get('email/:email')
-  async findByEmail(@Param('email') email: string): Promise<User> {
+  async findByEmail(@Param('email') email: string): Promise<UserEntity> {
     return await this.usersService.findByEmail(email);
   }
 
@@ -50,7 +50,7 @@ export class UsersController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto,
-  ): Promise<User> {
+  ): Promise<UserEntity> {
     return await this.usersService.update(id, updateUserDto);
   }
 

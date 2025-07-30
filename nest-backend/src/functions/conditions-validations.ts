@@ -1,5 +1,5 @@
-import { UserStatus } from '@righton/shared';
-import { User } from '../users/entities/user.entity';
+/*import { UserStatus } from '@righton/shared';
+import { UserEntity } from '../users/entities/user.entity';
 export type {
   SoldierType,
   ServiceType,
@@ -8,7 +8,10 @@ export type {
   UserStatus,
 } from '@righton/shared';
 
-export const isUserMatchingCondition = (user: User, condition: UserStatus) => {
+export const isUserMatchingCondition = (
+  user: UserEntity,
+  condition: UserStatus,
+) => {
   if (!user || !condition) {
     return false;
   }
@@ -42,3 +45,4 @@ const isConditionMatch = (user: object, condition: object): boolean => {
     }
   });
 };
+*/

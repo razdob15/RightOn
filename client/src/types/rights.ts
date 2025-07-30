@@ -1,9 +1,10 @@
-import { SoldierType, HousingStatus, ServiceType, RightSubject } from './user-status';
-import type { UserStatus } from './user-status';
+/*import { SoldierType, HousingStatus, ServiceType, RightSubject } from './user-status';
 import { differenceInMonths } from 'date-fns';
+import type { User } from '@righton/shared';
 
-const hasHouse = (userStatus: UserStatus) =>
-  [HousingStatus.OWNS, HousingStatus.RENTS].includes(userStatus.housing.housingStatus);
+const hasHouse = (user: User): boolean =>
+  user.housing?.housingStatus !== undefined &&
+  [(HousingStatus.OWNS, HousingStatus.RENTS)].includes(user.housing.housingStatus);
 
 export interface Right {
   rightName: string;
@@ -13,7 +14,7 @@ export interface Right {
   eligibleSoldierType: SoldierType[];
   subject: RightSubject;
   contactPerson?: string;
-  isEligible: (userStatus: UserStatus) => boolean;
+  isEligible: (userStatus: User) => boolean;
 }
 
 export const rightsData: Right[] = [
@@ -26,9 +27,9 @@ export const rightsData: Right[] = [
     subject: RightSubject.HOUSING,
     contactPerson: 'Mashakit Tash (Welfare Officer)',
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
-    isEligible: (userStatus: UserStatus) => {
-      if (userStatus.housing.housingStatus) {
-        return hasHouse(userStatus) && userStatus.service.serviceType === ServiceType.MANDATORY;
+    isEligible: (user: User) => {
+      if (user.housing?.housingStatus) {
+        return hasHouse(user) && user.army?.serviceType === ServiceType.MANDATORY;
       }
       return false;
     },
@@ -43,8 +44,7 @@ export const rightsData: Right[] = [
     contactPerson:
       'For soldiers in active service only: please contact the Ministry of Aliyah and Integration by email at shaulg@moia.gov.il.',
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER],
-    isEligible: (userStatus: UserStatus) =>
-      userStatus.service.serviceType === ServiceType.MANDATORY,
+    isEligible: (userStatus: User) => userStatus.service.serviceType === ServiceType.MANDATORY,
   },
   {
     rightName: "Permanent Accommodation at Beit HaHayal (Soldier's House) for Lone Soldiers",
@@ -55,7 +55,7 @@ export const rightsData: Right[] = [
     subject: RightSubject.HOUSING,
     contactPerson: 'Mashakit Tash (Welfare Officer)',
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
-    isEligible: (userStatus: UserStatus) => {
+    isEligible: (userStatus: User) => {
       if (userStatus.housing.housingStatus === HousingStatus.NO_HOUSE) {
         if (userStatus.service.serviceType === ServiceType.MANDATORY) return true;
         if (
@@ -75,8 +75,7 @@ export const rightsData: Right[] = [
     grantingOrganization: 'IDF and the Association for the Well-being of Soldiers',
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
     subject: RightSubject.OTHER,
-    isEligible: (userStatus: UserStatus) =>
-      userStatus.service.serviceType === ServiceType.MANDATORY,
+    isEligible: (userStatus: User) => userStatus.service.serviceType === ServiceType.MANDATORY,
   },
   {
     rightName: 'Accommodation in Kibbutzim for Lone Soldiers',
@@ -86,7 +85,7 @@ export const rightsData: Right[] = [
     grantingOrganization: 'IDF',
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
     subject: RightSubject.HOUSING,
-    isEligible: (userStatus: UserStatus) =>
+    isEligible: (userStatus: User) =>
       userStatus.housing.housingStatus === HousingStatus.NO_HOUSE &&
       userStatus.service.serviceType === ServiceType.MANDATORY,
   },
@@ -98,8 +97,7 @@ export const rightsData: Right[] = [
     grantingOrganization: 'IDF and the Association for the Well-being of Soldiers',
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
     subject: RightSubject.HOUSING,
-    isEligible: (userStatus: UserStatus) =>
-      userStatus.service.serviceType === ServiceType.MANDATORY,
+    isEligible: (userStatus: User) => userStatus.service.serviceType === ServiceType.MANDATORY,
   },
   {
     rightName: 'Discount on Electricity Bill',
@@ -109,7 +107,7 @@ export const rightsData: Right[] = [
     grantingOrganization: 'Israel Electric Corporation',
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
     subject: RightSubject.HOUSING,
-    isEligible: (userStatus: UserStatus) => {
+    isEligible: (userStatus: User) => {
       if (userStatus.housing.housingStatus) {
         return (
           hasHouse(userStatus) &&
@@ -128,7 +126,7 @@ export const rightsData: Right[] = [
     grantingOrganization: 'Local Authority',
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
     subject: RightSubject.HOUSING,
-    isEligible: (userStatus: UserStatus) => {
+    isEligible: (userStatus: User) => {
       if (
         hasHouse(userStatus) &&
         (userStatus.service.serviceType === ServiceType.MANDATORY ||
@@ -153,7 +151,7 @@ export const rightsDataEnglish: Right[] = [
     subject: RightSubject.HOUSING,
     contactPerson: 'Mashakit Tash (Welfare Officer)',
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
-    isEligible: (userStatus: UserStatus) => {
+    isEligible: (userStatus: User) => {
       if (userStatus.housing.housingStatus) {
         return hasHouse(userStatus) && userStatus.service.serviceType === ServiceType.MANDATORY;
       }
@@ -170,8 +168,7 @@ export const rightsDataEnglish: Right[] = [
     contactPerson:
       'For soldiers in active service only: please contact the Ministry of Aliyah and Integration by email at shaulg@moia.gov.il.',
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER],
-    isEligible: (userStatus: UserStatus) =>
-      userStatus.service.serviceType === ServiceType.MANDATORY,
+    isEligible: (userStatus: User) => userStatus.service.serviceType === ServiceType.MANDATORY,
   },
   {
     rightName: "Permanent Accommodation at Beit HaHayal (Soldier's House) for Lone Soldiers",
@@ -182,7 +179,7 @@ export const rightsDataEnglish: Right[] = [
     subject: RightSubject.HOUSING,
     contactPerson: 'Mashakit Tash (Welfare Officer)',
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
-    isEligible: (userStatus: UserStatus) => {
+    isEligible: (userStatus: User) => {
       if (userStatus.housing.housingStatus === HousingStatus.NO_HOUSE) {
         if (userStatus.service.serviceType === ServiceType.MANDATORY) return true;
         if (
@@ -202,8 +199,7 @@ export const rightsDataEnglish: Right[] = [
     grantingOrganization: 'IDF and the Association for the Well-being of Soldiers',
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
     subject: RightSubject.OTHER,
-    isEligible: (userStatus: UserStatus) =>
-      userStatus.service.serviceType === ServiceType.MANDATORY,
+    isEligible: (userStatus: User) => userStatus.service.serviceType === ServiceType.MANDATORY,
   },
   {
     rightName: 'Accommodation in Kibbutzim for Lone Soldiers',
@@ -213,7 +209,7 @@ export const rightsDataEnglish: Right[] = [
     grantingOrganization: 'IDF',
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
     subject: RightSubject.HOUSING,
-    isEligible: (userStatus: UserStatus) =>
+    isEligible: (userStatus: User) =>
       userStatus.housing.housingStatus === HousingStatus.NO_HOUSE &&
       userStatus.service.serviceType === ServiceType.MANDATORY,
   },
@@ -225,8 +221,7 @@ export const rightsDataEnglish: Right[] = [
     grantingOrganization: 'IDF and the Association for the Well-being of Soldiers',
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
     subject: RightSubject.HOUSING,
-    isEligible: (userStatus: UserStatus) =>
-      userStatus.service.serviceType === ServiceType.MANDATORY,
+    isEligible: (userStatus: User) => userStatus.service.serviceType === ServiceType.MANDATORY,
   },
   {
     rightName: 'Discount on Electricity Bill',
@@ -236,7 +231,7 @@ export const rightsDataEnglish: Right[] = [
     grantingOrganization: 'Israel Electric Corporation',
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
     subject: RightSubject.HOUSING,
-    isEligible: (userStatus: UserStatus) => {
+    isEligible: (userStatus: User) => {
       if (userStatus.housing.housingStatus) {
         return (
           hasHouse(userStatus) &&
@@ -255,7 +250,7 @@ export const rightsDataEnglish: Right[] = [
     grantingOrganization: 'Local Authority',
     eligibleSoldierType: [SoldierType.DISTINGUISHED_LONE_SOLDIER, SoldierType.LONE_SOLDIER],
     subject: RightSubject.HOUSING,
-    isEligible: (userStatus: UserStatus) => {
+    isEligible: (userStatus: User) => {
       if (
         hasHouse(userStatus) &&
         (userStatus.service.serviceType === ServiceType.MANDATORY ||
@@ -269,3 +264,4 @@ export const rightsDataEnglish: Right[] = [
     },
   },
 ];
+*/

@@ -1,11 +1,16 @@
-import { ActivityLevel } from './../../../../archive/old-backend/src/types/types';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { SoldierType, ServiceType, HousingStatus } from '@righton/shared';
+import {
+  SoldierType,
+  ServiceType,
+  HousingStatus,
+  ActivityLevel,
+} from '@righton/shared';
 import { Transform } from 'class-transformer';
 import { differenceInMonths } from 'date-fns';
+import { IsNumber } from 'class-validator';
 
 @Entity('users')
-export class User {
+export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -24,12 +29,6 @@ export class User {
   @Column({ type: 'date', nullable: true })
   birthDate: Date;
 
-  @Column({ nullable: true })
-  nationality: string;
-
-  @Column({ default: true })
-  isActive: boolean;
-
   @Column({
     type: 'enum',
     enum: SoldierType,
@@ -47,23 +46,63 @@ export class User {
   })
   updatedAt: Date;
 
-  birthCountry: string;
+  @Column({ nullable: true })
   livingCity: string;
-  aliyahYear: string;
+
+  @Column({ nullable: true })
+  @IsNumber()
+  aliyahYear: number;
+
+  @Column({ nullable: true })
   aliyahCountry: string;
+
+  @Column({ default: false })
   isOleh: boolean;
+
+  @Column({ nullable: true })
   parentsAbroad: string;
+
+  @Column({ type: 'date', nullable: true })
   enlistDate: Date;
+
+  @Column({ type: 'date', nullable: true })
   releaseDate: Date;
+
+  @Column({
+    type: 'enum',
+    enum: ServiceType,
+    nullable: true,
+  })
   serviceType: ServiceType;
+
+  @Column({
+    type: 'enum',
+    enum: ActivityLevel,
+    nullable: true,
+  })
   activityLevel: ActivityLevel;
+
+  @Column({ default: false })
   isCombat: boolean;
+
+  @Column({
+    type: 'enum',
+    enum: HousingStatus,
+    nullable: true,
+  })
   housingStatus: HousingStatus;
+
+  @Column({ default: false })
   receivesArmyAssistance: boolean;
+
+  @Column({ type: 'int', nullable: true })
   distanceToBase: number;
+
+  @Column({ nullable: true })
   currentHousing: string;
 
-  @Transform(({ obj }: { obj: User }) => {
+  // Computed properties (not stored in database)
+  @Transform(({ obj }: { obj: UserEntity }) => {
     if (!obj.enlistDate) return 0;
     const today = new Date();
     const enlistDate = new Date(obj.enlistDate);
@@ -74,7 +113,8 @@ export class User {
     return differenceInMonths(today, enlistDate);
   })
   monthsServed: number;
-  @Transform(({ obj }: { obj: User }) => {
+
+  @Transform(({ obj }: { obj: UserEntity }) => {
     return obj.birthDate
       ? new Date().getFullYear() - new Date(obj.birthDate).getFullYear()
       : 0;
