@@ -1,34 +1,24 @@
-# Copyright 2021 Google LLC
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#      http://www.apache.org/licenses/LICENSE-2.0
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 
-# Use the official lightweight Node.js image.
-# https://hub.docker.com/_/node
 FROM node:22-slim
 
-# Create and change to the app directory.
 WORKDIR /usr/src/app
 
-# Copy application dependency manifests to the container image.
-# A wildcard is used to ensure both package.json AND package-lock.json are copied.
-# Copying this separately prevents re-running npm install on every code change.
+# Copy package files
 COPY package*.json ./
 
-# Install dependencies.
-RUN npm ci --only=production
+# Install all dependencies (including dev dependencies needed for Nx)
+RUN npm ci
 
-# Copy local code to the container image.
+# Copy source code
 COPY . ./
 
-# Expose port 3000
+# Build the shared library first
+RUN npx nx build shared
+
+# Build the client
+RUN npx nx build client
+
 EXPOSE 3000
 
-# Run the web service on container startup.
-ENTRYPOINT [ "npm", "run", "dev:client" ]
+# Serve the built client (you might want to use a web server like nginx for production)
+CMD [ "npx", "serve", "-s", "dist/client", "-l", "3000" ]
