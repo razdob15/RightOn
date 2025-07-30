@@ -69,7 +69,6 @@ export const HousingQuestions: React.FC<FormQuestionsProperties> = ({
       <Typography variant="body1" gutterBottom>
         בחלק זה תתבקש למלא פרטים אודות מגוריך. אנא מלא את כל השדות הנדרשים בצורה מדויקת.
       </Typography>
-
       <FormControl component="fieldset" required>
         <FormLabel component="legend">סטטוס מגורים</FormLabel>
         <RadioGroup row value={housingStatus} onChange={(e) => setHousingStatus(e.target.value)}>
@@ -78,17 +77,6 @@ export const HousingQuestions: React.FC<FormQuestionsProperties> = ({
           <FormControlLabel value={HousingStatus.NONE} control={<Radio />} label="ללא דירה" />
         </RadioGroup>
       </FormControl>
-
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={receivesArmyAssistance}
-            onChange={(e) => setReceivesArmyAssistance(e.target.checked)}
-          />
-        }
-        label='האם אתה מקבל סיוע בדיור מצה"ל?'
-      />
-
       {housingStatus === HousingStatus.NONE && (
         <TextField
           required
@@ -106,7 +94,6 @@ export const HousingQuestions: React.FC<FormQuestionsProperties> = ({
           <MenuItem value="other">אחר</MenuItem>
         </TextField>
       )}
-
       <TextField
         required
         label='מרחק ממקום המגורים לבסיס (בק"מ)'
@@ -118,6 +105,15 @@ export const HousingQuestions: React.FC<FormQuestionsProperties> = ({
         variant="outlined"
         fullWidth
         inputProps={{ min: 0 }}
+      />{' '}
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={receivesArmyAssistance}
+            onChange={(e) => setReceivesArmyAssistance(e.target.checked)}
+          />
+        }
+        label='האם אתה מקבל סיוע בדיור מצה"ל?'
       />
     </Stack>
   );

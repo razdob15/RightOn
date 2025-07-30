@@ -25,7 +25,7 @@ export class UsersService {
       soldierType: user.army.soldierType,
       aliyahCountry: user.aliyah.aliyahCountry,
       livingCity: user.general.city,
-      aliyahYear: user.aliyah.aliyahYear,
+      aliyahYear: user.aliyah.aliyahDate,
       isOleh: user.aliyah.isOleh,
       parentsAbroad: user.aliyah.parentsAbroad,
       enlistDate: user.army.enlistDate,

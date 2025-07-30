@@ -19,12 +19,35 @@ export const isUserMatchingCondition = (user: UserEntity, condition: User) => {
 };
 
 const customTransformers = {
-  monthsSinceDischarge: (army: User['army']) => {
+  monthsSinceDischarge: (army: Record<keyof User['army'], string>) => {
     if (!army?.releaseDate) return -1;
     const releaseDate = new Date(army.releaseDate);
     const currentDate = new Date();
-    const monthsDifference = differenceInMonths(currentDate, releaseDate);
-    return monthsDifference;
+    return differenceInMonths(currentDate, releaseDate);
+  },
+  monthsInService: (army: Record<keyof User['army'], string>) => {
+    if (!army?.enlistDate) return -1;
+    const now = new Date();
+    const enlistDate = new Date(army.enlistDate);
+    const releaseDate = army.releaseDate ? new Date(army.releaseDate) : now;
+
+    return differenceInMonths(
+      releaseDate > now ? now : releaseDate,
+      enlistDate,
+    );
+  },
+  monthsSinceAliyah: (aliyah: Record<keyof User['aliyah'], string>) => {
+    if (!aliyah?.aliyahDate) return -1;
+    const aliyahDate = new Date(aliyah.aliyahDate);
+    const currentDate = new Date();
+    return differenceInMonths(currentDate, aliyahDate);
+  },
+  age: (general: Record<keyof User['general'], string>) => {
+    if (!general?.birthDate) return -1;
+    const birthDate = new Date(general.birthDate);
+    const currentDate = new Date();
+    const age = differenceInMonths(currentDate, birthDate) / 12;
+    return Math.floor(age);
   },
 };
 
@@ -38,6 +61,7 @@ export const isConditionMatch = (user: object, condition: object): boolean => {
 
     const customConditionByKey: Record<string, boolean | undefined> = {
       monthsSinceDischarge: userValue === -1 ? false : undefined,
+      age: userValue === -1 ? false : undefined,
       soldierType:
         condition['soldierType'] === SoldierType.LONE_SOLDIER
           ? [

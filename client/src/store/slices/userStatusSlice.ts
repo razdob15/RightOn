@@ -14,7 +14,7 @@ const initialUserState: User = {
     city: '',
   },
   aliyah: {
-    aliyahYear: undefined,
+    aliyahDate: undefined,
     aliyahCountry: '',
     isOleh: false,
     parentsAbroad: '',

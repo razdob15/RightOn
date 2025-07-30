@@ -11,7 +11,10 @@ import {
   FormControlLabel,
   Radio,
 } from '@mui/material';
-import { FormQuestionLabels, type FormQuestionsProps as FormQuestionsProperties } from '../types/formQuestionsProps.type';
+import {
+  FormQuestionLabels,
+  type FormQuestionsProps as FormQuestionsProperties,
+} from '../types/formQuestionsProps.type';
 import dayjs, { Dayjs } from 'dayjs';
 import { MyDatePicker } from './dates/MyDatePicker';
 import { useCountries } from '../hools/use-countries';
@@ -27,7 +30,7 @@ export const AliyahQuestions: React.FC<FormQuestionsProperties> = ({
   const { hebrewCountries: allCountries } = useCountries();
 
   // Initialize state from answers
-  const [aliyahYear, setAliyahYear] = useState<Dayjs | null>(
+  const [aliyahDate, setAliyahDate] = useState<Dayjs | null>(
     answers?.aliyahYear ? dayjs(answers.aliyahYear) : null
   );
   const [aliyahCountry, setAliyahCountry] = useState(answers?.aliyahCountry || '');
@@ -39,15 +42,15 @@ export const AliyahQuestions: React.FC<FormQuestionsProperties> = ({
   // Update parent state when local state changes
   useEffect(() => {
     setAnswers(LABEL_KEY, {
-      aliyahYear: aliyahYear ? aliyahYear.toISOString() : null,
+      aliyahYear: aliyahDate ? aliyahDate.toISOString() : null,
       aliyahCountry,
       isOleh,
       parentsAbroad,
     });
     // Validate required fields
-    const valid = !isOleh || (!!aliyahYear && !!aliyahCountry);
+    const valid = !isOleh || (!!aliyahDate && !!aliyahCountry);
     onValidityChange(valid);
-  }, [aliyahYear, aliyahCountry, isOleh, parentsAbroad]); //, setAnswers, onValidityChange]);
+  }, [aliyahDate, aliyahCountry, isOleh, parentsAbroad]); //, setAnswers, onValidityChange]);
 
   return (
     <Stack
@@ -91,12 +94,12 @@ export const AliyahQuestions: React.FC<FormQuestionsProperties> = ({
           />
 
           <MyDatePicker
-            value={aliyahYear}
-            onChange={setAliyahYear}
-            label="באיזו שנה עלית לישראל?"
+            value={aliyahDate}
+            onChange={setAliyahDate}
+            label="מתי עלית לישראל?"
             required
-            minDate={dayjs('2010')}
-            views={['year']}
+            minDate={dayjs('2013')}
+            views={['year', 'month']}
           />
         </>
       )}

@@ -13,7 +13,7 @@ export type User = {
     city?: string;
   };
   aliyah: {
-    aliyahYear?: number;
+    aliyahDate?: number;
     aliyahCountry?: string;
     isOleh?: boolean;
     parentsAbroad?: string;
