@@ -7,18 +7,18 @@ type Properties = {
 
 export const RightCard = ({ right }: Properties) => {
   return (
-    <Card key={right.rightName} sx={{ mb: 2 }}>
+    <Card key={right.name} sx={{ mb: 2 }}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          {right.rightName}
+          {right.name}
         </Typography>
-        <Typography variant="body1">{right.details}</Typography>
+        <Typography variant="body1">{right.description}</Typography>
         <Typography variant="body2" color="text.secondary">
-          Granting Organization: {right.grantingOrganization}
+          Granting Organization: {right.provider}
         </Typography>
-        {right.contactPerson && (
+        {right.contact && (
           <Typography variant="body2" color="text.secondary">
-            Contact: {right.contactPerson}
+            Contact: {right.contact}
           </Typography>
         )}
       </CardContent>

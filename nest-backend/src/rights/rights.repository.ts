@@ -3,21 +3,21 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindOptionsWhere } from 'typeorm';
 import { CreateRightDto } from './dto/create-right.dto';
 import { UpdateRightDto } from './dto/update-right.dto';
-import { Right } from './entities/right.entity';
+import { RightEntity } from './entities/right.entity';
 
 @Injectable()
 export class RightsRepository {
   constructor(
-    @InjectRepository(Right)
-    private readonly repository: Repository<Right>,
+    @InjectRepository(RightEntity)
+    private readonly repository: Repository<RightEntity>,
   ) {}
 
-  async create(createRightDto: CreateRightDto): Promise<Right> {
+  async create(createRightDto: CreateRightDto): Promise<RightEntity> {
     const right = this.repository.create(createRightDto);
     return await this.repository.save(right);
   }
 
-  async findAll(): Promise<Right[]> {
+  async findAll(): Promise<RightEntity[]> {
     return await this.repository.find({
       order: {
         createdAt: 'DESC',
@@ -25,31 +25,31 @@ export class RightsRepository {
     });
   }
 
-  async findOne(id: number): Promise<Right | null> {
+  async findOne(id: number): Promise<RightEntity | null> {
     return await this.repository.findOne({
-      where: { id } as FindOptionsWhere<Right>,
+      where: { id } as FindOptionsWhere<RightEntity>,
     });
   }
 
-  async findByCategory(category: string): Promise<Right[]> {
+  async findByCategory(category: string): Promise<RightEntity[]> {
     return await this.repository.find({
-      where: { category } as FindOptionsWhere<Right>,
+      where: { category } as FindOptionsWhere<RightEntity>,
       order: {
         name: 'ASC',
       },
     });
   }
 
-  async findByName(name: string): Promise<Right | null> {
+  async findByName(name: string): Promise<RightEntity | null> {
     return await this.repository.findOne({
-      where: { name } as FindOptionsWhere<Right>,
+      where: { name } as FindOptionsWhere<RightEntity>,
     });
   }
 
   async update(
     id: number,
     updateRightDto: UpdateRightDto,
-  ): Promise<Right | null> {
+  ): Promise<RightEntity | null> {
     const updateResult = await this.repository.update(id, {
       ...updateRightDto,
       updatedAt: new Date(),
@@ -73,12 +73,12 @@ export class RightsRepository {
 
   async exists(id: number): Promise<boolean> {
     const count = await this.repository.count({
-      where: { id } as FindOptionsWhere<Right>,
+      where: { id } as FindOptionsWhere<RightEntity>,
     });
     return count > 0;
   }
 
-  async bulkCreate(createRightDtos: CreateRightDto[]): Promise<Right[]> {
+  async bulkCreate(createRightDtos: CreateRightDto[]): Promise<RightEntity[]> {
     const rights = this.repository.create(createRightDtos);
     return await this.repository.save(rights);
   }
@@ -88,7 +88,7 @@ export class RightsRepository {
     return deleteResult.affected > 0;
   }
 
-  async searchByText(searchTerm: string): Promise<Right[]> {
+  async searchByText(searchTerm: string): Promise<RightEntity[]> {
     return await this.repository
       .createQueryBuilder('right')
       .where('right.name ILIKE :searchTerm', { searchTerm: `%${searchTerm}%` })

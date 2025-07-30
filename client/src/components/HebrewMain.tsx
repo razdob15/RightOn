@@ -138,7 +138,8 @@ export const HebrewMain: React.FC = () => {
 
   const handleFinish = () => {
     console.log('שאלון הושלם!');
-    sendAnswersToBackend();
+    // sendAnswersToBackend();
+    window.location.href = '/rights';
   };
 
   const [isLocalStorageLoaded, setIsLocalStorageLoaded] = useState(false);

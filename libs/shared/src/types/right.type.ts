@@ -1,14 +1,20 @@
 import type { User } from './user.type';
-import { RightSubject } from '../enums/right-subject.enum';
 import { SoldierType } from '../enums/soldier-type.enum';
 
 export type Right = {
-  rightName: string;
-  details: string;
-  sourceOrganization: string;
-  grantingOrganization: string;
-  eligibleSoldierType: SoldierType[];
-  subject: RightSubject;
-  contactPerson?: string;
+  id: number;
+  name: string;
+  description: string;
+  link: string;
+  source: string;
+  contact: string;
+  conditions: any;
+  implementationProcess: string;
+  additionalInfo: string;
+  createdAt: Date;
+  updatedAt: Date;
+  provider: string;
+  eligibility: string;
+  category: string;
   isEligible: (user: User) => boolean;
 };

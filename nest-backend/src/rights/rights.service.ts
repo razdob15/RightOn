@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { RightsRepository } from './rights.repository';
 import * as fs from 'fs';
-import { Right } from './entities/right.entity';
+import { RightEntity } from './entities/right.entity';
 import { CreateRightDto } from './dto/create-right.dto';
 import { UpdateRightDto } from './dto/update-right.dto';
 import { User } from '@righton/shared';
@@ -56,7 +56,7 @@ export class RightsService {
     console.log('Rights setup completed');
   }
 
-  async create(createRightDto: CreateRightDto): Promise<Right> {
+  async create(createRightDto: CreateRightDto): Promise<RightEntity> {
     // Check if a right with the same name already exists
     const existingRight = await this.rightsRepository.findByName(
       createRightDto.name,
@@ -70,11 +70,11 @@ export class RightsService {
     return await this.rightsRepository.create(createRightDto);
   }
 
-  async findAll(): Promise<Right[]> {
+  async findAll(): Promise<RightEntity[]> {
     return await this.rightsRepository.findAll();
   }
 
-  async findOne(id: number): Promise<Right> {
+  async findOne(id: number): Promise<RightEntity> {
     const right = await this.rightsRepository.findOne(id);
     if (!right) {
       throw new NotFoundException(`Right with ID ${id} not found`);
@@ -82,11 +82,14 @@ export class RightsService {
     return right;
   }
 
-  async findByCategory(category: string): Promise<Right[]> {
+  async findByCategory(category: string): Promise<RightEntity[]> {
     return await this.rightsRepository.findByCategory(category);
   }
 
-  async update(id: number, updateRightDto: UpdateRightDto): Promise<Right> {
+  async update(
+    id: number,
+    updateRightDto: UpdateRightDto,
+  ): Promise<RightEntity> {
     // Check if the right exists
     const exists = await this.rightsRepository.exists(id);
     if (!exists) {
@@ -128,7 +131,7 @@ export class RightsService {
     return await this.rightsRepository.count();
   }
 
-  async bulkCreate(createRightDtos: CreateRightDto[]): Promise<Right[]> {
+  async bulkCreate(createRightDtos: CreateRightDto[]): Promise<RightEntity[]> {
     // Validate that all names are unique
     const names = createRightDtos.map((dto) => dto.name);
     const uniqueNames = new Set(names);
@@ -151,14 +154,14 @@ export class RightsService {
     return await this.rightsRepository.bulkCreate(createRightDtos);
   }
 
-  async search(searchTerm: string): Promise<Right[]> {
+  async search(searchTerm: string): Promise<RightEntity[]> {
     if (!searchTerm || searchTerm.trim().length === 0) {
       return await this.findAll();
     }
     return await this.rightsRepository.searchByText(searchTerm.trim());
   }
 
-  async getMatchedRights(user: User): Promise<Right[]> {
+  async getMatchedRights(user: User): Promise<RightEntity[]> {
     const rights = await this.findAll();
     const matchedRights = rights.filter((right) => {
       return (

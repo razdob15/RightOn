@@ -5,6 +5,8 @@ import rtlPlugin from '@mui/stylis-plugin-rtl';
 import { prefixer } from 'stylis';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Rights } from './components/rights/Rights';
 
 const cacheRtl = createCache({
   key: 'muirtl',
@@ -44,7 +46,12 @@ export const App = () => {
             justifyContent: 'center',
           }}
         >
-          <HebrewMain />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<HebrewMain />} />
+              <Route path="/rights" element={<Rights />} />
+            </Routes>
+          </BrowserRouter>
         </Container>
       </ThemeProvider>
     </CacheProvider>

@@ -1,7 +1,8 @@
+import { Right } from '@righton/shared';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('rights')
-export class Right {
+export class RightEntity implements Omit<Right, 'isEligible'> {
   @PrimaryGeneratedColumn()
   id: number;
 

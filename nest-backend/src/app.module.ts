@@ -7,7 +7,7 @@ import { DatabaseSeeder } from './database/database-seeder.service';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserEntity } from './users/entities/user.entity';
-import { Right } from './rights/entities/right.entity';
+import { RightEntity } from './rights/entities/right.entity';
 
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import { Right } from './rights/entities/right.entity';
       username: process.env.DB_USERNAME || 'postgres',
       password: process.env.DB_PASSWORD || 'password',
       database: process.env.DB_DATABASE || 'righton',
-      entities: [UserEntity, Right],
+      entities: [UserEntity, RightEntity],
       synchronize: true, // Set to false in production
       logging: ['query', 'error', 'schema'],
       dropSchema: false,
