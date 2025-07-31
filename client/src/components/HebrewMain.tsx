@@ -5,8 +5,6 @@ import { GeneralQuestions } from './GeneralQuestions';
 import { AliyahQuestions } from './AliyahQuestions';
 import { ArmyQuestions } from './ArmyQuestions';
 import { HousingQuestions } from './HousingQuestions';
-import type { User } from '@righton/shared';
-// import { printHelloCommon } from '@common/functions/demo';
 
 export const HebrewMain: React.FC = () => {
   // printHelloCommon();
@@ -107,32 +105,6 @@ export const HebrewMain: React.FC = () => {
     } else {
       // Final submit logic here
       console.log('שאלון הושלם!');
-    }
-  };
-
-  // Send answers to backend on finish
-  const sendAnswersToBackend = async () => {
-    const user: User = answers;
-    try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL;
-      if (!backendUrl) {
-        console.error('VITE_BACKEND_URL is not defined');
-        return;
-      }
-      const response = await fetch(`${backendUrl}/rights/customized`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-      });
-      if (!response.ok) {
-        throw new Error('Failed to submit user data');
-      }
-      const data = await response.json();
-      console.log('User data submitted:', data);
-    } catch (error) {
-      console.error('Error submitting user data:', error);
     }
   };
 

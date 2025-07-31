@@ -1,5 +1,4 @@
 import type { User } from './user.type';
-import { SoldierType } from '../enums/soldier-type.enum';
 
 export type Right = {
   id: number;

@@ -1,0 +1,59 @@
+# Docker Compose for RightOn System
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: righton
+      POSTGRES_USER: righton_user
+      POSTGRES_PASSWORD: righton_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    networks:
+      - righton-network
+
+  # NestJS Backend
+  backend:
+    build:
+      context: .
+      dockerfile: nest-backend/Dockerfile
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=righton
+      - DB_USERNAME=righton_user
+      - DB_PASSWORD=righton_password
+      - PORT=3000
+    ports:
+      - '3000:3000'
+    depends_on:
+      - postgres
+    networks:
+      - righton-network
+    volumes:
+      - ./rights.json:/usr/src/app/rights.json:ro
+
+  # React Client
+  client:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    networks:
+      - righton-network
+
+volumes:
+  postgres_data:
+
+networks:
+  righton-network:
+    driver: bridge

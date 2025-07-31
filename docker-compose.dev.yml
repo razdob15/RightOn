@@ -1,0 +1,67 @@
+# Docker Compose for Development
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: righton_dev
+      POSTGRES_USER: righton_user
+      POSTGRES_PASSWORD: righton_password
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    networks:
+      - righton-dev-network
+
+  # NestJS Backend (Development)
+  backend-dev:
+    build:
+      context: .
+      dockerfile: nest-backend/Dockerfile
+      target: builder
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=righton_dev
+      - DB_USERNAME=righton_user
+      - DB_PASSWORD=righton_password
+      - PORT=3000
+    ports:
+      - '3001:3000'
+    depends_on:
+      - postgres
+    networks:
+      - righton-dev-network
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: ['npx', 'nx', 'serve', 'nest-backend']
+
+  # React Client (Development)
+  client-dev:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+      target: builder
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    networks:
+      - righton-dev-network
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: ['npx', 'nx', 'serve', 'client', '--host', '0.0.0.0']
+
+volumes:
+  postgres_dev_data:
+
+networks:
+  righton-dev-network:
+    driver: bridge
