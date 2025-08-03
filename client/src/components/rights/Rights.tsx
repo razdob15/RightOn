@@ -1,6 +1,7 @@
 import { Accordion, AccordionDetails, AccordionSummary, Stack, Typography } from '@mui/material';
 import type { Right } from '@righton/shared';
 import { useEffect, useState } from 'react';
+import { getBackendUrl } from '../../utils/config';
 
 export const Rights = () => {
   const [answers, setAnswers] = useState<any>({});
@@ -18,9 +19,9 @@ export const Rights = () => {
 
     const fetchRights = async () => {
       try {
-        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+        const backendUrl = getBackendUrl();
         if (!backendUrl) {
-          console.error('VITE_BACKEND_URL is not defined');
+          console.error('Backend URL is not configured');
           return;
         }
 

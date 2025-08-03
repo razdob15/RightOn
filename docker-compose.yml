@@ -46,8 +46,15 @@ services:
       context: .
       dockerfile: client/Dockerfile
     restart: unless-stopped
+    environment:
+      # Runtime environment variables for the client
+      - VITE_BACKEND_URL=http://backend:3000
+      - VITE_APP_TITLE=RightOn - Production
+      - VITE_APP_VERSION=1.0.0
     ports:
       - '80:80'
+    depends_on:
+      - backend
     networks:
       - righton-network
 
