@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RightsModule } from './rights/rights.module';
 import { UsersModule } from './users/users.module';
+import { MetricsModule } from './metrics/metrics.module';
+import { HealthModule } from './health/health.module';
 import { DatabaseSeeder } from './database/database-seeder.service';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -28,6 +30,8 @@ import { RightEntity } from './rights/entities/right.entity';
     }),
     RightsModule,
     UsersModule,
+    MetricsModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [AppService, DatabaseSeeder],

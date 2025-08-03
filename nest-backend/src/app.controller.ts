@@ -9,14 +9,4 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
-
-  @Get('health')
-  async getHealth(): Promise<{
-    status: string;
-    timestamp: string;
-    database?: string;
-  }> {
-    const health = await this.appService.getHealth();
-    return health;
-  }
 }
