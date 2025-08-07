@@ -17,11 +17,11 @@ The client Docker image is built once and can be deployed to different environme
 
 ## Supported Environment Variables
 
-| Variable | Description | Default Value |
-|----------|-------------|---------------|
-| `VITE_BACKEND_URL` | Backend API URL | `http://localhost:3050` |
-| `VITE_APP_TITLE` | Application title | `RightOn` |
-| `VITE_APP_VERSION` | Application version | `1.0.0` |
+| Variable           | Description         | Default Value           |
+| ------------------ | ------------------- | ----------------------- |
+| `VITE_BACKEND_URL` | Backend API URL     | `http://localhost:3050` |
+| `VITE_APP_TITLE`   | Application title   | `RightOn`               |
+| `VITE_APP_VERSION` | Application version | `1.0.0`                 |
 
 ## Usage in Code
 
@@ -53,7 +53,7 @@ services:
       - VITE_APP_TITLE=RightOn - Production
       - VITE_APP_VERSION=2.1.0
     ports:
-      - "80:8080"
+      - '80:8080'
 ```
 
 ### Kubernetes Deployment
@@ -67,16 +67,16 @@ spec:
   template:
     spec:
       containers:
-      - name: client
-        image: righton-client:latest
-        env:
-        - name: VITE_BACKEND_URL
-          value: "https://api.righton.example.com"
-        - name: VITE_APP_TITLE
-          valueFrom:
-            configMapKeyRef:
-              name: righton-config
-              key: app-title
+        - name: client
+          image: righton-client:latest
+          env:
+            - name: VITE_BACKEND_URL
+              value: 'https://api.righton.example.com'
+            - name: VITE_APP_TITLE
+              valueFrom:
+                configMapKeyRef:
+                  name: righton-config
+                  key: app-title
 ```
 
 ### Docker Run
@@ -121,11 +121,13 @@ The Docker build process includes:
 ### Environment Variables Not Applied
 
 1. Check if the container has the environment variables set:
+
    ```bash
    docker exec -it <container-name> env | grep VITE_
    ```
 
 2. Verify the runtime config file was created:
+
    ```bash
    docker exec -it <container-name> cat /usr/share/nginx/html/runtime-config.js
    ```
@@ -135,6 +137,7 @@ The Docker build process includes:
 ### Debugging
 
 Enable debug logging by setting:
+
 ```bash
 docker run -e DEBUG=true righton-client:latest
 ```

@@ -23,18 +23,18 @@ export const getEnvVar = (key: keyof RuntimeConfig, fallback?: string): string =
   if (window.__RUNTIME_CONFIG__?.[key]) {
     return window.__RUNTIME_CONFIG__[key];
   }
-  
+
   // Fallback to build-time environment variables
   const buildTimeValue = import.meta.env[key];
   if (buildTimeValue) {
     return buildTimeValue;
   }
-  
+
   // Use fallback if provided
   if (fallback) {
     return fallback;
   }
-  
+
   // Default values based on key
   switch (key) {
     case 'VITE_BACKEND_URL':
